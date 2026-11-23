@@ -47,27 +47,6 @@ theorem finite_between (O A : Type) [CommRing O] [IsDomain O] [IsDiscreteValuati
     inf_eq_right.2 N.2.1, inf_eq_right.2 N'.2.1] at h3
   exact Subtype.ext h3
 
-theorem isIntegral_sigma (K : UQ) (B : InvAlg K) (y : B.A) (hy : IsIntegral K.O y) : IsIntegral K.O (B.σ y) := by
-  obtain ⟨p, hpm, hp⟩ := hy
-  choose cO hcO using K.c_int
-  have hinj : Function.Injective (algebraMap K.O K.E) := IsFractionRing.injective K.O K.E
-  let ψ : K.O →+* K.O :=
-    { toFun := cO
-      map_one' := hinj (by rw [← hcO, map_one, map_one])
-      map_mul' := fun x y => hinj (by rw [← hcO, map_mul, map_mul, map_mul, hcO, hcO])
-      map_zero' := hinj (by rw [← hcO, map_zero, map_zero])
-      map_add' := fun x y => hinj (by rw [← hcO, map_add (f := _), map_add (f := _), map_add (f := _), hcO, hcO]) }
-  have hcomp : (algebraMap K.O B.A).comp ψ = (B.σ : B.A →+* B.A).comp (algebraMap K.O B.A) := by
-    ext x
-    simp only [RingHom.coe_comp, Function.comp_apply, RingHom.coe_coe]
-    rw [IsScalarTower.algebraMap_apply K.O K.E B.A, IsScalarTower.algebraMap_apply K.O K.E B.A, B.σ_alg]
-    show _ = algebraMap K.E B.A (K.c (algebraMap K.O K.E x))
-    rw [hcO]; rfl
-  refine ⟨p.map ψ, hpm.map ψ, ?_⟩
-  rw [Polynomial.eval₂_map, hcomp]
-  have := Polynomial.hom_eval₂ p (algebraMap K.O B.A) (B.σ : B.A →+* B.A) y
-  exact this.symm.trans (by rw [hp, map_zero])
-
 theorem finite_rhoSet (K : UQ) (B : InvAlg K) (hsep : B.P.Separable) (a : K.O) (ha : K.Small a) (k : ℕ) :
     Finite {c : B.T ⧸ (intUnits K.O B.A).subgroupOf B.T //
       IsIntegral K.O ((((Quotient.out c : B.T) : B.Aˣ)⁻¹ : B.Aˣ) * algebraMap K.O B.A a ^ k : B.A)} := by
@@ -113,7 +92,7 @@ theorem finite_rhoSet (K : UQ) (B : InvAlg K) (hsep : B.P.Separable) (a : K.O) (
       intro x hx
       set t : B.T := Quotient.out c.1
       have h2 : IsIntegral K.O (((t : B.Aˣ) : B.A) * algebraMap K.O B.A a ^ k) := by
-        have := isIntegral_sigma K B _ c.2
+        have := isIntegral_sigma B c.2
         rwa [map_mul, map_pow, hσα, hσinv] at this
       refine (hmem _ _).2 ⟨((t : B.Aˣ) : B.A) * algebraMap K.O B.A a ^ k * x, h2.mul hx, ?_⟩
       rw [Algebra.smul_def, map_pow, pow_mul]

@@ -32,6 +32,15 @@ def dSW (σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)) : List (Matrix (Fi
   | [], v => v
   | X :: w, v => dS σ X (dSW σ w v)
 
+theorem dSW_smooth {ε : Fin n → Bool} {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)}
+    (hσ : IsURepOn (UJset ε) σ) {w : List (Matrix (Fin n) (Fin n) ℂ)} (hw : ∀ X ∈ w, inG ε X)
+    {v : H} (hv : IsSmoothVecU ε σ v) : IsSmoothVecU ε σ (dSW σ w v) := by
+  induction w with
+  | nil => exact hv
+  | cons X w ih =>
+    exact IsSmoothVecU.dS hσ (hw X (List.mem_cons_self ..))
+      (ih fun Y hY => hw Y (List.mem_cons_of_mem _ hY))
+
 def nuJ (σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)) (Ws : List (List (Matrix (Fin n) (Fin n) ℂ))) (v : H) : ℝ :=
   (Ws.map fun w => ‖dSW σ w v‖).sum
 

@@ -30,14 +30,6 @@ theorem dSW_append (a b : List (Matrix (Fin n) (Fin n) ℂ)) (v : H) :
   | nil => rfl
   | cons X a ih => rw [List.cons_append, dSW_cons, dSW_cons, ih]
 
-theorem dSW_smooth (hσ : IsURepOn (UJset ε) σ) {w : List (Matrix (Fin n) (Fin n) ℂ)} (hw : ∀ X ∈ w, inG ε X)
-    {v : H} (hv : IsSmoothVecU ε σ v) : IsSmoothVecU ε σ (dSW σ w v) := by
-  induction w with
-  | nil => exact hv
-  | cons X w ih =>
-    rw [dSW_cons]
-    exact IsSmoothVecU.dS hσ (hw X (by simp)) (ih (fun Y hY => hw Y (by simp [hY])))
-
 theorem dSW_add (hσ : IsURepOn (UJset ε) σ) {w : List (Matrix (Fin n) (Fin n) ℂ)} (hw : ∀ X ∈ w, inG ε X)
     {v v' : H} (hv : IsSmoothVecU ε σ v) (hv' : IsSmoothVecU ε σ v') :
     dSW σ w (v + v') = dSW σ w v + dSW σ w v' := by
