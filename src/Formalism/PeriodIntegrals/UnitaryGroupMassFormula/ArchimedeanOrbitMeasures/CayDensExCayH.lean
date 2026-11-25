@@ -10,7 +10,7 @@ noncomputable section
 
 namespace HcInf
 
-open HcS.BasicNotions Matrix MeasureTheory Filter Topology
+open Formalism.BasicNotions Matrix MeasureTheory Filter Topology
 open scoped ENNReal NNReal
 
 section Defs

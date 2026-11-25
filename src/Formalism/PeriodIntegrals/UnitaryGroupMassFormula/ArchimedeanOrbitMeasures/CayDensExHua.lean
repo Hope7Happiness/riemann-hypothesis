@@ -15,7 +15,7 @@ noncomputable section
 
 namespace HcInf
 
-open HcS.BasicNotions Matrix MeasureTheory Filter Topology
+open Formalism.BasicNotions Matrix MeasureTheory Filter Topology
 open scoped ENNReal NNReal
 
 attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNormedSpace
@@ -110,20 +110,20 @@ theorem card_PQ : Fintype.card (Fin P ⊕ Fin Q) = P + Q := by
   simp
 
 theorem norm_det_mat (h : UpqT P Q) : ‖(UpqT.mat h).det‖ = 1 := by
-  have hg : HcS.UG.cT (starRingEnd ℂ) (UpqT.mat h) * HcS.UG.Jpq P Q * UpqT.mat h = HcS.UG.Jpq P Q := h.2
+  have hg : Formalism.UG.cT (starRingEnd ℂ) (UpqT.mat h) * Formalism.UG.Jpq P Q * UpqT.mat h = Formalism.UG.Jpq P Q := h.2
   have hd := congrArg Matrix.det hg
   rw [Matrix.det_mul, Matrix.det_mul] at hd
-  have hcT : (HcS.UG.cT (starRingEnd ℂ) (UpqT.mat h)).det = starRingEnd ℂ (UpqT.mat h).det := by
-    unfold HcS.UG.cT
+  have hcT : (Formalism.UG.cT (starRingEnd ℂ) (UpqT.mat h)).det = starRingEnd ℂ (UpqT.mat h).det := by
+    unfold Formalism.UG.cT
     rw [Matrix.det_transpose]
     exact (RingHom.map_det _ _).symm
-  have hJ : (HcS.UG.Jpq P Q).det ≠ 0 := by
-    unfold HcS.UG.Jpq
+  have hJ : (Formalism.UG.Jpq P Q).det ≠ 0 := by
+    unfold Formalism.UG.Jpq
     rw [Matrix.det_fromBlocks_zero₂₁, Matrix.det_one, one_mul, Matrix.det_neg, Matrix.det_one, mul_one]
     exact pow_ne_zero _ (neg_ne_zero.2 one_ne_zero)
   rw [hcT] at hd
   have h1 : starRingEnd ℂ (UpqT.mat h).det * (UpqT.mat h).det = 1 := by
-    have h0 : (starRingEnd ℂ (UpqT.mat h).det * (UpqT.mat h).det - 1) * (HcS.UG.Jpq P Q).det = 0 := by
+    have h0 : (starRingEnd ℂ (UpqT.mat h).det * (UpqT.mat h).det - 1) * (Formalism.UG.Jpq P Q).det = 0 := by
       linear_combination hd
     rcases mul_eq_zero.1 h0 with h0 | h0
     · exact sub_eq_zero.1 h0

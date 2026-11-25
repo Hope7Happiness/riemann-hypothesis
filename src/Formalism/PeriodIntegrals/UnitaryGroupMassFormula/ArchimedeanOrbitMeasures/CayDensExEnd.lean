@@ -196,7 +196,7 @@ noncomputable section
 
 namespace HcInf
 
-open HcS.BasicNotions Matrix Filter Topology
+open Formalism.BasicNotions Matrix Filter Topology
 
 attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNormedSpace
   Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
@@ -343,7 +343,7 @@ noncomputable section
 
 namespace HcInf
 
-open HcS.BasicNotions Matrix
+open Formalism.BasicNotions Matrix
 
 section MatDet
 
@@ -394,11 +394,11 @@ variable {P Q : ℕ}
 
 local notation "Mat" => Matrix (Fin P ⊕ Fin Q) (Fin P ⊕ Fin Q) ℂ
 
-def sigJ (W : Mat) : Mat := HcS.UG.Jpq P Q * Wᴴ * HcS.UG.Jpq P Q
+def sigJ (W : Mat) : Mat := Formalism.UG.Jpq P Q * Wᴴ * Formalism.UG.Jpq P Q
 
-theorem Jpq_mul_mul (X : Mat) : HcS.UG.Jpq P Q * (HcS.UG.Jpq P Q * X) = X := by
+theorem Jpq_mul_mul (X : Mat) : Formalism.UG.Jpq P Q * (Formalism.UG.Jpq P Q * X) = X := by
   rw [← Matrix.mul_assoc]
-  simp [HcS.UG.Jpq, Matrix.fromBlocks_multiply]
+  simp [Formalism.UG.Jpq, Matrix.fromBlocks_multiply]
 
 theorem sigJ_add (V W : Mat) : sigJ (V + W) = sigJ V + sigJ W := by
   simp only [sigJ, Matrix.conjTranspose_add, Matrix.mul_add, Matrix.add_mul]
@@ -407,25 +407,25 @@ theorem sigJ_smul (c : ℂ) (W : Mat) : sigJ (c • W) = star c • sigJ W := by
   simp only [sigJ, Matrix.conjTranspose_smul, Matrix.mul_smul, Matrix.smul_mul]
 
 theorem sigJ_sigJ (W : Mat) : sigJ (sigJ W) = W := by
-  have hJ : (HcS.UG.Jpq P Q)ᴴ = HcS.UG.Jpq P Q := by
-    simp [HcS.UG.Jpq, Matrix.fromBlocks_conjTranspose]
-  have hJJ : HcS.UG.Jpq P Q * HcS.UG.Jpq P Q = 1 := by
+  have hJ : (Formalism.UG.Jpq P Q)ᴴ = Formalism.UG.Jpq P Q := by
+    simp [Formalism.UG.Jpq, Matrix.fromBlocks_conjTranspose]
+  have hJJ : Formalism.UG.Jpq P Q * Formalism.UG.Jpq P Q = 1 := by
     simpa using Jpq_mul_mul (P := P) (Q := Q) 1
   simp only [sigJ, Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose, hJ,
     Matrix.mul_assoc, Jpq_mul_mul, hJJ, Matrix.mul_one]
 
 theorem mem_lieU_iff_sigJ (X : Mat) : X ∈ lieU P Q ↔ sigJ X = -X := by
-  show Xᴴ * HcS.UG.Jpq P Q + HcS.UG.Jpq P Q * X = 0 ↔ HcS.UG.Jpq P Q * Xᴴ * HcS.UG.Jpq P Q = -X
+  show Xᴴ * Formalism.UG.Jpq P Q + Formalism.UG.Jpq P Q * X = 0 ↔ Formalism.UG.Jpq P Q * Xᴴ * Formalism.UG.Jpq P Q = -X
   constructor
   · intro h
-    have h' : Xᴴ * HcS.UG.Jpq P Q = -(HcS.UG.Jpq P Q * X) := eq_neg_of_add_eq_zero_left h
+    have h' : Xᴴ * Formalism.UG.Jpq P Q = -(Formalism.UG.Jpq P Q * X) := eq_neg_of_add_eq_zero_left h
     rw [Matrix.mul_assoc, h', Matrix.mul_neg, Jpq_mul_mul]
   · intro h
-    have e1 : HcS.UG.Jpq P Q * (Xᴴ * HcS.UG.Jpq P Q) = -X := by
+    have e1 : Formalism.UG.Jpq P Q * (Xᴴ * Formalism.UG.Jpq P Q) = -X := by
       rw [← Matrix.mul_assoc]
       exact h
-    calc Xᴴ * HcS.UG.Jpq P Q + HcS.UG.Jpq P Q * X
-        = HcS.UG.Jpq P Q * (HcS.UG.Jpq P Q * (Xᴴ * HcS.UG.Jpq P Q)) + HcS.UG.Jpq P Q * X := by
+    calc Xᴴ * Formalism.UG.Jpq P Q + Formalism.UG.Jpq P Q * X
+        = Formalism.UG.Jpq P Q * (Formalism.UG.Jpq P Q * (Xᴴ * Formalism.UG.Jpq P Q)) + Formalism.UG.Jpq P Q * X := by
           rw [Jpq_mul_mul]
       _ = 0 := by rw [e1, Matrix.mul_neg, neg_add_cancel]
 
@@ -543,7 +543,7 @@ noncomputable section
 
 namespace HcInf
 
-open HcS.BasicNotions Matrix MeasureTheory Filter Topology
+open Formalism.BasicNotions Matrix MeasureTheory Filter Topology
 open scoped ENNReal NNReal
 
 instance instT2SpaceUnitaryPQ (P Q : ℕ) : T2Space (UpqT P Q) := (isClosedEmbedding_mat P Q).isEmbedding.t2Space
@@ -603,7 +603,7 @@ noncomputable section
 
 namespace HcHDC
 
-open HcInf HcS.BasicNotions Matrix MeasureTheory Filter Topology
+open HcInf Formalism.BasicNotions Matrix MeasureTheory Filter Topology
 open scoped ENNReal NNReal
 
 theorem cayDensU (P Q : ℕ) (m : Measure (UpqT P Q)) [hm : m.IsHaarMeasure] (lam : Measure (lieU P Q))
@@ -796,9 +796,9 @@ theorem rA_conj (M : Matrix (Fin n) (Fin n) ℂ) : (rA ε M)ᴴ = rA ε Mᴴ := 
   ext i j
   simp [Matrix.conjTranspose_apply]
 
-theorem rA_Jm : rA ε (Formalism.REAL.Jm ε) = HcS.UG.Jpq (pP ε) (pQ ε) := by
+theorem rA_Jm : rA ε (Formalism.REAL.Jm ε) = Formalism.UG.Jpq (pP ε) (pQ ε) := by
   ext i j
-  simp only [rA, reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply, Formalism.REAL.Jm, HcS.UG.Jpq,
+  simp only [rA, reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply, Formalism.REAL.Jm, Formalism.UG.Jpq,
     Matrix.diagonal_apply, (eS ε).symm.injective.eq_iff]
   rcases i with a | a <;> rcases j with b | b
   · by_cases h : a = b <;> simp [h, eS_symm_inl]
@@ -807,12 +807,12 @@ theorem rA_Jm : rA ε (Formalism.REAL.Jm ε) = HcS.UG.Jpq (pP ε) (pQ ε) := by
   · by_cases h : a = b <;> simp [h, eS_symm_inr]
 
 theorem rA_mem_iff (M : Matrix (Fin n) (Fin n) ℂ) :
-    (rA ε M)ᴴ * HcS.UG.Jpq (pP ε) (pQ ε) * rA ε M = HcS.UG.Jpq (pP ε) (pQ ε) ↔ Formalism.REAL.inUJ ε M := by
+    (rA ε M)ᴴ * Formalism.UG.Jpq (pP ε) (pQ ε) * rA ε M = Formalism.UG.Jpq (pP ε) (pQ ε) ↔ Formalism.REAL.inUJ ε M := by
   rw [rA_conj, ← rA_Jm, ← map_mul, ← map_mul, (rA ε).injective.eq_iff]
   rfl
 
 theorem rA_skew_iff (M : Matrix (Fin n) (Fin n) ℂ) :
-    (rA ε M)ᴴ * HcS.UG.Jpq (pP ε) (pQ ε) + HcS.UG.Jpq (pP ε) (pQ ε) * rA ε M = 0 ↔
+    (rA ε M)ᴴ * Formalism.UG.Jpq (pP ε) (pQ ε) + Formalism.UG.Jpq (pP ε) (pQ ε) * rA ε M = 0 ↔
       Mᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * M = 0 := by
   rw [rA_conj, ← rA_Jm, ← map_mul, ← map_mul, ← map_add (f := _), ← map_zero (rA ε), (rA ε).injective.eq_iff]
 
@@ -832,30 +832,30 @@ def rMs : Matrix (Fin (pP ε) ⊕ Fin (pQ ε)) (Fin (pP ε) ⊕ Fin (pQ ε)) ℂ
   map_one' := map_one _
   map_mul' := map_mul _
 
-def phiF (g : Formalism.REAL.UJ ε) : HcS.BasicNotions.UpqT (pP ε) (pQ ε) :=
+def phiF (g : Formalism.REAL.UJ ε) : Formalism.BasicNotions.UpqT (pP ε) (pQ ε) :=
   ((⟨Units.map (rM ε) g.1, by
-      rw [HcInf.mem_Upq_iff]; exact (rA_mem_iff ε _).2 g.2⟩ : HcS.UG.Upq (pP ε) (pQ ε)) :
-        HcS.BasicNotions.UpqT (pP ε) (pQ ε))
+      rw [HcInf.mem_Upq_iff]; exact (rA_mem_iff ε _).2 g.2⟩ : Formalism.UG.Upq (pP ε) (pQ ε)) :
+        Formalism.BasicNotions.UpqT (pP ε) (pQ ε))
 
-theorem phiB_mem (h : HcS.BasicNotions.UpqT (pP ε) (pQ ε)) :
-    Formalism.REAL.inUJ ε ((rA ε).symm (HcS.BasicNotions.UpqT.mat h)) := by
+theorem phiB_mem (h : Formalism.BasicNotions.UpqT (pP ε) (pQ ε)) :
+    Formalism.REAL.inUJ ε ((rA ε).symm (Formalism.BasicNotions.UpqT.mat h)) := by
   rw [← rA_mem_iff, AlgEquiv.apply_symm_apply]
-  exact (HcInf.mem_Upq_iff _ _ _).1 (h : HcS.UG.Upq (pP ε) (pQ ε)).2
+  exact (HcInf.mem_Upq_iff _ _ _).1 (h : Formalism.UG.Upq (pP ε) (pQ ε)).2
 
-def phiB (h : HcS.BasicNotions.UpqT (pP ε) (pQ ε)) : Formalism.REAL.UJ ε :=
+def phiB (h : Formalism.BasicNotions.UpqT (pP ε) (pQ ε)) : Formalism.REAL.UJ ε :=
   ⟨Units.map (rMs ε) (HcInf.toS _ _ h).1, phiB_mem ε h⟩
 
 theorem phiF_mat (g : Formalism.REAL.UJ ε) :
-    HcS.BasicNotions.UpqT.mat (phiF ε g) = rA ε (((g : (Matrix (Fin n) (Fin n) ℂ)ˣ)) : Matrix (Fin n) (Fin n) ℂ) := rfl
+    Formalism.BasicNotions.UpqT.mat (phiF ε g) = rA ε (((g : (Matrix (Fin n) (Fin n) ℂ)ˣ)) : Matrix (Fin n) (Fin n) ℂ) := rfl
 
-theorem phiB_val (h : HcS.BasicNotions.UpqT (pP ε) (pQ ε)) :
+theorem phiB_val (h : Formalism.BasicNotions.UpqT (pP ε) (pQ ε)) :
     (((phiB ε h : Formalism.REAL.UJ ε) : (Matrix (Fin n) (Fin n) ℂ)ˣ) : Matrix (Fin n) (Fin n) ℂ) =
-      (rA ε).symm (HcS.BasicNotions.UpqT.mat h) := rfl
+      (rA ε).symm (Formalism.BasicNotions.UpqT.mat h) := rfl
 
-theorem mat_mul' (a b : HcS.BasicNotions.UpqT (pP ε) (pQ ε)) :
-    HcS.BasicNotions.UpqT.mat (a * b) = HcS.BasicNotions.UpqT.mat a * HcS.BasicNotions.UpqT.mat b := rfl
+theorem mat_mul' (a b : Formalism.BasicNotions.UpqT (pP ε) (pQ ε)) :
+    Formalism.BasicNotions.UpqT.mat (a * b) = Formalism.BasicNotions.UpqT.mat a * Formalism.BasicNotions.UpqT.mat b := rfl
 
-def phiU : Formalism.REAL.UJ ε ≃* HcS.BasicNotions.UpqT (pP ε) (pQ ε) where
+def phiU : Formalism.REAL.UJ ε ≃* Formalism.BasicNotions.UpqT (pP ε) (pQ ε) where
   toFun := phiF ε
   invFun := phiB ε
   left_inv g := by
@@ -876,21 +876,21 @@ theorem continuous_phiF : Continuous (phiF ε) := by
   | exact (HcInf.isClosedEmbedding_mat _ _).isInducing.continuous_iff.mpr
       ((continuous_rA ε).comp (Units.continuous_val.comp continuous_subtype_val))
 
-theorem continuous_toS : Continuous fun h : HcS.BasicNotions.UpqT (pP ε) (pQ ε) =>
-    ((HcInf.toS _ _ h : HcS.UG.Upq (pP ε) (pQ ε)) : GL (Fin (pP ε) ⊕ Fin (pQ ε)) ℂ) :=
+theorem continuous_toS : Continuous fun h : Formalism.BasicNotions.UpqT (pP ε) (pQ ε) =>
+    ((HcInf.toS _ _ h : Formalism.UG.Upq (pP ε) (pQ ε)) : GL (Fin (pP ε) ⊕ Fin (pQ ε)) ℂ) :=
   continuous_subtype_val
 
 theorem continuous_phiB : Continuous (phiB ε) :=
   ((Continuous.units_map (rMs ε) (continuous_rA_symm ε)).comp (continuous_toS ε)).subtype_mk _
 
-def phiC : Formalism.REAL.UJ ε ≃ₜ* HcS.BasicNotions.UpqT (pP ε) (pQ ε) where
+def phiC : Formalism.REAL.UJ ε ≃ₜ* Formalism.BasicNotions.UpqT (pP ε) (pQ ε) where
   toMulEquiv := phiU ε
   continuous_toFun := continuous_phiF ε
   continuous_invFun := continuous_phiB ε
 
-def psiL : gLie ε →ₗ[ℝ] HcS.BasicNotions.lieU (pP ε) (pQ ε) where
+def psiL : gLie ε →ₗ[ℝ] Formalism.BasicNotions.lieU (pP ε) (pQ ε) where
   toFun x := ⟨rA ε (unrealify (x : EuclideanSpace ℝ (Fin n × Fin n × Bool))), by
-    show (rA ε _)ᴴ * HcS.UG.Jpq (pP ε) (pQ ε) + HcS.UG.Jpq (pP ε) (pQ ε) * rA ε _ = 0
+    show (rA ε _)ᴴ * Formalism.UG.Jpq (pP ε) (pQ ε) + Formalism.UG.Jpq (pP ε) (pQ ε) * rA ε _ = 0
     rw [rA_skew_iff]
     exact lieSkew_holds n ε _ x.2⟩
   map_add' x y := by
@@ -918,7 +918,7 @@ theorem psiL_bij : Function.Bijective (psiL ε) := by
     exact congrArg (reLin n) h2
   · intro Y
     set X := (rA ε).symm Y.1 with hX
-    have hY : Y.1ᴴ * HcS.UG.Jpq (pP ε) (pQ ε) + HcS.UG.Jpq (pP ε) (pQ ε) * Y.1 = 0 :=
+    have hY : Y.1ᴴ * Formalism.UG.Jpq (pP ε) (pQ ε) + Formalism.UG.Jpq (pP ε) (pQ ε) * Y.1 = 0 :=
       Y.2
     have hsk : Xᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * X = 0 := by
       rw [← rA_skew_iff, hX, AlgEquiv.apply_symm_apply]; exact hY
@@ -928,7 +928,7 @@ theorem psiL_bij : Function.Bijective (psiL ε) := by
     show rA ε (unrealify ((WithLp.equiv 2 _).symm (realifyFun X))) = _
     rw [_root_.Formalism.MainNotions.S.Gauge.unrealify_realify, hX, AlgEquiv.apply_symm_apply]
 
-def psiC : gLie ε ≃L[ℝ] HcS.BasicNotions.lieU (pP ε) (pQ ε) :=
+def psiC : gLie ε ≃L[ℝ] Formalism.BasicNotions.lieU (pP ε) (pQ ε) :=
   (LinearEquiv.ofBijective (psiL ε) (psiL_bij ε)).toContinuousLinearEquiv
 
 theorem psiC_val (x : gLie ε) :
@@ -936,19 +936,19 @@ theorem psiC_val (x : gLie ε) :
       rA ε (unrealify (x : EuclideanSpace ℝ (Fin n × Fin n × Bool))) := rfl
 
 theorem rel_iff (g : Formalism.REAL.UJ ε) (x : gLie ε) :
-    HcS.BasicNotions.UpqT.mat (phiC ε g) * ((1 + 1) - (psiC ε x).1) =
+    Formalism.BasicNotions.UpqT.mat (phiC ε g) * ((1 + 1) - (psiC ε x).1) =
         (1 + 1) + (psiC ε x).1 ↔
       (((g : (Matrix (Fin n) (Fin n) ℂ)ˣ)) : Matrix (Fin n) (Fin n) ℂ) *
           (2 - unrealify (x : EuclideanSpace ℝ (Fin n × Fin n × Bool))) =
         2 + unrealify (x : EuclideanSpace ℝ (Fin n × Fin n × Bool)) := by
-  have e1 : HcS.BasicNotions.UpqT.mat (phiC ε g) = rA ε (((g : (Matrix (Fin n) (Fin n) ℂ)ˣ)) : Matrix (Fin n) (Fin n) ℂ) :=
+  have e1 : Formalism.BasicNotions.UpqT.mat (phiC ε g) = rA ε (((g : (Matrix (Fin n) (Fin n) ℂ)ˣ)) : Matrix (Fin n) (Fin n) ℂ) :=
     phiF_mat ε g
   rw [e1, psiC_val, one_add_one_eq_two, ← map_ofNat (rA ε) 2, ← map_sub, ← map_mul, ← map_add (f := _),
     (rA ε).injective.eq_iff]
 
 theorem isUnit_of_mem_cayley_domain (x : gLie ε) (hx : psiC ε x ∈ HcInf.D0 (pP ε) (pQ ε)) :
     IsUnit (2 - unrealify (x : EuclideanSpace ℝ (Fin n × Fin n × Bool))).det := by
-  have h : IsUnit ((1 + 1) - ((psiC ε x : HcS.BasicNotions.lieU (pP ε) (pQ ε)) :
+  have h : IsUnit ((1 + 1) - ((psiC ε x : Formalism.BasicNotions.lieU (pP ε) (pQ ε)) :
       Matrix (Fin (pP ε) ⊕ Fin (pQ ε)) (Fin (pP ε) ⊕ Fin (pQ ε)) ℂ)).det := hx
   rw [psiC_val] at h
   have e : (1 + 1 : Matrix (Fin (pP ε) ⊕ Fin (pQ ε)) (Fin (pP ε) ⊕ Fin (pQ ε)) ℂ) -
@@ -987,9 +987,9 @@ theorem cayDensEx_holds : CayDensEx := by
   set ψ := psiC ε with hψ
   set φM := φ.toHomeomorph.toMeasurableEquiv with hφM
   set ψM := ψ.toHomeomorph.toMeasurableEquiv with hψM
-  set m : Measure (HcS.BasicNotions.UpqT (pP ε) (pQ ε)) := (Formalism.REAL.muG ε).map φM with hm
+  set m : Measure (Formalism.BasicNotions.UpqT (pP ε) (pQ ε)) := (Formalism.REAL.muG ε).map φM with hm
   have hmHaar : m.IsHaarMeasure := ContinuousMulEquiv.isHaarMeasure_map (Formalism.REAL.muG ε) φ
-  set lam : Measure (HcS.BasicNotions.lieU (pP ε) (pQ ε)) := (volume : Measure (gLie ε)).map ψM with hlam
+  set lam : Measure (Formalism.BasicNotions.lieU (pP ε) (pQ ε)) := (volume : Measure (gLie ε)).map ψM with hlam
   have hlamHaar : lam.IsAddHaarMeasure := ψ.isAddHaarMeasure_map volume
   have hDensity := @HcHDC.cayDensU (pP ε) (pQ ε) m hmHaar lam hlamHaar
   obtain ⟨D, hD, -, f, hfm, hfc, -, hfT, hmap⟩ := hDensity
@@ -1031,7 +1031,7 @@ theorem cayDensEx_holds : CayDensEx := by
         have hc : cayR ε (x : EuclideanSpace ℝ (Fin n × Fin n × Bool)) = φ.symm h :=
           cayR_eq ε _ _ (cay_mat _ _ hu hrel)
         refine ⟨ψ x, ⟨x, hx, rfl⟩, ?_⟩
-        show HcS.BasicNotions.UpqT.mat (φ (cayR ε (x : EuclideanSpace ℝ (Fin n × Fin n × Bool)))) * _ = _
+        show Formalism.BasicNotions.UpqT.mat (φ (cayR ε (x : EuclideanSpace ℝ (Fin n × Fin n × Bool)))) * _ = _
         rw [hc, ContinuousMulEquiv.apply_symm_apply]
         exact hs
     have hsetD : HcInf.cayInv (pP ε) (pQ ε) ⁻¹' T ∩ HcInf.cayS D = HcInf.cayS T := by

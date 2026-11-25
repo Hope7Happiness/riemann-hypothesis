@@ -11,7 +11,7 @@ noncomputable section
 
 namespace HcInf
 
-open HcS.BasicNotions Matrix MeasureTheory Filter Topology
+open Formalism.BasicNotions Matrix MeasureTheory Filter Topology
 open scoped ENNReal NNReal
 
 section Chart
@@ -24,7 +24,7 @@ theorem two_eq : (1 + 1 : Mat) = (2 : ℂ) • (1 : Mat) := (two_smul ℂ (1 : M
 
 theorem cayCand_mem (g : UpqT P Q) : cayCand P Q g ∈ lieU P Q := by
   set G := UpqT.mat g with hG
-  set J := HcS.UG.Jpq P Q
+  set J := Formalism.UG.Jpq P Q
   have hU : Gᴴ * J * G = J := by
     have := (mem_Upq_iff P Q _).1 (toS P Q g).2
     rwa [← mat_eq] at this

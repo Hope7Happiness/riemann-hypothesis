@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.OmegaDensity
+public import Formalism.LocalRingCardinality.DataCD
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.BaseLatticeIsUnimodular
 
 @[expose] public section
@@ -9,7 +9,7 @@ noncomputable section
 
 namespace HcInf
 
-open HcS.BasicNotions Matrix MeasureTheory Filter Topology
+open Formalism.BasicNotions Matrix MeasureTheory Filter Topology
 open scoped ENNReal NNReal
 
 section Chart
