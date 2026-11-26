@@ -346,7 +346,7 @@ theorem htEx (hB : B.IsGood σ) (hY : Y.IsHerm σ B r s) (hH : H.IsAdapted σ B 
     (∀ q g₁ t, mat (nn q * ι g₁ * mm t) *ᵥ incV F H.x = t.1 • incV F H.x) ∧
     ∃ ht : UA σ Y.J → ℝ≥0, Continuous ht ∧ (∀ x, ht x ≠ 0) ∧ (∀ x, ∀ k ∈ K, ht (x * k) = ht x) ∧
       ∀ (p : UA σ Y.J) (t : (AE F E)ˣ), mat p *ᵥ incV F H.x = t.1 • incV F H.x → ∀ x, ht (p * x) = absE F E t ^ (n₁ + 1) * ht x := by
-  obtain ⟨ε', A', hfr⟩ := Fr.isFr hB (.inl hY) hH
+  obtain ⟨ε', A', hfr⟩ := Fr.isFr (.of_isGood hB) (.inl hY) hH
   have hd := Fr.det_ne (.inl hY : Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s)
   have dec : ∀ (p : UA σ Y.J) (t : (AE F E)ˣ), mat p *ᵥ incV F H.x = t.1 • incV F H.x → ∃ q g₁, p = nn q * ι g₁ * mm t :=
     fun p t hp => by
@@ -447,8 +447,8 @@ theorem kInv (hB : B.IsGood σ) (hY : Y.IsHerm σ B r s) (hH : H.IsAdapted σ B 
       g₁ ∈ UAt σ Y₁ (evFin F v) → At (evFin F v) (t.1 - 1) →
       ∀ x ∈ UAt σ Y (evFin F v), f (u * m * x) = ((absE F E t ^ (n₁ + 1) : ℝ≥0) : ℝ) * f x)
     {g : UA σ Y.J} (hg : g ∈ UAt σ Y (evFin F v)) : ∫ k, f (k.1 * g) ∂μ = ∫ k, f k.1 ∂μ := by
-  obtain ⟨N, _, _, _, _, μN, _, _, nn, ι, mm, χ, hpar, hχ, hu, hL, hR, -⟩ := parEx hB (.inl hY) hH
-  obtain ⟨ε', A', hfr⟩ := Fr.isFr hB (.inl hY) hH
+  obtain ⟨N, _, _, _, _, μN, _, _, nn, ι, mm, χ, hpar, hχ, hu, hL, hR, -⟩ := parEx (.of_isGood hB) (.inl hY) hH
+  obtain ⟨ε', A', hfr⟩ := Fr.isFr (.of_isGood hB) (.inl hY) hH
   have hd := Fr.det_ne (.inl hY : Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s)
   have hd₁ : IsUnit Y₁.J.det := hfr.isUnit_det hd.isUnit
   have h₁ : ∀ i j, σ (Y₁.J j i) = (((1 : ℤˣ) : ℤ) : E) * Y₁.J i j := fun i j => by
@@ -564,7 +564,7 @@ theorem tate' (hI : IdeleFub) (hJ : IdealId0) (hS : StabEx) {B : Base F E} {M : 
   obtain ⟨i', j', hH'⟩ := hc.hH'
   obtain ⟨𝔞, h𝔞, hin⟩ := hJ F E σ B n d n₁ d₁ X W X₁ W₁ H H' r s r' s' i j i' j' hc.base hX hW hH hH' u
     (hc.ev.imp And.right And.right)
-  obtain ⟨-, -, μ, -, -, -, hμ⟩ := hS F E σ B n X r s hc.base hX
+  obtain ⟨-, -, μ, -, -, -, hμ⟩ := hS F E σ B n X r s (.of_isGood hc.base) hX
   obtain ⟨πi, π, κ, -, hπ, hF⟩ := hI F E σ B n X K m μ hc.base hm hμ 𝔞 z h𝔞 hz
   have hint := ((hF 1 ∅ ∅ continuous_const (Finset.Subset.refl _) (fun w _ x _ => map_one Circle.toUnits)
     (fun w hw => absurd hw (Finset.notMem_empty _))).1 v (Finset.notMem_empty v)).2
@@ -707,7 +707,7 @@ theorem rv_add (B : Base F E) (M : Model σ X W) (v : Pl F) {x : Fin d → E} (h
 
 theorem span_soLoc (hL : LinEx) {B : Base F E} (hB : B.IsGood σ) {r s r' s'} (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s')
     (M : Model σ X W) {v : Pl F} (t : E →ₐ[F] Fv F v) {φ} (h : φ ∈ Submodule.span ℂ (M.SoLoc B.ψ t)) : φ ∈ M.SoLoc B.ψ t := by
-  obtain ⟨⟨ι, hι⟩, -⟩ := hL F E σ B n d X W M r s r' s' hB hX hW v t
+  obtain ⟨⟨ι, hι⟩, -⟩ := hL F E σ B n d X W M r s r' s' (.of_isGood hB) hX hW v t
   refine ⟨(Submodule.span_le.2 fun χ (hχ : χ ∈ M.SoLoc B.ψ t) => hχ.1 : _ ≤ SB _) h, ι, hι, fun Y hY => ?_⟩
   have : Submodule.span ℂ (M.SoLoc B.ψ t) ≤ LinearMap.ker (LinearMap.proj Y ∘ₗ ι) := Submodule.span_le.2 fun χ hχ =>
     PositivityTheory.KCo.full_of_soLoc M hB.cm hB.std (Fr.det_ne (.inl hX)) (Fr.det_ne (.inr hW)) hι hχ Y hY
@@ -752,7 +752,7 @@ theorem point {e ei ev} (hc : Cfg B M M₁ H H' e (shiftB σ H H')) (he : IsEv B
   obtain ⟨r, s, hX⟩ := hc.herm
   obtain ⟨i, j, hH⟩ := hc.hH
   obtain ⟨i', j', hH'⟩ := hc.hH'
-  obtain ⟨ε, A', hfr⟩ := Fr.isFr hc.base (.inl hX) hH
+  obtain ⟨ε, A', hfr⟩ := Fr.isFr (.of_isGood hc.base) (.inl hX) hH
   have hp : u * m ∈ uSub σ X v := mul_mem (show u ∈ uSub σ X v from hu') hm'
   have o : (1 : UA σ W.J) ∈ UAt σ W (evFin F v) := (uSub σ W v).one_mem
   have o₁ : (1 : UA σ W₁.J) ∈ UAt σ W₁ (evFin F v) := (uSub σ W₁ v).one_mem
@@ -830,7 +830,7 @@ theorem fLocB_of (hI : IdeleFub) (hJ : IdealId0) (hS : StabEx) (hIw : IwaEx) (hM
   obtain ⟨ω, ρ, L⟩ := PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B _ _ _ om' ⟨hP.base, ⟨_, _, hP.herm⟩, ⟨_, _, hP.skew⟩, hP.good, _, _, hP.weil⟩ v
   obtain ⟨ω₁, ρ₁, L₁⟩ := PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B _ _ _ om₁'
     ⟨hP₁.base, ⟨_, _, hP₁.herm⟩, ⟨_, _, hP₁.skew⟩, hP₁.good, _, _, hP₁.weil⟩ v
-  have hIK := hIw F E σ B _ _ _ _ _ H T.base T.geo.hV' (fun e => by simpa [e, form] using c.hH.xy) c.hH.xx K hK
+  have hIK := hIw F E σ B _ _ _ _ _ H (.of_isGood T.base) T.geo.hV' (fun e => by simpa [e, form] using c.hH.xy) c.hH.xx K hK
   haveI := kAt_compact hIK.1 v
   haveI : BorelSpace (UA σ G.V'.J) := ⟨rfl⟩
   haveI : IsProbabilityMeasure (m.kf v) := ⟨(hm.kf v).2⟩
@@ -935,7 +935,7 @@ theorem fLocB_of (hI : IdeleFub) (hJ : IdealId0) (hS : StabEx) (hIw : IwaEx) (hM
       have m1 := hSt F E σ B _ _ _ _ _ _ _ om' _ _ _ _ hP (k.1, 1) _ m0
       rw [(PositivityTheory.ThKF.pureAct F _ v (om' (k.1, 1)) f _ g1 g3).2.2 _ (by
         rw [Function.update_self]; exact (L.acts _ (kAt_mem k) _ o1 φ s0 _).2 rfl), Function.update_idem] at m1
-      have m2 := (hSe F E σ B _ _ _ _ _ _ _ _ H H' _ _ _ _ _ _ _ _ G.M' G₁.M' c.hH c.hH' T.base T.geo.hV' T.geo.hW hc.good hc.good₁
+      have m2 := (hSe F E σ B _ _ _ _ _ _ _ _ H H' _ _ _ _ _ _ _ _ G.M' G₁.M' c.hH c.hH' (.of_isGood T.base) T.geo.hV' T.geo.hW hc.good hc.good₁
         e he _ m1).2 (idem F v • cA σ s.1)
       rw [incM_rk, smul_assoc, show cA σ s.1 • rk F H.y H'.x = shiftB σ H H' s from rfl,
         (PositivityTheory.ThKF.pureAct F _ v (G.M'.co.rho B.ψ (idem F v • shiftB σ H H' s)) f _ g4 g6).2.2 _ (by

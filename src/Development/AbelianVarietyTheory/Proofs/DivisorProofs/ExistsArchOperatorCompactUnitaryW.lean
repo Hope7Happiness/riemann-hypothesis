@@ -176,7 +176,7 @@ theorem exists_op_of_UAt {F E : Type} [Field F] [NumberField F] [Field E] [Numbe
 
 theorem exists_op_of_KInf : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E)
     (n d : ℕ) (Y : Spc F E n) (W : Spc F E d) (M : Model σ Y W) (om : Rep σ Y W) (χ₁ χ₂ : Chr F E),
-    B.IsGood σ → M.IsGood B.ψ → M.IsWeil B.ψ χ₁ χ₂ om → ∀ k ∈ KInf σ W B.emb,
+    UpperTheory.TP.W.GoodK σ B → M.IsGood B.ψ → M.IsWeil B.ψ χ₁ χ₂ om → ∀ k ∈ KInf σ W B.emb,
     ∃ A : SInf F (Fin n × Fin d) →ₗ[ℂ] SInf F (Fin n × Fin d), ∀ f : SInf F (Fin n × Fin d),
       Acts (evI F) (om (1, k)) (⇑f) (⇑(A f)) := by
   intro F E _ _ _ _ _ σ B n d Y W M om χ₁ χ₂ hB _ hw k hk

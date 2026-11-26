@@ -557,7 +557,7 @@ theorem exists_mixChart : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} 
   have hV := hT.geo.hV
   have hJT : IsHermND D.sp.cm.sig Γ.V.Jᵀ := ⟨fun i j => by simpa using hV.herm j i, by
     rw [Matrix.det_transpose]; exact GlobalTheory.HermSelfDualLoc.det_ne_zero_of_isHerm _ Bs hV⟩
-  have hsd := GlobalTheory.HermSelfDualLoc.isSelfDualAt_transpose _ _ _ Bs _ Γ.V _ _ hT.base hV v
+  have hsd := GlobalTheory.HermSelfDualLoc.isSelfDualAt_transpose _ _ _ Bs _ Γ.V _ _ (.of_isGood hT.base) hV v
   have hb := hV.bas v
   rw [hTi.1] at hsd hb
   obtain ⟨g, hgK, hg⟩ := exists_rows (Bs.τ v) hJT hsd hb

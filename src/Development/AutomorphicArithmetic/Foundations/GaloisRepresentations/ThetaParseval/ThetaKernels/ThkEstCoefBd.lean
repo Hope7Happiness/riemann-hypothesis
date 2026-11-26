@@ -2,7 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinPartIdemMulMemIff
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ThkTowModel
+public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
+public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.LinearIndependentOfNotMem
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ArchimedeanEvaluationVector
@@ -27,7 +28,7 @@ public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.
 
 open scoped TensorProduct NNReal ENNReal Matrix
 open scoped TensorProduct NNReal Matrix
-open GlobalTheory.ThK (IsPair_k)
+open GlobalTheory.ThK (IsPair)
 
 noncomputable section
 
@@ -41,7 +42,7 @@ open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
 def Level_k : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d :
     ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) χX χW om r s r' s',
-    IsPair_k B M χX χW om r s r' s' → ∀ φ ∈ SB (Fin n × Fin d → Af F), ∃ U ∈ 𝓝 (1 : UA σ W.J),
+    IsPair B M χX χW om r s r' s' → ∀ φ ∈ SB (Fin n × Fin d → Af F), ∃ U ∈ 𝓝 (1 : UA σ W.J),
     ∀ u ∈ U, (∀ w, (mat u).map (piInf (B.emb w)) = 1) → ∀ f : SInf F (Fin n × Fin d), om (1,
     u) (pureA F f φ) = pureA F f φ
 end PositivityTheory.ThKEst
@@ -60,7 +61,7 @@ open GlobalTheory.Doubling (absE)
 variable {d : ℕ} {J : Matrix (Fin d) (Fin d) E}
 theorem level_sch_k (hL : PositivityTheory.ThKEst.Level_k) {n : ℕ} {X : Spc F E n} {W : Spc F E d} {B : Base F E}
   {M : Model σ X W} {χX χW om r s r' s'}
-    (hp : IsPair_k B M χX χW om r s r' s') {Φ : Fn F n d} (hΦ : Φ ∈ schA F _) :
+    (hp : IsPair B M χX χW om r s r' s') {Φ : Fn F n d} (hΦ : Φ ∈ schA F _) :
     ∀ᶠ u in 𝓝 (1 : UA σ W.J), (∀ w, (mat u).map (piInf (B.emb w)) = 1) → om (1, u) Φ = Φ := by
   induction hΦ using Submodule.span_induction with
   | mem _ h =>
@@ -87,7 +88,7 @@ def ArchOp_k : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d :
     ℕ) (X : Spc F E n) (W : Spc F E d)
     (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W) (r s r' s' : ℕ),
-      IsPair_k B M χX χW om r s r' s' →
+      IsPair B M χX χW om r s r' s' →
     ∀ g ∈ UAt σ X (evI F), ∀ h ∈ UAt σ W (evI F), ∃ T, IsArchOp om (g, h) T ∧
       (g ∈ KInf σ X B.emb → h ∈ KInf σ W B.emb → ∀ f ∈ M.Pol B.ψ B.emb, T f ∈ M.Pol B.ψ B.emb)
 end PositivityTheory.ThKF
@@ -104,7 +105,7 @@ open PositivityTheory.ThK (LocRepEx)
 variable {a a' n d : ℕ} {Y : Spc F E n} {W : Spc F E d} {B : Base F E} {M : Model σ Y W} {o : Rep σ Y W} {R : RealMaps
   F a a'} {Rf : FinMaps F a a'} {p : SInf F (Fin n × Fin d) →ₗ[ℂ] R.Pi} {q : ∀ v, ((Fin n × Fin d → Fv F v) → ℂ) →ₗ[ℂ]
   Rf.Pi v} {T T₁ : Finset (Pl F)}
-theorem inf_op_k (hA : PositivityTheory.ThKF.ArchOp_k) {χ χ' r s r' s'} (hp : IsPair_k B
+theorem inf_op_k (hA : PositivityTheory.ThKF.ArchOp_k) {χ χ' r s r' s'} (hp : IsPair B
   M χ χ' o r s r' s') {k : UA σ W.J} (hk : k ∈ KInf σ W B.emb) :
     ∃ A : Module.End ℂ (SInf F (Fin n × Fin d)), ∀ f ∈ M.Pol B.ψ B.emb, A f ∈ M.Pol B.ψ B.emb ∧ Acts (evI F) (o (1,
       k)) f (A f) := by
@@ -125,7 +126,7 @@ open NumberField IsDedekindDomain MeasureTheory Matrix Formalism.MainNotions.Glo
   GlobalTheory.WeilM GlobalTheory.AdelicU Filter Topology GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
   GlobalTheory.ThK NumberField.mixedEmbedding W
 open GlobalTheory.EmbChart (atPlace atPlace_mul_right evFin_atPlace)
-theorem coefBd_of_k : CoefReal → CoefBd_k := by
+theorem coefBd_of_k : CoefReal → CoefBd := by
   intro hR F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' hP μ hμ φ₁ h₁ φ₂ h₂ N
   have := hP.base.cm.1
   obtain ⟨p, C, K, hp, hC, hK, h⟩ := coef_split hR hP.base.std μ hμ h₁ h₂ N
@@ -166,7 +167,7 @@ open NumberField IsDedekindDomain MeasureTheory Filter Topology
   Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
   GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK
 variable {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype κ]
-theorem coefEq_of_k : CoefEq_k := by
+theorem coefEq_of_k : CoefEq := by
   intro F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' hP μ hμ Φ₁ h₁ Φ₂ h₂ g h z
   have hs := IsUWeilPair.isUSplitting hP.weil
   set w := mat g⁻¹ * z * (mat h⁻¹)ᵀ with hw
@@ -190,7 +191,7 @@ open NumberField IsDedekindDomain MeasureTheory Filter Topology
   Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun
   GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK
 open levelStructure in
-theorem level_of_k (hC : CoefEq_k) (hF : FourierInj) (hB : CoefBd_k) : Level_k := by
+theorem level_of_k (hC : CoefEq) (hF : FourierInj) (hB : CoefBd) : Level_k := by
   intro F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' hp φ hφ
   by_cases h0 : ∀ f : SInf F (Fin n × Fin d), pureA F f φ = 0
   · exact ⟨Set.univ, univ_mem, fun u _ _ f => by rw [h0, map_zero]⟩
@@ -279,7 +280,7 @@ open NumberField IsDedekindDomain MeasureTheory Filter Topology
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {n d : ℕ} {X :
   Spc F E n} {W : Spc F E d}
 variable {B : Base F E} {M : Model σ X W} {χX χW : Chr F E} {om : Rep σ X W} {r s r' s' : ℕ}
-theorem impl_of_k (hP : IsPair_k B M χX χW om r s r' s') (C : Coord F (Fin n × Fin d)) {x}
+theorem impl_of_k (hP : IsPair B M χX χW om r s r' s') (C : Coord F (Fin n × Fin d)) {x}
     {T : SInf F (Fin n × Fin d) →ₗ[ℂ] SInf F (Fin n × Fin d)}
     (h : ∀ f : SInf F _, ∀ g ∈ SB (Fin n × Fin d → Af F), om x (pureA F f g) = pureA F (T f) g) :
     PositivityTheory.ThKF.E.Impl (C.P ≪≫ₗ phL M x ≪≫ₗ C.P.symm) (C.S.toLinearEquiv.toLinearMap ∘ₗ T ∘ₗ
@@ -300,7 +301,7 @@ theorem impl_of_k (hP : IsPair_k B M χX χW om r s r' s') (C : Coord F (Fin n �
       rw [← hu, phB_e]
       exact hs.impl x u _ (pureA_mem f h₀)
     simpa using (C.rho_iff hP.base.std _ _ _).2 this
-theorem exists_T_k (hP : IsPair_k B M χX χW om r s r' s') {g h} (hg : g ∈ UAt σ X (evI F)) (hh :
+theorem exists_T_k (hP : IsPair B M χX χW om r s r' s') {g h} (hg : g ∈ UAt σ X (evI F)) (hh :
   h ∈ UAt σ W (evI F)) :
     ∃ T : SInf F (Fin n × Fin d) →ₗ[ℂ] SInf F (Fin n × Fin d),
       ∀ f : SInf F _, ∀ φ ∈ SB (Fin n × Fin d → Af F), om (g, h) (pureA F f φ) = pureA F (T f) φ := by
@@ -311,7 +312,7 @@ theorem exists_T_k (hP : IsPair_k B M χX χW om r s r' s') {g h} (hg : g ∈ UA
   simp only [Darboux.rho] at this
   rw [← phB_e, hu, phB_fin M hg hh] at this
   exact this
-theorem surj_of_k (hP : IsPair_k B M χX χW om r s r' s') {g h} (hg : g ∈ UAt σ X (evI F)) (hh :
+theorem surj_of_k (hP : IsPair B M χX χW om r s r' s') {g h} (hg : g ∈ UAt σ X (evI F)) (hh :
   h ∈ UAt σ W (evI F))
     {T : SInf F (Fin n × Fin d) →ₗ[ℂ] SInf F (Fin n × Fin d)}
     (hT : ∀ f : SInf F _, ∀ φ ∈ SB (Fin n × Fin d → Af F), om (g, h) (pureA F f φ) = pureA F (T f) φ) :
@@ -321,7 +322,7 @@ theorem surj_of_k (hP : IsPair_k B M χX χW om r s r' s') {g h} (hg : g ∈ UAt
   refine ⟨T' f, DFunLike.coe_injective (pureA_inj h₁ ?_)⟩
   rw [← hT _ _ h₀, ← hT' _ _ h₀, ← mul_apply_eq_comp, ← map_mul, Prod.mk_mul_mk, mul_inv_cancel, mul_inv_cancel]
   exact LinearMap.congr_fun om.map_one _
-theorem T_D_k (hP : IsPair_k B M χX χW om r s r' s') (C : Coord F (Fin n × Fin d)) {g h} (hg : g
+theorem T_D_k (hP : IsPair B M χX χW om r s r' s') (C : Coord F (Fin n × Fin d)) {g h} (hg : g
   ∈ UAt σ X (evI F))
     (hh : h ∈ UAt σ W (evI F)) {T : SInf F (Fin n × Fin d) →ₗ[ℂ] SInf F (Fin n × Fin d)}
     (hT : ∀ f : SInf F _, ∀ φ ∈ SB (Fin n × Fin d → Af F), om (g, h) (pureA F f φ) = pureA F (T f) φ) (v) (f) :
@@ -330,7 +331,7 @@ theorem T_D_k (hP : IsPair_k B M χX χW om r s r' s') (C : Coord F (Fin n × Fi
     (C.S.surjective.comp ((surj_of_k hP hg hh hT).comp C.S.symm.surjective)) (C.P.symm v) (C.S f)
   apply C.S.injective
   simpa [Coord.D] using this
-theorem exists_op_k (hP : IsPair_k B M χX χW om r s r' s') {g h} (hg : g ∈ UAt σ X (evI F)) (hh
+theorem exists_op_k (hP : IsPair B M χX χW om r s r' s') {g h} (hg : g ∈ UAt σ X (evI F)) (hh
   : h ∈ UAt σ W (evI F)) :
     ∃ T, IsArchOp om (g, h) T := by
   obtain ⟨T, hT⟩ := exists_T_k hP hg hh
@@ -342,7 +343,7 @@ theorem exists_op_k (hP : IsPair_k B M χX χW om r s r' s') {g h} (hg : g ∈ U
     funext f
     simp
   exact ⟨⟨T, hc'⟩, hT, acts_of hT⟩
-theorem map_Pol_k (hP : IsPair_k B M χX χW om r s r' s') {X₂ : Spc F E n} {W₂ : Spc F E d} (M₂ :
+theorem map_Pol_k (hP : IsPair B M χX χW om r s r' s') {X₂ : Spc F E n} {W₂ : Spc F E d} (M₂ :
   Model σ (reS X X₂) (reS W W₂))
     (hco : M₂.co = M.co) {g h} (hg : g ∈ UAt σ X (evI F)) (hh : h ∈ UAt σ W (evI F))
     (eg : ∀ w, (mat g).map (piInf (B.emb w)) * X₂.θ w = X.θ w * (mat g).map (piInf (B.emb w)))

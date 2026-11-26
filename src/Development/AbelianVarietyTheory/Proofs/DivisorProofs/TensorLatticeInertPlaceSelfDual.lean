@@ -197,7 +197,7 @@ theorem latAtV_selfDual : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [
   have hW := hT.geo.hW
   constructor
   · intro hzm γ hγ
-    have h := GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V G.W _ _ _ _ hT.base hV hW v (-1) 1
+    have h := GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V G.W _ _ _ _ (.of_isGood hT.base) hV hW v (-1) 1
       (by rw [map_one]; exact one_mem _) z hzm γ hγ
     simpa using h
   · intro hψ

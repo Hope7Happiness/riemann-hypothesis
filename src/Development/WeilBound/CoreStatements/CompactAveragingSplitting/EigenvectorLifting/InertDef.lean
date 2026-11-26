@@ -16,7 +16,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 abbrev Fn (F : Type) [Field F] [NumberField F] (n d : ℕ) (v : Pl F) : Type := (Fin n × Fin d → Fv F v) → ℂ
 
 structure PairOK (B : Base F E) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (om : Rep σ X W) : Prop where
-  base : B.IsGood σ
+  base : UpperTheory.TP.W.GoodK σ B
   herm : ∃ r s, X.IsHerm σ B r s
   skew : ∃ r s, W.IsSkew σ B r s
   good : M.IsGood B.ψ
@@ -97,7 +97,7 @@ def VacEigen : Prop := AllPairs fun {F _} _ _ _ _ _ {σ _ _} _ _ W M om v => ∀
 
 def InertOf : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E),
-    B.IsGood σ → ∀ v : Pl F, IsEmpty (E →ₐ[F] Fv F v) → ∃ w, Formalism.UG.IsInertAt F E v w
+    UpperTheory.TP.W.GoodK σ B → ∀ v : Pl F, IsEmpty (E →ₐ[F] Fv F v) → ∃ w, Formalism.UG.IsInertAt F E v w
 
 def CoinvEmbeds : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (a a' : ℕ)

@@ -157,11 +157,11 @@ theorem maxFinP (m : IsMatched B G X om om' R Rf) (v : Pl F) :
     · simp
     · rw [pow_add, div_eq_mul_inv, ← inv_pow, inv_neg, inv_one]
   have p1 : IsPair B G.M X.β (X.β / X.α) om (a - G.p) G.p (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨m.triple.base, m.triple.geo.hV, m.triple.geo.hW, m.triple.geo.hM, m.triple.chars.heckeβ,
+    ⟨.of_isGood m.triple.base, m.triple.geo.hV, m.triple.geo.hW, m.triple.geo.hM, m.triple.chars.heckeβ,
       hecke_div m.triple.chars.heckeβ m.triple.chars.heckeα, m.triple.chars.resβ,
       res_div m.triple.chars.resβ m.triple.chars.resα rfl, m.triple.weil⟩
   have p2 : IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨m.triple.base, m.triple.geo.hV', m.triple.geo.hW, m.triple.geo.hM', m.triple.chars.heckeα,
+    ⟨.of_isGood m.triple.base, m.triple.geo.hV', m.triple.geo.hW, m.triple.geo.hM', m.triple.chars.heckeα,
       hecke_div m.triple.chars.heckeα m.triple.chars.heckeβ, m.triple.chars.resα,
       res_div m.triple.chars.resα m.triple.chars.resβ (add_comm _ _), m.triple.weil'⟩
   have := absMax (R := fun (i : UAt σ G.W (evFin F v)) x y => y ∈ SB _ ∧ Acts (evFin F v) (om (1, i.1)) x y)
@@ -188,11 +188,11 @@ theorem maxInfP (hO : ArchOp) (hL : ArchLie) (hQ : ArchUniq) (m : IsMatched B G 
     · simp
     · rw [pow_add, div_eq_mul_inv, ← inv_pow, inv_neg, inv_one]
   have p1 : IsPair B G.M X.β (X.β / X.α) om (a - G.p) G.p (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨m.triple.base, m.triple.geo.hV, m.triple.geo.hW, m.triple.geo.hM, m.triple.chars.heckeβ,
+    ⟨.of_isGood m.triple.base, m.triple.geo.hV, m.triple.geo.hW, m.triple.geo.hM, m.triple.chars.heckeβ,
       hecke_div m.triple.chars.heckeβ m.triple.chars.heckeα, m.triple.chars.resβ,
       res_div m.triple.chars.resβ m.triple.chars.resα rfl, m.triple.weil⟩
   have p2 : IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨m.triple.base, m.triple.geo.hV', m.triple.geo.hW, m.triple.geo.hM', m.triple.chars.heckeα,
+    ⟨.of_isGood m.triple.base, m.triple.geo.hV', m.triple.geo.hW, m.triple.geo.hM', m.triple.chars.heckeα,
       hecke_div m.triple.chars.heckeα m.triple.chars.heckeβ, m.triple.chars.resα,
       res_div m.triple.chars.resα m.triple.chars.resβ (add_comm _ _), m.triple.weil'⟩
   have := absMax (R := RInf B om) (R' := RInf B om') m.real.quot.onto m.real.quot'.onto

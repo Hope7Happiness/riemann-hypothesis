@@ -78,7 +78,7 @@ theorem psi_double {F E : Type} [Field F] [NumberField F] [Field E] [NumberField
       (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J) (2 • γ) (2 • γ)) = 1 := by
   have h2 : (2 : ℕ) • γ = (2 : AF F) • γ := by rw [two_smul, two_smul]
   rw [h2, GlobalTheory.LatVac.symp_smul_smul, ← mul_assoc, ← mul_assoc, invOf_mul_self, one_mul]
-  refine GlobalTheory.LatVacArith.psi_symp_latAtV σ B X Y r s r' s' hB hX hY v θ 2 ?_ γ hγ γ hγ
+  refine GlobalTheory.LatVacArith.psi_symp_latAtV σ B X Y r s r' s' (.of_isGood hB) hX hY v θ 2 ?_ γ hγ γ hγ
   rw [map_ofNat]
   exact ofNat_mem _ 2
 

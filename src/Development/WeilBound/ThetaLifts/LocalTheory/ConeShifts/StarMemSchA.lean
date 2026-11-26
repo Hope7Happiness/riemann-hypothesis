@@ -225,7 +225,7 @@ theorem PresD.mul {X : Spc F E n} {g g'} (h : PresD v X g) (h' : PresD v X g') :
   exact ⟨_, add_mem (mul_mem ha ha') (mul_mem hb hc'), _, add_mem (mul_mem ha hb') (mul_mem hb he'), _,
     add_mem (mul_mem hc ha') (mul_mem he hc'), _, add_mem (mul_mem hc hb') (mul_mem he he'), Matrix.fromBlocks_multiply ..⟩
 
-theorem dbl_eigen {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
+theorem dbl_eigen {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
     (hW : W.IsSkew σ B r' s') {M : Model σ X W} {φ} (hφ : M.IsVac B.ψ v φ)
     {d' : Darboux (symp (R := AF F) (cA σ) (-1) (incM F W.J) (incM F X.J)) (Fin n × Fin d)} (hd' : ∀ x, d'.e xᵀ = M.co.e x)
     {dd : Darboux (symp (R := AF F) (cA σ) (-1) (incM F W.J) (dbl (incM F X.J))) ((Fin n × Fin d) ⊕ (Fin n × Fin d))}

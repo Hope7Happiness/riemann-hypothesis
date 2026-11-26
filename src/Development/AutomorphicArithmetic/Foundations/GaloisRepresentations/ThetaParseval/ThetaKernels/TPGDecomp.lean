@@ -21,7 +21,7 @@ public import Development.WeilBound.ThetaLifts.LatticeBasics.ContinuousFlat
 /-! # TPGDecomp: Consolidated global theta-kernel definitions and proofs (TPGDecomp). -/
 @[expose] public section
 
-open GlobalTheory.ThK (IsPair_k)
+open GlobalTheory.ThK (IsPair)
 
 open scoped TensorProduct NNReal Matrix
 open NumberField IsDedekindDomain MeasureTheory Filter Topology
@@ -39,13 +39,13 @@ structure Tools_k : Prop where
   dbl : DblX_k
   stab2 : Stab2Cpt_k
   cpt : CptAll_k
-  basic : ThetaBasic_k
+  basic : ThetaBasic
   polSch : PolSch_k
   unfold0 : Unfold0_k
-  pairEx : PositivityTheory.ThKG.Tow.PairEx_k
+  pairEx : PositivityTheory.ThKG.Tow.PairEx
   split : SplitModel_k
   vacFix : VacFix2_k
-  acts : ActsEx_k
+  acts : ActsEx
   lie1 : GlobalTheory.RealLift.LieFirst
   lie2 : GlobalTheory.RealLift.LieSecond
 def TLift_k : Prop :=
@@ -72,7 +72,7 @@ def Rallis_k : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d :
     ℕ) (X : Spc F E n) (W : Spc F E d)
     (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W),
-      IsPair_k B M χX χW om n 0 d 0 → 1 ≤ n → 1 ≤ d →
+      IsPair B M χX χW om n 0 d 0 → 1 ≤ n → 1 ≤ d →
     ∀ K a (e : UA σ X.J × UA σ X.J →* G2 σ X), IsStab2 B K → IsHgt K a → (∀ g g', IsEmb g g' (e (g, g'))) →
     ∀ t₀ : ℝ, (∀ t, t₀ ≤ t → Integrable (fun g => a (e (g, 1)) ^ t) M.μ) → t₀ < (d : ℝ) / 2 →
     ∀ ν, @Measure.IsAddHaarMeasure _ _ _ (borel _) ν → ∀ Φ ∈ PolData B M, ∀ φ, IsFn φ →
@@ -92,13 +92,13 @@ def BumpAny_k : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d :
     ℕ) (X : Spc F E n) (W : Spc F E d)
     (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W),
-      IsPair_k B M χX χW om n 0 d 0 → 1 ≤ n → 2 * n ≤ d →
+      IsPair B M χX χW om n 0 d 0 → 1 ≤ n → 2 * n ≤ d →
     ∀ v, ∀ N ∈ 𝓝 (1 : UA σ X.J), ∃ H φ, IsBump B M om v H φ ∧ (H : Set (UA σ X.J)) ⊆ N
 def Datum_k : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d :
     ℕ) (X : Spc F E n) (W : Spc F E d)
     (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W),
-      IsPair_k B M χX χW om n 0 d 0 → 1 ≤ n →
+      IsPair B M χX χW om n 0 d 0 → 1 ≤ n →
     ∀ K a (e : UA σ X.J × UA σ X.J →* G2 σ X), IsStab2 B K → IsHgt K a → (∀ g g', IsEmb g g' (e (g, g'))) →
     ∀ ν, @Measure.IsAddHaarMeasure _ _ _ (borel _) ν → ∀ S : Finset (Pl F), UnrOff χW (S : Set (Pl F)) →
     ∀ (H : Pl F → Subgroup (UA σ X.J)) φ, IsFin M φ → (∀ v ∈ S, IsBump B M om v (H v) (φ v)) → (∀ v ∉ S,
@@ -119,7 +119,7 @@ def RealPair_k : Prop :=
   ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (B : Base (maximalRealSubfield E) E) (n d : ℕ) (X : Spc
     (maximalRealSubfield E) E n) (W : Spc (maximalRealSubfield E) E d)
     (M : Model (cj E) X W) (χX χW : Chr (maximalRealSubfield E) E) (om : Rep (cj E) X W),
-      IsPair_k B M χX χW om n 0 d 0 → 1 ≤ n →
+      IsPair B M χX χW om n 0 d 0 → 1 ≤ n →
     ∀ (e : UA E n ≃ₜ* UA (cj E) X.J) (e' : UA E d ≃ₜ* UA (cj E) W.J),
       IsBr X e → IsBr W e' → n ≤ d →
     ∀ (δ : E) (mX mW : InfinitePlace (maximalRealSubfield E) → ℤ),
@@ -134,7 +134,7 @@ def SchurStep_k : Prop :=
   ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (B : Base (maximalRealSubfield E) E) (n d : ℕ) (X : Spc
     (maximalRealSubfield E) E n) (W : Spc (maximalRealSubfield E) E d)
     (M : Model (cj E) X W) (χX χW : Chr (maximalRealSubfield E) E) (om : Rep (cj E) X W),
-      IsPair_k B M χX χW om n 0 d 0 → 1 ≤ n →
+      IsPair B M χX χW om n 0 d 0 → 1 ≤ n →
     ∀ (e : UA E n ≃ₜ* UA (cj E) X.J) (e' : UA E d ≃ₜ* UA (cj E) W.J),
       IsBr X e → IsBr W e' →
     ∀ (U : Submodule ℂ (UA E n → ℂ)), IsAutRepU U → ∀ f₀, f₀ ≠ 0 → ∀ φ,
@@ -147,7 +147,7 @@ def NonVan_k : Prop :=
   ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (B : Base (maximalRealSubfield E) E) (n d : ℕ) (X : Spc
     (maximalRealSubfield E) E n) (W : Spc (maximalRealSubfield E) E d)
     (M : Model (cj E) X W) (χX χW : Chr (maximalRealSubfield E) E) (om : Rep (cj E) X W),
-      IsPair_k B M χX χW om n 0 d 0 → 1 ≤ n →
+      IsPair B M χX χW om n 0 d 0 → 1 ≤ n →
     ∀ (e : UA E n ≃ₜ* UA (cj E) X.J) (e' : UA E d ≃ₜ* UA (cj E) W.J),
       IsBr X e → IsBr W e' → 2 * n ≤ d →
     ∀ K a (ε : UA (cj E) X.J × UA (cj E) X.J →* G2 (cj E) X), IsStab2 B K → IsHgt K a → (∀ g g', IsEmb g g' (ε (g,
@@ -160,7 +160,7 @@ def LiftAut_k : Prop :=
   ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (B : Base (maximalRealSubfield E) E) (n d : ℕ) (X : Spc
     (maximalRealSubfield E) E n) (W : Spc (maximalRealSubfield E) E d)
     (M : Model (cj E) X W) (χX χW : Chr (maximalRealSubfield E) E) (om : Rep (cj E) X W),
-      IsPair_k B M χX χW om n 0 d 0 → 1 ≤ n →
+      IsPair B M χX χW om n 0 d 0 → 1 ≤ n →
     ∀ (e : UA E n ≃ₜ* UA (cj E) X.J) (e' : UA E d ≃ₜ* UA (cj E) W.J),
       IsBr X e → IsBr W e' →
     ∃ Θ : PolData B M →ₗ[ℂ] (UA E n → ℂ) →ₛₗ[starRingEnd ℂ] (UA E d → ℂ),
@@ -173,7 +173,7 @@ def ReadLift_k : Prop :=
   ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (B : Base (maximalRealSubfield E) E) (n d : ℕ) (X : Spc
     (maximalRealSubfield E) E n) (W : Spc (maximalRealSubfield E) E d)
     (M : Model (cj E) X W) (χX χW : Chr (maximalRealSubfield E) E) (om : Rep (cj E) X W),
-      IsPair_k B M χX χW om n 0 d 0 → 1 ≤ n →
+      IsPair B M χX χW om n 0 d 0 → 1 ≤ n →
     ∀ (e : UA E n ≃ₜ* UA (cj E) X.J) (e' : UA E d ≃ₜ* UA (cj E) W.J),
       IsBr X e → IsBr W e' →
     ∀ (U : Submodule ℂ (UA E n → ℂ)) (U' : Submodule ℂ (UA E d → ℂ))
@@ -272,7 +272,7 @@ end
 section
 variable {X : Spc F E n} {W : Spc F E d} {B : Base F E} {M : Model σ X W} {χX χW : Chr F E} {om : Rep σ X W} {r s r'
   s' : ℕ}
-theorem orth_k (P : IsPair_k B M χX χW om r s r' s') {ν} (hν : @Measure.IsAddHaarMeasure _ _ _
+theorem orth_k (P : IsPair B M χX χW om r s r' s') {ν} (hν : @Measure.IsAddHaarMeasure _ _ _
   (borel _) ν) {Φ} (h : Φ ∈ schA F _)
     (h0 : Φ ≠ 0) {g u} {c c' : ℂ} (hc : c ≠ c') (h1 : M.co.rho B.ψ u Φ = c • Φ) (h2 : M.co.rho B.ψ (mat g * u) Φ = c' •
       Φ) :
@@ -312,7 +312,7 @@ open GlobalTheory.ThK GlobalTheory.ThK.Dbl GlobalTheory.PRep Formalism.BasicNoti
 theorem UpperTheory.continuous_thetaLift_of_definite :
     UpperTheory.TP.Tools_k → ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ
       : E →ₐ[F] E) (B : Base F E) (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (χX χW : Chr F E) (om :
-      Rep σ X W), IsPair_k B M χX χW om n 0 d 0 → ∀ Φ ∈ schA F (Fin n × Fin d),
+      Rep σ X W), IsPair B M χX χW om n 0 d 0 → ∀ Φ ∈ schA F (Fin n × Fin d),
       ∀ φ : UA σ X.J → ℂ, IsFn φ → Continuous (lift M om Φ φ) := by
   intro T F E _ _ _ _ _ σ B n d X W M χX χW om hp Φ hΦ φ hφ
   have cX : Cpt σ X.J := T.cpt F E σ B n X n 0 hp.base (Or.inl hp.herm) (by simp)
@@ -474,7 +474,7 @@ private theorem mem_gOff_pk {S : Finset (Pl F)} {g : UA σ X.J} :
 theorem decomp_k : Tools_k → Decomp_k := by
   intro _ F E _ _ _ _ _ σ B n X hB hX S
   have h00 : min n 0 = 0 := by simp
-  obtain ⟨K, -, -, hK, hKc, -, -⟩ := PositivityTheory.ThKG.Tow.stabEx_k F E σ B n X n 0 hB hX
+  obtain ⟨K, -, -, hK, hKc, -, -⟩ := PositivityTheory.ThKG.Tow.stabEx F E σ B n X n 0 hB hX
   have eK : (K : Set (UA σ X.J)) = {g | IntAll g} := Set.ext fun g => Bad.stab_iff_k hB hX h00 hK
   have h1 := eps_sq_pk (F := F); have h2 := sum_sq_pk (F := F) S; have h3 := eps_mul_sum_pk (F := F) S
   have hc : (1 - realAd F 1 - ∑ v ∈ S, (Euler.idem v : AF F)) * (1 - realAd F 1 - ∑ v ∈ S, (Euler.idem v : AF F)) =

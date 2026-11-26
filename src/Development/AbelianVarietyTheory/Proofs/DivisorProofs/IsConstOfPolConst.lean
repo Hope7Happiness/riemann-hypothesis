@@ -42,7 +42,7 @@ variable {a a' : ℕ}
 theorem isPair_small {B : Base F E} {G : Geo σ a a'} {X : Chars F E} {om : Rep σ G.V G.W} {om' : Rep σ G.V' G.W}
     (h : IsTriple B G X om om') :
     IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) :=
-  { base := h.base
+  { base := .of_isGood h.base
     herm := h.geo.hV'
     skew := h.geo.hW
     good := h.geo.hM'

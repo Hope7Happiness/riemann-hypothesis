@@ -299,17 +299,17 @@ theorem exists_isVac {B : Base F E} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s) (
     rw [Set.indicator_of_notMem ha, Set.indicator_of_notMem ha']
     simp
 
-theorem conj_conj {B : Base F E} (hB : B.IsGood σ) (x : E) : σ (σ x) = x := by
+theorem conj_conj {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) (x : E) : σ (σ x) = x := by
   obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
   exact τ.injective (by rw [hB.cm.2.2.2, hB.cm.2.2.2, star_star])
 
-theorem cA_cA {B : Base F E} (hB : B.IsGood σ) (z : AE F E) : cA σ (cA σ z) = z := by
+theorem cA_cA {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) (z : AE F E) : cA σ (cA σ z) = z := by
   induction z using TensorProduct.induction_on with
   | zero => simp
   | tmul a e => simp [cA, conj_conj hB]
   | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
 
-theorem exists_model {B : Base F E} {r s r' s' : ℕ} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s')
+theorem exists_model {B : Base F E} {r s r' s' : ℕ} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s')
     {M : Model σ X W} (hM : M.IsGood B.ψ) {M₁ : Model σ X₁ W₁} (hM₁ : M₁.IsGood B.ψ) {κ : Type} [Fintype κ]
     (hcard : n * d = Fintype.card κ * 2 + n₁ * d₁) (b D : Matrix (Fin n) (Fin d) (AE F E) → κ → AE F E)
     (π : Matrix (Fin n) (Fin d) (AE F E) → Matrix (Fin n₁) (Fin d₁) (AE F E)) (hb : IsLinearMap (AF F) b)
@@ -519,7 +519,7 @@ theorem exists_frame_inv (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) (hL : Y.L.IsFu
   obtain ⟨w, rfl, hw⟩ := h1 u hu
   rwa [Matrix.mulVec_mulVec, h4, Matrix.one_mulVec]
 
-theorem frame_gram (hB : B.IsGood σ) (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) {η : E} (hη : η * η = 1)
+theorem frame_gram (hB : UpperTheory.TP.W.GoodK σ B) (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) {η : E} (hη : η * η = 1)
     (hJ : ∀ i j, σ (Y.J j i) = η * Y.J i j) :
     (frame H)ᵀ * Y.J * (frame H).map σ = Matrix.fromBlocks Y₁.J 0 0 !![0, 1; η, 0] := by
   have hf : ∀ u w, form σ Y.J u w = ∑ i, ∑ k, u i * Y.J i k * σ (w k) := fun u w => by

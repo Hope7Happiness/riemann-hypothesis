@@ -392,7 +392,7 @@ def tr (κ : Type) [Fintype κ] : (κ → mixedEmbedding.mixedSpace F) →ₗ[�
 theorem tr_apply {κ : Type} [Fintype κ] (y b : κ → mixedEmbedding.mixedSpace F) :
     tr κ y b = Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (∑ i, y i * b i) := linForm_apply b y
 
-theorem exists_isGauss {B : Base F E} (M : Model σ X W) {r s r' s' : ℕ} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s)
+theorem exists_isGauss {B : Base F E} (M : Model σ X W) {r s r' s' : ℕ} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s)
     (hW : W.IsSkew σ B r' s') :
     ∃ (Q Q' : (Fin n × Fin d → mixedEmbedding.mixedSpace F) →ₗ[ℝ] (Fin n × Fin d → mixedEmbedding.mixedSpace F) →ₗ[ℝ] ℝ)
       (f : SInf F (Fin n × Fin d)), (∀ x, x ≠ 0 → 0 < Q x x) ∧
@@ -442,7 +442,7 @@ theorem exists_isGauss {B : Base F E} (M : Model σ X W) {r s r' s' : ℕ} (hB :
   rw [SchwartzMap.smul_apply, dOp_apply, dOp_apply, e2, (sev _).1, (sev _).2]
   exact hv p x
 
-theorem pol_dense {B : Base F E} (M : Model σ X W) {r s r' s' : ℕ} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s)
+theorem pol_dense {B : Base F E} (M : Model σ X W) {r s r' s' : ℕ} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s)
     (hW : W.IsSkew σ B r' s') (T : SInf F (Fin n × Fin d) →L[ℂ] ℂ) (hT : ∀ f ∈ M.Pol B.ψ B.emb, T f = 0) : T = 0 := by
   obtain ⟨Q, Q', f, pos, hf', hG⟩ := exists_isGauss M hB hX hW
   exact schwartz_functional_eq_zero_of_dense Q Q' 1 f one_ne_zero pos hf' (M.Pol B.ψ B.emb) (Submodule.mem_sInf.2 fun _ hN => hN.1 _ hG)

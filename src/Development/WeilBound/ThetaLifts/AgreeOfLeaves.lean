@@ -95,7 +95,7 @@ theorem keyB_of (h0 : EvZero) (hc : EvCone) (hs : StabEx) (c0 : CTBigZero) (c1 :
   obtain ⟨X₀, o, o', o₁, o₁', t, t₁⟩ := hw
   obtain ⟨⟨e, he⟩, hon⟩ := h0 F E σ B _ _ _ _ _ _ _ _ _ _ _ _ (pairV t) _ G₁.V G₁.W H' _ _ G₁.M cfg.eV cfg.hH' t₁.geo.hM
   obtain ⟨-, e', he'⟩ := hc F E σ B _ _ _ _ _ _ _ _ _ _ _ _ (pairV' t) _ _ G₁.V' G₁.W H H' _ _ _ _ G₁.M' cfg.hH cfg.hH' t₁.geo.hM'
-  obtain ⟨K, μK, μ, hK, -, hμK, hμ⟩ := hs F E σ B _ G.V' _ _ t.base t.geo.hV'
+  obtain ⟨K, μK, μ, hK, -, hμK, hμ⟩ := hs F E σ B _ G.V' _ _ (.of_isGood t.base) t.geo.hV'
   obtain ⟨C₀, hC₀, k0⟩ := c0 F E σ B a b G G₁ H H' cfg e he
   obtain ⟨C₁, hC₁, k1⟩ := c1 F E σ B a b G G₁ H H' cfg e' he' K μK μ hK hμK hμ
   obtain ⟨C₂, hC₂, k2⟩ := hl F E σ B a b G G₁ H H' cfg R R₁ e e' he he' K μK μ hK hμK hμ
@@ -146,7 +146,7 @@ theorem keyA_of (h0 : EvZero) (hc : EvCone) (hs : StabEx) (c0 : CTSmallZero) (c1
   obtain ⟨X₀, o, o', o₁, o₁', t, t₁⟩ := hw
   obtain ⟨⟨e', he'⟩, hon⟩ := h0 F E σ B _ _ _ _ _ _ _ _ _ _ _ _ (pairV' t) _ G₁.V' G₁.W H' _ _ G₁.M' cfg.eV cfg.hH' t₁.geo.hM'
   obtain ⟨⟨e, he⟩, -⟩ := hc F E σ B _ _ _ _ _ _ _ _ _ _ _ _ (pairV t) _ _ G₁.V G₁.W H H' _ _ _ _ G₁.M cfg.hH cfg.hH' t₁.geo.hM
-  obtain ⟨K, μK, μ, hK, -, hμK, hμ⟩ := hs F E σ B _ G.V _ _ t.base t.geo.hV
+  obtain ⟨K, μK, μ, hK, -, hμK, hμ⟩ := hs F E σ B _ G.V _ _ (.of_isGood t.base) t.geo.hV
   obtain ⟨C₀, hC₀, k0⟩ := c0 F E σ B b a' G G₁ H H' cfg e' he'
   obtain ⟨C₁, hC₁, k1⟩ := c1 F E σ B b a' G G₁ H H' cfg e he K μK μ hK hμK hμ
   obtain ⟨C₂, hC₂, k2⟩ := hl F E σ B b a' G G₁ H H' cfg R R₁ e e' he he' K μK μ hK hμK hμ

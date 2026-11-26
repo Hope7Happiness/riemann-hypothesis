@@ -22,17 +22,6 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 abbrev tauB (B : Base F E) : InfinitePlace F → (E →+* ℂ) := fun w => (B.emb w).1
 
-structure Ctx (σ : E →ₐ[F] E) (B : Base F E) {nS nT : ℕ} (JS : Matrix (Fin nS) (Fin nS) E) (JT : Matrix (Fin nT) (Fin nT) E)
-    (ξ₀ : E) (θ : InfinitePlace F → (Ainf F ⊗[F] E →+* ℂ)) (ι : (InfinitePlace F → ℂ) →+ AEF F E) : Prop where
-  good : B.IsGood σ
-  hS : IsHermND σ JS
-  hT : IsHermND σ JT
-  h0 : ξ₀ ≠ 0
-  hξ : σ ξ₀ = -ξ₀
-  inf : IsInfFamF (fun w : InfinitePlace F => (B.emb w).1) θ
-  chart : IsChartF θ ι
-
-
 variable (F E) in
 def finIdem : AEF F E := algebraMap (AF F) (AEF F E) (pairA F 0 1)
 

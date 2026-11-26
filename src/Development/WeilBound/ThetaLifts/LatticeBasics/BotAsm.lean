@@ -65,22 +65,22 @@ theorem hasProd_off {χ : Chr F E} {T : Finset (Pl F)} (h : ∀ w : HeightOneSpe
 
 theorem pair_ne_zero (hH : HgtEx) (hN : NormZeta) (hE : EulerProd) (hM : LocMeas) (hU : LocUnr) (hB : BadFactor) (hI : RealInv)
     (hD : DProd) {B : Base F E} {n d : ℕ} {X : Spc F E n} {W : Spc F E d} {M : Model σ X W} {χX χW : Chr F E} {om : Rep σ X W}
-    {r s r' s' : ℕ} (h : IsPair B M χX χW om r s r' s') (h0 : min r s = 0) (h0' : min r' s' = 0) (hn : 1 ≤ n) (hd : n < d)
+    {r s r' s' : ℕ} (hBg : B.IsGood σ) (h : IsPair B M χX χW om r s r' s') (h0 : min r s = 0) (h0' : min r' s' = 0) (hn : 1 ≤ n) (hd : n < d)
     (he : Even d) {T : Finset (Pl F)} (hT : T ⊆ B.P) (uX : UnrOff χX (T : Set (Pl F))) (uW : UnrOff χW (T : Set (Pl F)))
     (ram : ∀ w : HeightOneSpectrum (𝓞 E), w.under (𝓞 F) ∈ T → ¬ UnrAt χW w)
     {P : Type} [AddCommGroup P] [Module ℂ P] [Nontrivial P] {p : SInf F (Fin n × Fin d) →ₗ[ℂ] P} (hp : RealQuot B M om p)
     {Λ : ℂ → ℂ} (l1 : Differentiable ℂ Λ) (l2 : ∀ z : ℂ, 1 < z.re → Λ z = charL χW (∅ : Set (Pl F)) z)
     (l3 : ∀ z : ℤ, -(d : ℤ) ≤ 2 * z → Λ z ≠ 0) : ∃ Φ ∈ PolData B M, M.I om Φ ≠ 0 := by
-  obtain ⟨⟨K, a, hK, ha, -⟩, e, -, he'⟩ := hH F E σ B n X r s h.base (Or.inl h.herm)
+  obtain ⟨⟨K, a, hK, ha, -⟩, e, -, he'⟩ := hH F E σ B n X r s hBg (Or.inl h.herm)
   obtain ⟨f₀, p0, n0, i0⟩ := hI F E σ B _ _ _ _ _ _ _ _ _ _ _ _ h h0 P p hp
   letI : MeasurableSpace (Fin n × Fin d → AF F) := borel _
   haveI : BorelSpace (Fin n × Fin d → AF F) := ⟨rfl⟩
   let ν : Measure (Fin n × Fin d → AF F) := Measure.addHaar
   have hν : ν.IsAddHaarMeasure := inferInstance
-  obtain ⟨Φ, pΦ, b1, b2, b3⟩ := hB F E σ B _ _ _ _ _ _ _ _ _ _ _ _ h h0 h0' hd.le he T hT uX uW f₀ p0 n0 i0 K a e hK ha he' ν hν
-  obtain ⟨U, Z, t₀, u1, u2, u3, u4, u5, u6⟩ := hN F E σ B _ _ _ _ _ _ _ _ _ _ _ _ h h0 h0' hn (by omega) K a e hK ha he' ν hν Φ pΦ
+  obtain ⟨Φ, pΦ, b1, b2, b3⟩ := hB F E σ B _ _ _ _ _ _ _ _ _ _ _ _ hBg h h0 h0' hd.le he T hT uX uW f₀ p0 n0 i0 K a e hK ha he' ν hν
+  obtain ⟨U, Z, t₀, u1, u2, u3, u4, u5, u6⟩ := hN F E σ B _ _ _ _ _ _ _ _ _ _ _ _ hBg h h0 h0' hn (by omega) K a e hK ha he' ν hν Φ pΦ
   obtain ⟨dT, d1, d2⟩ := hD F E n T
-  choose μl hμl using hM F E σ B n X r s h.base h.herm
+  choose μl hμl using hM F E σ B n X r s hBg h.herm
   refine ⟨Φ, pΦ, fun hz => ?_⟩
   set H : ℂ → ℂ := fun z => ∫ g in {g | ∀ v ∉ T, IntAt v g}, zint om ν a e Φ z g ∂M.μ with hHdef
   have res0 : ResEtaPow (Units.map (algebraMap F (AF F)).toMonoidHom).range χW 0 := fun x => by
@@ -93,10 +93,10 @@ theorem pair_ne_zero (hH : HgtEx) (hN : NormZeta) (hE : EulerProd) (hM : LocMeas
     obtain ⟨m1, m2, m3⟩ := u5 z z1
     refine ⟨m1, sub_eq_zero.2 ?_⟩
     choose! f f1 f2 using b1 z
-    have lu := fun v (hv : v ∉ T) => hU F E σ B n X r s h.base h.herm χW h.hW res0 K e hK he' v
+    have lu := fun v (hv : v ∉ T) => hU F E σ B n X r s hBg h.herm χW h.hW res0 K e hK he' v
       (fun w hw => uW w (by show ¬ w.under (𝓞 F) ∈ (T : Set (Pl F)); rw [hw]; exact hv)) (μl v) (hμl v).1 (hμl v).2 z (f v) z2
       (f1 v hv)
-    have t1 := hE F E σ B n X r s h.base h.herm T M.μ h.good.haar μl hμl _ (fun v u => f v (e (u, 1))) m2 fun v hv =>
+    have t1 := hE F E σ B n X r s hBg h.herm T M.μ h.good.haar μl hμl _ (fun v u => f v (e (u, 1))) m2 fun v hv =>
       ⟨fun u hu => (f2 v hv u hu).2, fun u hu => (f2 v hv u hu).1, (lu v hv).1⟩
     have t2 := t1.mul (d2 z (by linarith)).2
     have t3 : HasProd (fun v : {v : Pl F // v ∉ T} => ∏ i ∈ Finset.range n, Lv (charFam χW) v.1 (z + n / 2 - i))
@@ -146,11 +146,11 @@ theorem nonZeroBottom_of_doubling_integral (hR : KReal) (hL : LInt2) (hH : HgtEx
     rw [Circle.coe_inv, rν x, h.geo.even.neg_one_pow, ite_self, inv_one]
   have hν' : IsHecke F E X.ν⁻¹ := ⟨hν.1.inv, fun x => by rw [MonoidHom.inv_apply, hν.2 x, inv_one]⟩
   haveI := hr.nontriv
-  exact ⟨pair_ne_zero hH hN hE hM hU hB hI hD (χW := X.ν⁻¹)
-      ⟨h.base, h.geo.hV, h.geo.hW, h.geo.hM, c.heckeβ, hν', c.resβ, rν', e ▸ h.weil⟩ (by omega) (by omega) (by omega) (by omega)
+  exact ⟨pair_ne_zero hH hN hE hM hU hB hI hD (χW := X.ν⁻¹) h.base
+      ⟨.of_isGood h.base, h.geo.hV, h.geo.hW, h.geo.hM, c.heckeβ, hν', c.resβ, rν', e ▸ h.weil⟩ (by omega) (by omega) (by omega) (by omega)
       h.geo.even c.sub c.unrβ (fun w hw => (uν w hw).inv) (fun w hw hu => c.ram w hw (by simpa using hu.inv)) hr.quot l1' l2' l3',
-    pair_ne_zero hH hN hE hM hU hB hI hD (χW := X.ν)
-      ⟨h.base, h.geo.hV', h.geo.hW, h.geo.hM', c.heckeα, hν, c.resα, rν, h.weil'⟩ (by omega) (by omega) (by omega) (by omega)
+    pair_ne_zero hH hN hE hM hU hB hI hD (χW := X.ν) h.base
+      ⟨.of_isGood h.base, h.geo.hV', h.geo.hW, h.geo.hM', c.heckeα, hν, c.resα, rν, h.weil'⟩ (by omega) (by omega) (by omega) (by omega)
       h.geo.even c.sub c.unrα uν c.ram hr.quot' l1 l2 l3⟩
 
 end GlobalTheory.ThK.Dbl

@@ -967,7 +967,7 @@ theorem exists_isVac : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [Num
   obtain ⟨θ, hθ⟩ := GlobalTheory.LatVac.exists_integer_add_conj_eq_one_of_isGood σ B hB
   obtain ⟨hAt, hSt⟩ := GlobalTheory.LatVac.latAtV_at_stable X Y v
   obtain ⟨hO, hC⟩ := GlobalTheory.LatOpenCpt.main σ B X Y r s r' s' hX hY M hrat v
-  have hint := GlobalTheory.LatVacArith.psi_symp_latAtV σ B X Y r s r' s' hB hX hY v θ
+  have hint := GlobalTheory.LatVacArith.psi_symp_latAtV σ B X Y r s r' s' (.of_isGood hB) hX hY v θ
   have h2 : GlobalTheory.AdelicU.evFin F v (⅟(2 : AF F)) * 2 = 1 := by
     rw [← map_ofNat (GlobalTheory.AdelicU.evFin F v) 2, ← map_mul, invOf_mul_self, map_one]
   let cc : Matrix (Fin n) (Fin d) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E)) → ℂ := fun γ =>

@@ -430,7 +430,7 @@ theorem adapted_plane_isotropic_vector {B : Base F E} {m m₁ i₀ i₁ : ℕ} {
 theorem gram_one {m : ℕ} (J : Matrix (Fin m) (Fin m) E) : (1 : Matrix (Fin m) (Fin m) E)ᵀ * J * (1 : Matrix _ _ E).map σ = J := by
   rw [Matrix.map_one _ (map_zero σ) (map_one σ), Matrix.transpose_one, Matrix.one_mul, Matrix.mul_one]
 
-theorem hasLagrangian_skew_adapted {B : Base F E} (hB : B.IsGood σ) (M : Model σ X W) (M₁ : Model σ X W₁) (hM : M.IsGood B.ψ)
+theorem hasLagrangian_skew_adapted {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) (M : Model σ X W) (M₁ : Model σ X W₁) (hM : M.IsGood B.ψ)
     (hM₁ : M₁.IsGood B.ψ) {H' : Plane E d d₁} {i₀ i₁ : ℕ} (hH : H'.IsAdapted σ B W W₁ i₀ i₁) :
     HasLag M M₁ B.ψ 1 H'.ι (iso0 n H') := by
   let s : (Fin n → E) →ₗ[F] Matrix (Fin n) (Fin d) E :=
@@ -451,7 +451,7 @@ theorem hasLagrangian_skew_adapted {B : Base F E} (hB : B.IsGood σ) (M : Model 
     simp
   · rw [hH.rank]; ring
 
-theorem hasLag_X {B : Base F E} (hB : B.IsGood σ) (M : Model σ X W) (M₁ : Model σ X₁ W) (hM : M.IsGood B.ψ)
+theorem hasLag_X {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) (M : Model σ X W) (M₁ : Model σ X₁ W) (hM : M.IsGood B.ψ)
     (hM₁ : M₁.IsGood B.ψ) {H : Plane E n n₁} {i₀ i₁ : ℕ} (hH : H.IsAdapted σ B X X₁ i₀ i₁) :
     HasLag M M₁ B.ψ H.ι 1 {u | ∃ z, u = Matrix.vecMulVec (incV F H.x) z} := by
   let s : (Fin d → E) →ₗ[F] Matrix (Fin n) (Fin d) E :=

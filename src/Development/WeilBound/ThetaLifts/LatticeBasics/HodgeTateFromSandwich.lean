@@ -46,7 +46,7 @@ def locD (n : ℕ) (v : Pl F) (s : ℂ) : ℂ :=
 
 def NormZeta : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W) (r s r' s' : ℕ),
-    IsPair B M χX χW om r s r' s' → min r s = 0 → min r' s' = 0 → 1 ≤ n → 1 ≤ d →
+    B.IsGood σ → IsPair B M χX χW om r s r' s' → min r s = 0 → min r' s' = 0 → 1 ≤ n → 1 ≤ d →
     ∀ K a (e : UA σ X.J × UA σ X.J →* G2 σ X), IsStab2 B K → IsHgt K a → (∀ g g', IsEmb g g' (e (g, g'))) →
     ∀ ν, @Measure.IsAddHaarMeasure _ _ _ (borel _) ν → ∀ Φ ∈ PolData B M, ∃ (U : Set ℂ) (Z : ℂ → ℂ) (t₀ : ℝ),
       IsOpen U ∧ (∀ z : ℂ, ∀ᶠ z' in 𝓝[≠] z, z' ∈ U) ∧ ((d : ℂ) - n) / 2 ∈ U ∧ DifferentiableOn ℂ Z U ∧
@@ -77,7 +77,7 @@ def LocUnr : Prop :=
 
 def BadFactor : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W) (r s r' s' : ℕ),
-    IsPair B M χX χW om r s r' s' → min r s = 0 → min r' s' = 0 → n ≤ d → Even d → ∀ T : Finset (Pl F), T ⊆ B.P → UnrOff χX (T : Set (Pl F)) →
+    B.IsGood σ → IsPair B M χX χW om r s r' s' → min r s = 0 → min r' s' = 0 → n ≤ d → Even d → ∀ T : Finset (Pl F), T ⊆ B.P → UnrOff χX (T : Set (Pl F)) →
     UnrOff χW (T : Set (Pl F)) → ∀ f₀ ∈ M.Pol B.ψ B.emb, f₀ ≠ 0 → (∀ k ∈ KInf σ X B.emb, Acts (evI F) (om (k, 1)) f₀ f₀) →
     ∀ K a (e : UA σ X.J × UA σ X.J →* G2 σ X), IsStab2 B K → IsHgt K a → (∀ g g', IsEmb g g' (e (g, g'))) →
     ∀ ν, @Measure.IsAddHaarMeasure _ _ _ (borel _) ν → ∃ Φ ∈ PolData B M,

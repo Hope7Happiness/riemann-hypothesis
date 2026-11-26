@@ -109,7 +109,7 @@ theorem res_low {χ : Chr F E} {n n₁ : ℕ} (h : ResEtaPow (Units.map (algebra
 theorem split_uniq (hU : UnipEx) {B : Base F E} {a a' : ℕ} {G : Geo σ a a'} {X : Chars F E} {om om'} (hT : IsTriple B G X om om')
     {d₁ : ℕ} {W₁ : Spc F E d₁} {H' : Plane E (a + a') d₁} {i₀ i₁ : ℕ} (hH : H'.IsAdapted σ B G.W W₁ i₀ i₁)
     {f fa fb fa' fb' : UA σ G.W.J → ℂ} (h₁ : Split2 W₁ H' X f fa fb) (h₂ : Split2 W₁ H' X f fa' fb') : fa = fa' ∧ fb = fb' := by
-  obtain ⟨h1, -, -, -, ⟨lev, -, hl, -⟩, -, t, ht⟩ := hU F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ hT.base (Or.inr hT.geo.hW) hH
+  obtain ⟨h1, -, -, -, ⟨lev, -, hl, -⟩, -, t, ht⟩ := hU F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ (.of_isGood hT.base) (Or.inr hT.geo.hW) hH
   exact split2_unique hT.geo.lt h1 ⟨t, _, hl t 1, ht⟩ h₁ h₂
 
 def AnySplit (cond : ℕ → ℕ → ℕ → ℕ → Prop) (so : Bool) : Prop :=

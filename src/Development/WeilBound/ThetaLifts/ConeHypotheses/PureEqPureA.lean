@@ -39,12 +39,12 @@ variable {B : Base F E} {G : Geo σ a a'} {X : Chars F E} {om : Rep σ G.V G.W} 
 
 theorem pairV (t : IsTriple B G X om om') :
     IsPair B G.M X.β (X.β / X.α) om (a - G.p) G.p (a + a' - (G.p + G.q)) (G.p + G.q) :=
-  ⟨t.base, t.geo.hV, t.geo.hW, t.geo.hM, t.chars.heckeβ, isHecke_div t.chars.heckeβ t.chars.heckeα, t.chars.resβ,
+  ⟨.of_isGood t.base, t.geo.hV, t.geo.hW, t.geo.hM, t.chars.heckeβ, isHecke_div t.chars.heckeβ t.chars.heckeα, t.chars.resβ,
     resEtaPow_div t.chars.resβ t.chars.resα, t.weil⟩
 
 theorem pairV' (t : IsTriple B G X om om') :
     IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) :=
-  ⟨t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, isHecke_div t.chars.heckeα t.chars.heckeβ, t.chars.resα,
+  ⟨.of_isGood t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, isHecke_div t.chars.heckeα t.chars.heckeβ, t.chars.resα,
     by rw [add_comm a a']; exact resEtaPow_div t.chars.resα t.chars.resβ, t.weil'⟩
 
 theorem weilCondV (t : IsTriple B G X om om') : a + a' + 2 * min (a - G.p) G.p < 2 * a ∨ min (a - G.p) G.p = 0 := by

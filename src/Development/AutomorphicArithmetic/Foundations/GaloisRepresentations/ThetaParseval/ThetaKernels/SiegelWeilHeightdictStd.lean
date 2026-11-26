@@ -184,7 +184,7 @@ theorem thetaSum_rational_invariant (d : SD_k σ) (γ : d.G) (hγ : γ ∈ d.r2)
   exact split_core hψ hq (a • d.A.J) (b • d.Y.J) hA hB d' d₀ hd' d.χ d.ok.hecke om' hS' hR' g' hg Ψ hΨ
 end
 theorem cpt_k (hS : GlobalTheory.Published.SiegelSetUnitary) (d : SD_k σ) : Cpt σ d.A.J := by
-  have h := cptAll_of_k PositivityTheory.ThKEst.grpTop_of _root_.PositivityTheory.ThKEst.epsOf_of_k
+  have h := cptAll_of_k PositivityTheory.ThKEst.grpTop_of _root_.PositivityTheory.ThKEst.epsOf_of
       (PositivityTheory.ThKEst.siegelAll_of hS)
     PositivityTheory.ThKEst.finVolU PositivityTheory.ThKF.unimodularity_holds
   rcases d.ok.sign with ⟨hA, -⟩ | ⟨hA, -⟩

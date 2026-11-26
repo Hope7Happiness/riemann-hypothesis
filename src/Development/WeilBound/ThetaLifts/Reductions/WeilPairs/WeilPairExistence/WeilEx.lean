@@ -56,8 +56,7 @@ noncomputable section
 
 namespace PositivityTheory.ThKW.S
 
-theorem weilEx : PositivityTheory.ThKG.Tow.WeilEx := fun F E _ _ _ _ _ σ B hB =>
-  weilEx_k F E σ B (.of_isGood hB)
+theorem weilEx : PositivityTheory.ThKG.Tow.WeilEx := weilEx_k
 
 end PositivityTheory.ThKW.S
 

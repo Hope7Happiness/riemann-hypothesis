@@ -307,7 +307,7 @@ theorem exists_eta (hσ : IsCMExt F E σ) (τ : E →ₐ[F] Fv F v) :
     norm_num
     rfl
 
-theorem exists_beta {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} (hL : Submodule.IsFullLattice E X.L) (k : UA σ X.J)
+theorem exists_beta {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {X : Spc F E n} (hL : Submodule.IsFullLattice E X.L) (k : UA σ X.J)
     (h0 : At (evFin F v) (mat k - 1)) (h1 : mat k ∈ Pres v X) (h2 : mat k⁻¹ ∈ Pres v X) :
     ∃ b b' f', Adj (cA σ) (incM F X.J) b b' ∧ Adj (cA σ) (incM F X.J) b' b ∧ b + b' = -1 ∧ b ∈ Pres v X ∧ f' ∈ Pres v X ∧
       (1 + (1 - mat k) * b) * f' = 1 := by

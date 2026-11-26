@@ -99,7 +99,7 @@ theorem exists_section (h : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, EmbOv
       rw [sub_smul, one_smul, map_sub, sub_eq_zero] at e0
       rw [map_add (f := _), map_add (f := _), GlobalTheory.ThK.Dbl.St.compFin_smul v rfl, GlobalTheory.ThK.Dbl.St.compFin_smul v rfl, zero_add, zero_add, e0]
 
-theorem exists_compact_mat {B : Base F E} {X : Spc F E n} {r s : ℕ} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) :
+theorem exists_compact_mat {B : Base F E} {X : Spc F E n} {r s : ℕ} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) :
     ∃ S : Set (Matrix (Fin n) (Fin n) (AE F E)), IsCompact S ∧ ∀ k ∈ stabK (σ := σ) B X, mat k ∈ S := by
   obtain ⟨Φ, hΦ, eΦ⟩ := exists_section hB.cm B.emb
   have hFull : X.L.IsFullLattice E := by
@@ -162,7 +162,7 @@ theorem exists_compact_mat {B : Base F E} {X : Spc F E n} {r s : ℕ} (hB : B.Is
   rw [e]
   exact Matrix.ext fun i j => Levi.piInf_incl _ _
 
-theorem isCompact_stabK {B : Base F E} {X : Spc F E n} {r s : ℕ} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) :
+theorem isCompact_stabK {B : Base F E} {X : Spc F E n} {r s : ℕ} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) :
     IsCompact ((stabK (σ := σ) B X : Subgroup (UA σ X.J)) : Set (UA σ X.J)) := by
   obtain ⟨S, hS, h⟩ := exists_compact_mat hB hX
   have hc : Continuous (cA (F := F) σ) := IsModuleTopology.continuous_of_linearMap (cA (F := F) σ).toLinearMap

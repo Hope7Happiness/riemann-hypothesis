@@ -136,7 +136,7 @@ theorem exists_dual (hB : B.IsGood σ) (I : Set (Matrix (Fin n) (Fin d) (AE F E)
           have := b'.traceDual.traceDual_repr_apply (t * σ x) j
           rw [Module.Basis.traceDual_traceDual] at this
           rw [this, Algebra.traceForm_apply, mul_comm, mul_assoc]
-        have h3 : σ (t⁻¹ * (t * σ x)) = x := by rw [inv_mul_cancel_left₀ t0, PositivityTheory.Mix.conj_conj hB]
+        have h3 : σ (t⁻¹ * (t * σ x)) = x := by rw [inv_mul_cancel_left₀ t0, PositivityTheory.Mix.conj_conj (.of_isGood hB)]
         conv_rhs => rw [← h3, ← h1]
 
         simp only [h2, Finset.mul_sum, map_sum, mul_smul_comm, b]
@@ -154,7 +154,7 @@ theorem exists_dual (hB : B.IsGood σ) (I : Set (Matrix (Fin n) (Fin d) (AE F E)
     hY, fun a => ?_⟩
   · rw [incM_smul_vec, ← smul_assoc]; exact hI _
   · change Algebra.trace _ _ _ = _
-    rw [incM_smul_vec, incM_smul_vec, hTens_vec, PositivityTheory.Mix.bf_inc, PositivityTheory.Mix.bf_inc, PositivityTheory.Mix.cA_inc, PositivityTheory.Mix.conj_conj hB,
+    rw [incM_smul_vec, incM_smul_vec, hTens_vec, PositivityTheory.Mix.bf_inc, PositivityTheory.Mix.bf_inc, PositivityTheory.Mix.cA_inc, PositivityTheory.Mix.conj_conj (.of_isGood hB),
       ← map_mul, ← map_mul, ← map_mul, neg_one_mul, ← map_neg, tr1]
     have : -(b'.traceDual i * (t⁻¹ * b' j) * (form σ X.J x' x * form σ W.J y' y)) = b'.traceDual i * b' j := by
       have : form σ X.J x' x * form σ W.J y' y = -t := by rw [ht, neg_neg]
@@ -184,7 +184,7 @@ theorem ev_op (hH : ArchHeis) (hU : ArchUniq) (hB : B.IsGood σ) (hl : IsEvLoc M
     (hM : M.IsGood B.ψ) (h : ∀ f : SInf F (Fin n × Fin d), pure f M.vac = pureA F f ψ)
     (h₁ : ∀ f : SInf F (Fin n₁ × Fin d₁), pure f M₁.vac = pureA F f ψ₁) {s} (hs : At (evI F) s) (f : SInf F (Fin n × Fin d)) :
     e (M.co.rho B.ψ s (pureA F f ψ)) = pureA F (ei (opI (M.co.rho B.ψ s) f)) ψ₁ := by
-  obtain ⟨f₁, hf⟩ := (hH F E σ B n d X W M hB).2 s hs f
+  obtain ⟨f₁, hf⟩ := (hH F E σ B n d X W M (.of_isGood hB)).2 s hs f
   rw [opI_eq hU hf, acts_pureA hf hψ, ← h, hl.pure f₁ M.vac (fun v => (hM.vac v).1) (Eventually.of_forall fun _ => rfl), ← h₁]
   congr 1
   funext v
@@ -200,8 +200,8 @@ theorem line_ex (hS : Slice) (hH : ArchHeis) (hU : ArchUniq) (hc : Cfg B M M₁ 
   obtain ⟨r', s', hW⟩ := hc.skew
   obtain ⟨i, j, hP⟩ := hc.hH
   obtain ⟨i', j', hP'⟩ := hc.hH'
-  obtain ⟨ε, oX⟩ := PositivityTheory.Mix.planeOK_herm hB hP hX
-  obtain ⟨ε', oW⟩ := PositivityTheory.Mix.planeOK_skew hB hP' hW
+  obtain ⟨ε, oX⟩ := PositivityTheory.Mix.planeOK_herm (.of_isGood hB) hP hX
+  obtain ⟨ε', oW⟩ := PositivityTheory.Mix.planeOK_skew (.of_isGood hB) hP' hW
   obtain ⟨I, hI, m, uu, z, b, Y, hD, hY, hlin⟩ : ∃ I, IsEv B M M₁ H.ι H'.ι I e ∧
       ∃ (m : ℕ) (uu z : Fin m → Matrix (Fin n) (Fin d) E) (b : Fin m → E) (Y : Fin m → AE F E →ₗ[AF F] AF F),
       Dual σ X W I uu z ∧ (∀ a, ∑ j, Y j a • inclR (F := F) (AF F) (b j) = a) ∧ ∀ a, lin uu (fun j => Y j a) = a • u 1 := by
@@ -216,7 +216,7 @@ theorem line_ex (hS : Slice) (hH : ArchHeis) (hU : ArchUniq) (hc : Cfg B M M₁ 
       simpa only [shiftB, Units.val_one, map_one, one_smul] using this
   obtain ⟨ψ, hψ, -, hp⟩ := vac_fin hc.good
   obtain ⟨ψ₁, -, ⟨a, ha⟩, hp₁⟩ := vac_fin hc.good₁
-  obtain ⟨k, φ₁, C, A, -, -, hcont, hid, -, hdec⟩ := hS F E σ B n d n₁ d₁ X W X₁ W₁ M M₁ hB hc.good hc.good₁ _ _ I e hI m uu z hD ψ hψ
+  obtain ⟨k, φ₁, C, A, -, -, hcont, hid, -, hdec⟩ := hS F E σ B n d n₁ d₁ X W X₁ W₁ M M₁ (.of_isGood hB) hc.good hc.good₁ _ _ I e hI m uu z hD ψ hψ
   have hlc : Continuous lift := by
     have : lift = lft hB.cm B.emb := funext fun c => by
       apply ext_at hB.cm B.emb

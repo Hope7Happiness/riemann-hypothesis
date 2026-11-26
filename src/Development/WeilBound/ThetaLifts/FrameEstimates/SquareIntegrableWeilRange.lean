@@ -121,7 +121,7 @@ def GrpTop : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (n : ℕ) (J : Matrix (Fin n) (Fin n) E), EpsHerm σ J → LocallyCompactSpace (UA σ J) ∧ SecondCountableTopology (UA σ J) ∧ T2Space (UA σ J) ∧ Countable (ratU σ J) ∧ DiscreteTopology (ratU σ J) ∧ (Continuous fun g : UA σ J => mat g) ∧ (∀ g h : UA σ J, mat (g * h) = mat g * mat h) ∧ ∀ Ω : Set (UA σ J), IsCompact Ω → ∃ C : ℝ≥0, ∀ g ∈ Ω, ht g ≤ C
 
 def EpsOf : Prop :=
-  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E), B.IsGood σ → ∀ (n : ℕ) (X : Spc F E n) (r s : ℕ), (X.IsHerm σ B r s ∨ X.IsSkew σ B r s) → EpsHerm σ X.J ∧ r + s = n ∧ ∀ fr : Frame σ X.J, fr.IsGood → fr.r ≤ min r s
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E), UpperTheory.TP.W.GoodK σ B → ∀ (n : ℕ) (X : Spc F E n) (r s : ℕ), (X.IsHerm σ B r s ∨ X.IsSkew σ B r s) → EpsHerm σ X.J ∧ r + s = n ∧ ∀ fr : Frame σ X.J, fr.IsGood → fr.r ≤ min r s
 
 def FrameBasis : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (n : ℕ) (J : Matrix (Fin n) (Fin n) E), EpsHerm σ J → ∀ fr : Frame σ J, fr.IsGood → ∃ (b : GL (Fin n) E) (lam : Fin n → (Fin fr.r → ℝ) →ₗ[ℝ] ℝ) (ix iy : Fin fr.r ↪ Fin n), (∀ i j, ix i ≠ iy j) ∧ (∀ i t, lam (ix i) t = t i ∧ lam (iy i) t = -t i) ∧ (∀ k, (∀ i, ix i ≠ k ∧ iy i ≠ k) → lam k = 0) ∧ (∀ i, (fun l => b.1 l (ix i)) = fr.x i) ∧ ∀ t, mat (fr.a t) * incM F b.1 = incM F b.1 * Matrix.diagonal fun k => algebraMap (AF F) (AE F E) (rId F (lam k t))

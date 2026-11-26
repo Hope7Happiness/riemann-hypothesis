@@ -154,7 +154,7 @@ theorem nd_of_det {J : Matrix (Fin n) (Fin n) E} (hd : J.det ≠ 0) (v : Fin n �
   have := Matrix.eq_zero_of_mulVec_eq_zero hd h0
   exact funext fun i => σ.toRingHom.injective ((congrFun this i).trans (map_zero _).symm)
 
-theorem pg_of (hB : B.IsGood σ) {Y : Spc F E n} {Y₁ : Spc F E n₁} {H : Plane E n n₁} {i₀ i₁ : ℕ}
+theorem pg_of (hB : UpperTheory.TP.W.GoodK σ B) {Y : Spc F E n} {Y₁ : Spc F E n₁} {H : Plane E n n₁} {i₀ i₁ : ℕ}
     (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) (ε : ℤˣ) (hJ : ∀ i j, σ (Y.J j i) = ((ε : ℤ) : E) * Y.J i j) (hd : Y.J.det ≠ 0)
     (hL : Y.L.IsFullLattice E) : PG σ Y Y₁ H ε := by
   have sp : ∀ v : Fin n → E, ∃ (s t : E) (u : Fin n₁ → E), v = s • H.x + H.ι *ᵥ u + t • H.y := fun v => by
@@ -206,16 +206,16 @@ theorem skew_det {r s : ℕ} (hY : X.IsSkew σ B r s) : X.J.det ≠ 0 := fun h0 
   rw [Matrix.det_smul]
   exact mul_eq_zero_of_right _ this.symm
 
-theorem full_of_herm_or_skew (hB : B.IsGood σ) {Y : Spc F E n} {r s : ℕ}
+theorem full_of_herm_or_skew (hB : UpperTheory.TP.W.GoodK σ B) {Y : Spc F E n} {r s : ℕ}
     (hY : Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s) : Y.L.IsFullLattice E := by
   rcases hY with h | h
   · exact h.lat
   · exact h.lat
 
-theorem pg_herm (hB : B.IsGood σ) {H : Plane E n n₁} {i₀ i₁ r s : ℕ} (hH : H.IsAdapted σ B X X₁ i₀ i₁) (hY : X.IsHerm σ B r s) :
+theorem pg_herm (hB : UpperTheory.TP.W.GoodK σ B) {H : Plane E n n₁} {i₀ i₁ r s : ℕ} (hH : H.IsAdapted σ B X X₁ i₀ i₁) (hY : X.IsHerm σ B r s) :
     PG σ X X₁ H 1 := pg_of hB hH 1 (fun i j => by simp [hY.herm]) (herm_det hY) (full_of_herm_or_skew hB (Or.inl hY))
 
-theorem pg_skew (hB : B.IsGood σ) {H : Plane E n n₁} {i₀ i₁ r s : ℕ} (hH : H.IsAdapted σ B X X₁ i₀ i₁) (hY : X.IsSkew σ B r s) :
+theorem pg_skew (hB : UpperTheory.TP.W.GoodK σ B) {H : Plane E n n₁} {i₀ i₁ r s : ℕ} (hH : H.IsAdapted σ B X X₁ i₀ i₁) (hY : X.IsSkew σ B r s) :
     PG σ X X₁ H (-1) := pg_of hB hH (-1) (fun i j => by simp [hY.skew]) (skew_det hY) (full_of_herm_or_skew hB (Or.inr hY))
 
 theorem polar_of {T : Type} [AddCommGroup T] [Module E T] [Module F T] [IsScalarTower F E T] [FiniteDimensional F T]

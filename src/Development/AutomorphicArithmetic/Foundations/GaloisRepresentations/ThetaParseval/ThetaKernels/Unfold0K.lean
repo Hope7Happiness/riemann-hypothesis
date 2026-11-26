@@ -161,7 +161,7 @@ local instance  (v : Pl F) : IsNonarchimedeanLocalField (Fv F v) := GlobalTheory
 def SplitModel_k : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d :
     ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W) (r s r' s' : ℕ),
-    IsPair_k B M χX χW om r s r' s' → ∀ (v : Pl F) (t : E →ₐ[F] Fv F v), (∃ ι,
+    IsPair B M χX χW om r s r' s' → ∀ (v : Pl F) (t : E →ₐ[F] Fv F v), (∃ ι,
       M.IsLinW B.ψ t 1 1 ι) ∧ ∀ ι, M.IsLinW B.ψ t 1 1 ι →
       ∀ g ∈ UAt σ X (evFin F v), ∀ h ∈ UAt σ W (evFin F v), ∀ (g₀ : GL (Fin n) (Fv F v)) (h₀ : GL (Fin d) (Fv F v)),
         g₀.1 = (mat g).map (piW t) → h₀.1 = (mat h).map (piW t) → ∀ φ ∈ SB _, ∀ φ₁ ∈ SB _, Acts (evFin F v) (om (g,
@@ -189,7 +189,7 @@ def CptAll_k : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n :
     ℕ) (Y : Spc F E n) (r s : ℕ),
     GoodK σ B → (Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s) → min r s = 0 → Cpt σ Y.J
-theorem cptAll_of_k (h1 : PositivityTheory.ThKEst.GrpTop) (h2 : PositivityTheory.ThKEst.EpsOf_k) (h3 :
+theorem cptAll_of_k (h1 : PositivityTheory.ThKEst.GrpTop) (h2 : PositivityTheory.ThKEst.EpsOf) (h3 :
   PositivityTheory.ThKEst.SiegelAll) (h4 : PositivityTheory.ThKEst.FinVolU)
     (h5 : PositivityTheory.ThKF.Unimod) : CptAll_k := by
   intro F E _ _ _ _ _ σ B n Y r s hB hY h0
@@ -220,7 +220,7 @@ def PolSch_k : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d :
     ℕ) (X : Spc F E n) (W : Spc F E d)
     (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W) (r s r' s' : ℕ),
-      IsPair_k B M χX χW om r s r' s' → ∀ Φ ∈ PolData B M, Φ ∈ schA F _
+      IsPair B M χX χW om r s r' s' → ∀ Φ ∈ PolData B M, Φ ∈ schA F _
 end GlobalTheory.ThK.Dbl
 
 section
@@ -237,7 +237,7 @@ section
 open GlobalTheory.CompanionTheory.Ar.RT
 variable {n d : ℕ}
 theorem polFin_k {B : Base F E} {Y : Spc F E n} {W : Spc F E d} {M : Model σ Y W} {χX χW} {om : Rep σ Y W} {r s r' s'}
-    (h : IsPair_k B M χX χW om r s r' s') : ∀ f ∈ M.Pol B.ψ B.emb,
+    (h : IsPair B M χX χW om r s r' s') : ∀ f ∈ M.Pol B.ψ B.emb,
       ∃ U : Submodule ℂ (SInf F (Fin n × Fin d)),
       FiniteDimensional ℂ U ∧ ∀ k ∈ KInf σ W B.emb, ∀ f₁ : SInf F _, Acts (evI F) (om (1, k)) f f₁ → f₁ ∈ U := by
   intro f hf

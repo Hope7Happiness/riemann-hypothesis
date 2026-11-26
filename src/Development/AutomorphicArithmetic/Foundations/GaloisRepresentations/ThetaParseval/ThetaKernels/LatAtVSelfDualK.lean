@@ -84,7 +84,7 @@ theorem psi_symp_latAtV_k : ∀ {F E : Type} [Field F] [NumberField F] [Field E]
         (inclR (F := F) (AF F) (θ : E))
         (incM F X.J)
           (incM F Y.J) γ γ') = 1 :=
-  Tw.LatVacArith.psi_symp_latAtV_k
+  Tw.LatVacArith.psi_symp_latAtV
 end Final
 end GlobalTheory.LatVacArith
 end
@@ -614,7 +614,7 @@ open scoped GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
   Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
 open GlobalTheory.WeilM
 
-theorem actsEx_k : GlobalTheory.ThK.ActsEx_k := by
+theorem actsEx_k : GlobalTheory.ThK.ActsEx := by
   intro F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' hP v
   exact ThKH.Locrep.exists_unique_local_actions hP.base.std (IsUWeilPair.isUSplitting hP.weil) v
 

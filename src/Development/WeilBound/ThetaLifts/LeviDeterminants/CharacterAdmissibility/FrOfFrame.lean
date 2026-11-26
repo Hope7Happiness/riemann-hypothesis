@@ -83,7 +83,7 @@ theorem fr_of_frame {R : Type} [CommRing R] {E : Type} [CommRing E] [Algebra R E
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {B : Base F E}
 
-theorem fr_plane (hB : B.IsGood σ) {m m₁ i₀ i₁ : ℕ} {Y : Spc F E m} {Y₁ : Spc F E m₁} {H : Plane E m m₁}
+theorem fr_plane (hB : UpperTheory.TP.W.GoodK σ B) {m m₁ i₀ i₁ : ℕ} {Y : Spc F E m} {Y₁ : Spc F E m₁} {H : Plane E m m₁}
     (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) (hL : Y.L.IsFullLattice E) (η : ℤˣ) (hJ : ∀ i j, σ (Y.J j i) = ((η : ℤ) : E) * Y.J i j) :
     ∃ π ρ, Fr (cA σ) (incM F Y.J) (incM F Y₁.J) (hyp Unit η) (incM F H.ι)
       (fromCols (replicateCol Unit (incV F H.x)) (replicateCol Unit (incV F H.y))) π ρ := by
@@ -128,7 +128,7 @@ theorem mul_col {R α β : Type} [CommRing R] (a : Matrix α Unit R) (x : β →
 
 
 theorem chartW {n d d₁ r s r' s' i₀ i₁ : ℕ} {X : Spc F E n} {W : Spc F E d} {W₁ : Spc F E d₁} {H : Plane E d d₁} (M : Model σ X W)
-    (M₁ : Model σ X W₁) (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') (hH : H.IsAdapted σ B W W₁ i₀ i₁) :
+    (M₁ : Model σ X W₁) (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') (hH : H.IsAdapted σ B W W₁ i₀ i₁) :
     ∃ (ε : Fin n × Fin d ≃ (Fin n × Fin 2) ⊕ Fin n × Fin d₁)
       (co : Darboux (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J)) (Fin n × Fin d)),
       (∀ z, co.e (z * (incM F H.ι)ᵀ) = (glue ε 0 (M₁.co.e z).1, glue ε 0 (M₁.co.e z).2)) ∧
@@ -217,7 +217,7 @@ theorem chartW {n d d₁ r s r' s' i₀ i₁ : ℕ} {X : Spc F E n} {W : Spc F E
     exact Prod.ext rfl (glue_zero ε)
 
 theorem setW {n d d₁ r s r' s' i₀ i₁ : ℕ} {X : Spc F E n} {W : Spc F E d} {W₁ : Spc F E d₁} {H' : Plane E d d₁} {M : Model σ X W}
-    {M₁ : Model σ X W₁} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') (hM : M.IsGood B.ψ)
+    {M₁ : Model σ X W₁} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') (hM : M.IsGood B.ψ)
     (hH : H'.IsAdapted σ B W W₁ i₀ i₁) (hM₁ : M₁.IsGood B.ψ) {e} (he : IsEv B M M₁ 1 H'.ι (iso0 n H') e) :
     ∃ (S : V (AF F) (Fin n × Fin d) ≃ₗ[AF F] V (AF F) (Fin n × Fin d)) (j : Fin n × Fin d₁ → Fin n × Fin d), IsSp S ∧
       Function.Injective j ∧ IsE (adeleClass F) B.ψ S j e ∧

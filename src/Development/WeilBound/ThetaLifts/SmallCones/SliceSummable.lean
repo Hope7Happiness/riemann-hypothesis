@@ -28,7 +28,7 @@ def rhoL (B : Base F E) (M : Model σ X W) (w : Ten F E n d) : Fn F n d →ₗ[�
   map_add' := rho_add _ _ _
   map_smul' := rho_smul _ _ _
 
-theorem slice_summable (hS : Slice) (hB : B.IsGood σ) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ) (he : IsEv B M M₁ ι ι' I e)
+theorem slice_summable (hS : Slice) (hB : UpperTheory.TP.W.GoodK σ B) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ) (he : IsEv B M M₁ ι ι' I e)
     (hD : Dual σ X W I u z) {l} (hl : l ∈ (adeleClass F).adm (Fin n₁ × Fin d₁)) {Φ} (hΦ : Φ ∈ schA F (Fin n × Fin d)) :
     Summable fun y : Fin m → F => l (e (rhoL B M (lin u fun j => algebraMap F (AF F) (y j)) Φ)) := by
   induction hΦ using Submodule.span_induction with
@@ -40,7 +40,7 @@ theorem slice_summable (hS : Slice) (hB : B.IsGood σ) (hM : M.IsGood B.ψ) (hM�
   | add Φ Ψ _ _ h1 h2 => simpa only [map_add (f := _)] using h1.add h2
   | smul c Φ _ h => simpa only [map_smul, smul_eq_mul] using h.mul_left c
 
-theorem slice_adm (hS : Slice) (hB : B.IsGood σ) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ) (he : IsEv B M M₁ ι ι' I e)
+theorem slice_adm (hS : Slice) (hB : UpperTheory.TP.W.GoodK σ B) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ) (he : IsEv B M M₁ ι ι' I e)
     (hD : Dual σ X W I u z) {l} (hl : l ∈ (adeleClass F).adm (Fin n₁ × Fin d₁)) :
     ∃ L ∈ (adeleClass F).adm (Fin n × Fin d), ∀ Φ ∈ schA F (Fin n × Fin d),
       HasSum (fun y : Fin m → F => l (e (M.co.rho B.ψ (lin u fun j => algebraMap F (AF F) (y j)) Φ))) (L Φ) := by

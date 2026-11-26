@@ -313,9 +313,9 @@ theorem finInert_of (hKS : CompAtTriple) (hR : CoinvEmbeds) (hA : LocRepEx) (hB1
     (hB2 : Iwasawa) (hC1 : EvLine) (hC2 : EvVac) (hD : VacEigen) (hE : InertOf) : FinInert := by
   classical
   intro F E _ _ _ _ _ σ B a a' G X om om' hT v ⟨hv, he⟩
-  obtain ⟨w, hw⟩ := hE F E σ B hT.base v he
-  have P : PairOK B G.V G.W G.M om := ⟨hT.base, ⟨_, _, hT.geo.hV⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM, _, _, hT.weil⟩
-  have P' : PairOK B G.V' G.W G.M' om' := ⟨hT.base, ⟨_, _, hT.geo.hV'⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM', _, _, hT.weil'⟩
+  obtain ⟨w, hw⟩ := hE F E σ B (.of_isGood hT.base) v he
+  have P : PairOK B G.V G.W G.M om := ⟨.of_isGood hT.base, ⟨_, _, hT.geo.hV⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM, _, _, hT.weil⟩
+  have P' : PairOK B G.V' G.W G.M' om' := ⟨.of_isGood hT.base, ⟨_, _, hT.geo.hV'⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM', _, _, hT.weil'⟩
   obtain ⟨ω, ρ, L⟩ := hA F E σ _ _ B _ _ _ _ P v
   obtain ⟨ω', ρ', L'⟩ := hA F E σ _ _ B _ _ _ _ P' v
   obtain ⟨-, hirr, p, h1, h2, h3⟩ := hKS F E σ B a a' G X om om' hT v w hw hv

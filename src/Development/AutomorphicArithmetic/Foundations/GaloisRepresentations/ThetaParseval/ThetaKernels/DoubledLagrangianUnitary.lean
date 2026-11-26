@@ -30,6 +30,9 @@ public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Mfac
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.MfacInvMul
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.PrSingle
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.ProjFacts
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzMemL2
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousOfMemSchA
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchrodingerPreservesSchwartz
 
 /-! # DoubledLagrangianUnitary: Consolidated global theta-kernel definitions and proofs (DoubledLagrangianUnitary). -/
 @[expose] public section
@@ -637,7 +640,25 @@ theorem coef_k : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberFie
   obtain ⟨Φ, hΦ,
     rfl⟩ := GlobalTheory.ThetaOntoF.exists_thV_eqF_k F E σ B hB nS (nT + nT) JS _ hS hT' ξ₀ hξ hσ hstd N e he
     hrat f hf
-  obtain ⟨hΦc, hΦi, hΦm⟩ := AdelicSchwartzProperties.schA_facts_k hB N μN hμN Φ hΦ
+  have hΦc : Continuous Φ := GlobalTheory.ThKOp.continuous_of_mem_schA hΦ
+  have hΦi : Integrable (fun x => Φ x * starRingEnd ℂ (Φ x)) μN := by
+    have : SecondCountableTopology (AF F) := GlobalTheory.AdelicUnitaryTop.secondCountable_adele F
+    have : BorelSpace (AF F) := ⟨rfl⟩
+    have hb : (MeasurableSpace.pi : MeasurableSpace (Fin N → AF F)) = borel _ := BorelSpace.measurable_eq
+    have key : ∀ (m : MeasurableSpace (Fin N → AF F)), m = borel _ → ∀ μ : @Measure _ m,
+        @Measure.IsAddHaarMeasure _ _ _ m μ → Integrable (fun x => Φ x * starRingEnd ℂ (Φ x)) μ := by
+      rintro m rfl μ hμ
+      have hm := GlobalTheory.WeilM.schA_memLp_two F (Fin N) μ hμ Φ hΦ
+      have hi := (hm.integrable_norm_pow two_ne_zero).ofReal (𝕜 := ℂ)
+      refine hi.congr (Filter.Eventually.of_forall fun x => ?_)
+      simp only [Complex.mul_conj, Complex.normSq_eq_norm_sq]
+      push_cast; rfl
+    exact key _ hb μN hμN
+  have hΦm : ∀ b : Fin N → AF F, (fun x => B.ψ (x ⬝ᵥ b) * Φ x) ∈ schA F (Fin N) := fun b => by
+    have h := GlobalTheory.WeylFour.SchrKeep.schr_mem_schA F B.ψ hB.std (Fin N) (0, b) Φ hΦ
+    convert h using 1
+    funext x
+    simp [schr]
   have hnrm : nrm σ JS JT ξ₀ B.ψ ν 𝓕 (thV B.ψ Φ ∘ e) =
       fun v => ((‖c₀‖ ^ 2 : ℝ) : ℂ) * (Φ (α v) * starRingEnd ℂ (Φ (α v))) := by
     funext v

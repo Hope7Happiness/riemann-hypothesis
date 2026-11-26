@@ -204,11 +204,11 @@ theorem archimedean_matched_maps_compare (hH : PositivityTheory.ThKR.JoinTri) (h
     · simp
     · rw [pow_add, div_eq_mul_inv, ← inv_pow, inv_neg, inv_one]
   have p1 : IsPair B G.M X.β (X.β / X.α) om (a - G.p) G.p (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨m.triple.base, m.triple.geo.hV, m.triple.geo.hW, m.triple.geo.hM, m.triple.chars.heckeβ,
+    ⟨.of_isGood m.triple.base, m.triple.geo.hV, m.triple.geo.hW, m.triple.geo.hM, m.triple.chars.heckeβ,
       hecke_div m.triple.chars.heckeβ m.triple.chars.heckeα, m.triple.chars.resβ,
       res_div m.triple.chars.resβ m.triple.chars.resα rfl, m.triple.weil⟩
   have p2 : IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨m.triple.base, m.triple.geo.hV', m.triple.geo.hW, m.triple.geo.hM', m.triple.chars.heckeα,
+    ⟨.of_isGood m.triple.base, m.triple.geo.hV', m.triple.geo.hW, m.triple.geo.hM', m.triple.chars.heckeα,
       hecke_div m.triple.chars.heckeα m.triple.chars.heckeβ, m.triple.chars.resα,
       res_div m.triple.chars.resα m.triple.chars.resβ (add_comm _ _), m.triple.weil'⟩
   choose A hA using exists_linop hO hL hQ p1
@@ -287,7 +287,7 @@ theorem polRe_of2T (hH : PositivityTheory.ThKR.JoinTri) (hM : MaxFinT) (hO : Arc
   rintro F E _ _ _ _ _ σ B a a' G X om om' R Rf m V V' W R₂ Rf₂ m₂ ⟨c₂, hc₂, hc⟩
   have p1 := pairV m.triple
   have p2 := pairV' m.triple
-  obtain ⟨h, hh, hh'⟩ := hJ F E σ B _ G.W W _ _ p1.base p1.skew m₂.triple.geo.hW
+  obtain ⟨h, hh, hh'⟩ := hJ F E σ B _ G.W W _ _ m.triple.base p1.skew m₂.triple.geo.hW
   obtain ⟨g, hg, hg', hP⟩ := hV F E σ B _ _ _ _ _ _ _ om _ _ _ _ p1 V W (reG G V V' W).M rfl (pairV m₂.triple) h hh hh'
   obtain ⟨g', hk, hk', hP'⟩ := hV F E σ B _ _ _ _ _ _ _ om' _ _ _ _ p2 V' W (reG G V V' W).M' rfl (pairV' m₂.triple) h hh hh'
   obtain ⟨T, hT, -⟩ := hO F E σ B _ _ _ _ _ _ _ om _ _ _ _ p1 g hg h hh
@@ -428,7 +428,7 @@ theorem anAll_of (hW : WeilConv) (hC : KCoinv) (hI : ILeft) : AnAll := by
       split_ifs
       · simp
       · rw [pow_add, div_eq_mul_inv, ← inv_pow, inv_neg, inv_one]
-    exact ⟨hm.triple.base, hm.triple.geo.hV', hm.triple.geo.hW, g',
+    exact ⟨.of_isGood hm.triple.base, hm.triple.geo.hV', hm.triple.geo.hW, g',
       hm.triple.chars.heckeα, hd, hm.triple.chars.resα, hr, hm.triple.weil'⟩
   obtain ⟨J, hJ⟩ := exists_Ilin hm.triple.weil' (schA F _) le_rfl fun Φ hΦ =>
     ((hW F E σ B _ _ _ _ _ _ _ om' _ _ _ _ hp (Or.inr (by rw [hq]; simp))).1 Φ hΦ).1
@@ -1340,9 +1340,9 @@ theorem unramifiedProportional_holds : UnramifiedMultiplicityOneProportional := 
   suffices lam = 0 from sub_eq_zero.1 (hlam ▸ this)
   have T := hM.triple
   have T₁ := hM₁.triple
-  have P : PositivityTheory.ThK.PairOK B G.V G.W G.M om := ⟨T.base, ⟨_, _, T.geo.hV⟩, ⟨_, _, T.geo.hW⟩, T.geo.hM, _, _, T.weil⟩
-  have P' : PositivityTheory.ThK.PairOK B G.V' G.W G.M' om' := ⟨T.base, ⟨_, _, T.geo.hV'⟩, ⟨_, _, T.geo.hW⟩, T.geo.hM', _, _, T.weil'⟩
-  have P₁ : PositivityTheory.ThK.PairOK B G₁.V G₁.W G₁.M om₁ := ⟨T₁.base, ⟨_, _, T₁.geo.hV⟩, ⟨_, _, T₁.geo.hW⟩, T₁.geo.hM, _, _, T₁.weil⟩
+  have P : PositivityTheory.ThK.PairOK B G.V G.W G.M om := ⟨.of_isGood T.base, ⟨_, _, T.geo.hV⟩, ⟨_, _, T.geo.hW⟩, T.geo.hM, _, _, T.weil⟩
+  have P' : PositivityTheory.ThK.PairOK B G.V' G.W G.M' om' := ⟨.of_isGood T.base, ⟨_, _, T.geo.hV'⟩, ⟨_, _, T.geo.hW⟩, T.geo.hM', _, _, T.weil'⟩
+  have P₁ : PositivityTheory.ThK.PairOK B G₁.V G₁.W G₁.M om₁ := ⟨.of_isGood T₁.base, ⟨_, _, T₁.geo.hV⟩, ⟨_, _, T₁.geo.hW⟩, T₁.geo.hM, _, _, T₁.weil⟩
   obtain ⟨ω, ρ, L⟩ := PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B _ _ _ _ P v
   obtain ⟨ω', ρ', L'⟩ := PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B _ _ _ _ P' v
   obtain ⟨ω₁, ρ₁, L₁⟩ := PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B _ _ _ _ P₁ v
@@ -1359,7 +1359,7 @@ theorem unramifiedProportional_holds : UnramifiedMultiplicityOneProportional := 
     simp [S, Submodule.mem_iInf]
   have hS : G.M.vac v ∈ S := (mS _).2 ⟨hvac, fun h hh => by
     have hx : H'.x ≠ 0 := fun e => by simpa [e, form] using hH.xy
-    obtain ⟨p, hp, k, hk, t, ht, rfl⟩ := Iwa.iwaLoc T.base (.inr T.geo.hW) hx hH.xx v hh
+    obtain ⟨p, hp, k, hk, t, ht, rfl⟩ := Iwa.iwaLoc (.of_isGood T.base) (.inr T.geo.hW) hx hH.xx v hh
     obtain ⟨h₁, hh₁, m, hm, hL, u, hu, hu', rfl⟩ := parDec T.base T.geo.hW hH hp ht
     obtain ⟨c, hc⟩ := PositivityTheory.ThK.vacuum_eigenline_of_local PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B _ _ _ _ P v k hk
     have e := L.mul 1 o _ hp 1 o k hk.1 _ hvac
@@ -1447,9 +1447,9 @@ theorem splitInv2_of (hU : UnipEx) (hS : StabDec) (hT : ThetaBasic) (hP : Triple
     exacts [I_rat hT p1 hΦ, I_rat hT p2 hΦ]
   refine ⟨?_, fun h0 => split_uniq hU h3 hH hs ⟨fun μ 𝓕 _ _ _ h => by simp [h0], fun t m _ h => by simp, fun t m _ h => by simp⟩⟩
   obtain ⟨⟨ν, 𝓕, a1, a2, a3⟩, -, -, a4, ⟨lev, -, hl, -⟩, -, t, ht⟩ :=
-    hU F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ h3.base (Or.inr h3.geo.hW) hH
-  obtain ⟨-, -, hn⟩ := hS F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ h3.base (Or.inr h3.geo.hW) hH
-  obtain ⟨-, -, -, b4, -⟩ := hG F E σ h3.base.cm _ G.W.J (hE F E σ B h3.base _ G.W _ _ (Or.inr h3.geo.hW)).1
+    hU F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ (.of_isGood h3.base) (Or.inr h3.geo.hW) hH
+  obtain ⟨-, -, hn⟩ := hS F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ (.of_isGood h3.base) (Or.inr h3.geo.hW) hH
+  obtain ⟨-, -, -, b4, -⟩ := hG F E σ h3.base.cm _ G.W.J (hE F E σ B (.of_isGood h3.base) _ G.W _ _ (Or.inr h3.geo.hW)).1
   have : BorelSpace (UA σ G.W.J) := ⟨rfl⟩
   have : IsTopologicalRing (AE F E) := IsModuleTopology.isTopologicalRing (AF F) _
   have : IsTopologicalGroup (UA σ G.W.J) := Subgroup.instIsTopologicalGroupSubtypeMem _

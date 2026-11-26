@@ -46,7 +46,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.vacFix2 : VacFix2 := by
   have hΦ0 : Φ ≠ 0 := fun e => hy (by rw [← hΦy, e]; rfl)
   have q1 : PresD v X g.1.1 := presD_of fun z z' a b => ((hK g).1 hk).2 z z' a b g (.inl rfl)
   have q2 : PresD v X (g⁻¹).1.1 := presD_of fun z z' a b => ((hK g).1 hk).2 z z' a b g⁻¹ (.inr rfl)
-  obtain ⟨c, hc⟩ := dbl_eigen hB hX hW vd hd' hdd hsp.toIsSplitting g hg q2
+  obtain ⟨c, hc⟩ := dbl_eigen (.of_isGood hB) hX hW vd hd' hdd hsp.toIsSplitting g hg q2
   suffices h : c = 1 by rwa [h, one_smul] at hc
   obtain ⟨g₁, m₁, g₂, m₂, g₃, m₃, g₄, m₄, eg⟩ := q1
   obtain ⟨a₁, n₁, a₂, n₂, a₃, -, a₄, -, ea⟩ := q2
@@ -92,7 +92,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.vacFix2 : VacFix2 := by
     rw [i1, i2]; rfl
   have ev : ∀ g : UG (cA σ) (dbl (incM F X.J)), At (evFin F v) (g.1.1 - 1) → PresD v X (g⁻¹).1.1 →
       ∃ a : ℂ, omd g (boxFun Φ (star Φ)) = a • boxFun Φ (star Φ) := fun g h1 h2 => by
-    obtain ⟨a, ha⟩ := dbl_eigen hB hX hW vd hd' hdd hsp.toIsSplitting g h1 h2
+    obtain ⟨a, ha⟩ := dbl_eigen (.of_isGood hB) hX hW vd hd' hdd hsp.toIsSplitting g h1 h2
     exact ⟨a, by rw [bt, ha _ rd, tens_smul]⟩
   obtain ⟨a, ha⟩ := ev s₀ (by
       rw [es]

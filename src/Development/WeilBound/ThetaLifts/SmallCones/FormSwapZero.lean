@@ -163,7 +163,7 @@ theorem so_le (hM : M.IsGood ψ) (t : E →ₐ[F] Fv F v) {Ψ} (h : Ψ ∈ M.So 
   rw [e f]
   exact Submodule.subset_span ⟨f, g, hg, rfl⟩
 
-theorem so_kill (hL : LinEx) {B : Base F E} {r s r' s' : ℕ} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s')
+theorem so_kill (hL : LinEx) {B : Base F E} {r s r' s' : ℕ} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s')
     (hM : M.IsGood B.ψ) (t : E →ₐ[F] Fv F v) (L : Fn F n d →ₗ[ℂ] ℂ) (S : Set ((Fin n → E) × (Fin d → E) × Fv F v))
     (hS : ∀ a ∈ S, ∀ ε : AE F E, At (evFin F v) ε → piW t ε = 1 → piW (t.comp σ) ε = 0 → ∀ c : Fv F v, ∀ Φ ∈ schA F _,
       L (M.co.rho B.ψ (liftV v c • ε • incM F (vecMulVec a.1 a.2.1)) Φ) = B.ψ (liftV v (a.2.2 * c)) * L Φ)
@@ -352,7 +352,7 @@ theorem map_sgl (t : E →ₐ[F] Fv F v) (j : Fin n) : (fun i => t ((Pi.single j
   · subst h; simp
   · simp [h]
 
-theorem ev_zero (hL : LinEx) {r s r' s' : ℕ} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') {M : Model σ X W}
+theorem ev_zero (hL : LinEx) {r s r' s' : ℕ} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') {M : Model σ X W}
     (hM : M.IsGood B.ψ) (t : E →ₐ[F] Fv F v) (e : Fn F n d →ₗ[ℂ] Fn F n₁ d₁) {x : Fin n → E} (hx : x ≠ 0)
     (he : ∀ z, ∀ Φ ∈ schA F _, e (M.co.rho B.ψ (vecMulVec (incV F x) z) Φ) = e Φ) : ∀ Φ ∈ M.So B.ψ t, e Φ = 0 := by
   intro Φ hΦ

@@ -159,7 +159,7 @@ theorem exists_tr_rep (hσ : ∀ x, σ (σ x) = x) {J : Matrix (Fin d) (Fin d) E
 
   rw [← map_sum, Finset.univ_sum_single]
 
-theorem mem_latW {B : Base F E} (hB : B.IsGood σ) {W : Spc F E d} {r s : ℕ} (hW : W.IsSkew σ B r s) (v : Pl F)
+theorem mem_latW {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {W : Spc F E d} {r s : ℕ} (hW : W.IsSkew σ B r s) (v : Pl F)
     {w : Fin d → AE F E} (hw : At (evFin F v) w)
     (h : ∀ y ∈ W.L, ∀ a ∈ v.adicCompletionIntegers F, B.ψ (liftV v a * trF σ W.J y w) = 1) : w ∈ latW W v := by
   have hσ := sigma_sigma hB.cm
@@ -248,7 +248,7 @@ theorem symp_vecMulVec (hσ : ∀ x, σ (σ x) = x) (JA : Matrix (Fin n) (Fin n)
     Finset.sum_congr rfl fun l _ => ?_
   ring
 
-theorem mem_latAtV {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
+theorem mem_latAtV {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
     (hW : W.IsSkew σ B r' s') (v : Pl F) {z : Matrix (Fin n) (Fin d) (AE F E)} (hz : At (evFin F v) z)
     (h : ∀ γ ∈ latAtV X W v, B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) γ z) = 1) : z ∈ latAtV X W v := by
   have hσ := sigma_sigma hB.cm

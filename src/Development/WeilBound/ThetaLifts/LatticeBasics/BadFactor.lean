@@ -105,7 +105,7 @@ theorem int_all {v} {u : UA σ X.J} (hu : u ∈ locGrp σ X v) (h : IntAt v u) (
   · rw [← mul_one u, Euler.int_mul_ne hw hu]; exact (Euler.intGrp σ X w).one_mem
 
 theorem _root_.GlobalTheory.ThK.Dbl.badFactor_of (hD : DblX) (hS : StabEx) (hV : VacFix2) (hB : Bump) : BadFactor := by
-  intro F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' P h0 _ hn _ T hT _ uW f₀ p0 n0 i0 K a e hK ha he ν hν
+  intro F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' hBg P h0 _ hn _ T hT _ uW f₀ p0 n0 i0 K a e hK ha he ν hν
   classical
   choose! β β1 β2 β3 using hB F E σ B n d X W M χX χW om r s r' s' P hn
   let φ : ∀ v : Pl F, (Fin n × Fin d → Fv F v) → ℂ := fun v => if v ∈ T then β v else M.vac v
@@ -126,7 +126,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.badFactor_of (hD : DblX) (hS : StabEx) (hV :
   obtain ⟨c, c0, hc⟩ := d4 ν hν
   have c1 := Complex.ofReal_ne_zero.2 c0.ne'
   have fx : ∀ v ∉ T, ∀ k ∈ K, At (evFin F v) (mat2 k - 1) → om₂ k (boxFun (pure f₀ φ) (star (pure f₀ φ))) = _ := fun v h k hk h' =>
-    fix_box hSB hs (φ2 v h ▸ hV F E σ B n d X W M r s r' s' P.base P.herm P.skew P.good χW P.hW dd om₂ d3 d1.weil K hK v
+    fix_box hSB hs (φ2 v h ▸ hV F E σ B n d X W M r s r' s' hBg P.herm P.skew P.good χW P.hW dd om₂ d3 d1.weil K hK v
       (fun w hw => uW w (by show ¬ w.under (𝓞 F) ∈ (T : Set (Pl F)); rw [hw]; exact h)) k hk h')
   have e1 := fun v (h : v ∈ T) S (c : ℂ) (h' : Acts (evFin F v) S (β v) (c • β v)) => eig (f := f₀) hSB hs (φ1 v h ▸ h')
   have e2 := fun S => fix_real (f := f₀) (S := S) hSB hs
@@ -143,7 +143,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.badFactor_of (hD : DblX) (hS : StabEx) (hV :
   refine ⟨fun z v hvT => ?_, ?_⟩
   · set G := flat a (fun x => l (om₂ x (boxFun Φ (star Φ)))) (((d : ℂ) - n) / 2) z with hG
     have L : Law χW (z + n / 2) G := by
-      have := (law P.base d1 (d2 Φ m Φ m).1).flat (s₀ := ((d : ℂ) - n) / 2) ha a0 z
+      have := (law hBg d1 (d2 Φ m Φ m).1).flat (s₀ := ((d : ℂ) - n) / 2) ha a0 z
       rwa [show z - ((d : ℂ) - n) / 2 + d / 2 = z + n / 2 by ring] at this
     have R : ∀ k ∈ K, At (evFin F v) (mat2 k - 1) → ∀ y, G (y * k) = G y := fun k hk h y => by
       simp only [hG, flat, hgt_mul ha y hk, map_mul, Module.End.mul_apply, fx v hvT k hk h]
@@ -153,7 +153,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.badFactor_of (hD : DblX) (hS : StabEx) (hV :
       simpa using ⟨c0.ne', N⟩
     refine ⟨fun x => G x / G 1, fun p t hp _ k hk h => ?_, fun u hu => ⟨fun hi => ?_, fun g hg => ?_⟩⟩ <;> beta_reduce
     · rw [L p t k hp, ← one_mul k, R k hk h, mul_div_cancel_right₀ _ G1]
-    · rw [← one_mul (e (u, 1)), R _ (emb_mem P.base P.herm h0 hK he (int_all hu hi)) (at_emb he hu), div_self G1]
+    · rw [← one_mul (e (u, 1)), R _ (emb_mem hBg P.herm h0 hK he (int_all hu hi)) (at_emb he hu), div_self G1]
     · obtain ⟨p, t, k, hp, hk, h, e'⟩ := loc_iwa hK ha (at_emb he hu)
       refine mul_left_cancel₀ c1 ?_
       rw [mul_left_comm, ← Z, ← Z, show e (u * g, 1) = e (u, 1) * e (g, 1) by rw [← map_mul, Prod.mk_mul_mk, mul_one], e',
@@ -168,12 +168,12 @@ theorem _root_.GlobalTheory.ThK.Dbl.badFactor_of (hD : DblX) (hS : StabEx) (hV :
     have hi : ∀ v, IntAt v g := fun v => (em (v ∈ T)).elim (fun h => (b v h).1) (hg v)
     refine ⟨hi, ?_⟩
     rw [coef, coef, show ((1, 1) : UA σ X.J × UA σ W.J) = 1 from rfl, map_one, fix_of_parts P m
-      (e2 _ (i0 _ ⟨partU_real_mem g, fun w => commute_theta P.base P.herm h0 w _⟩)) fun v => ?_]
+      (e2 _ (i0 _ ⟨partU_real_mem g, fun w => commute_theta hBg P.herm h0 w _⟩)) fun v => ?_]
     · rfl
     by_cases h : v ∈ T
     · exact (b v h).2
     have l1 : partU (idem_mul_self v) g ∈ locGrp σ X v := Subgroup.subset_closure (partU_idem_mem v g)
-    have := fx v h _ (emb_mem P.base P.herm h0 hK he (int_all l1 (prj_eq v g ▸ Euler.int_prj.2 (hi v)))) (at_emb he l1)
+    have := fx v h _ (emb_mem hBg P.herm h0 hK he (int_all l1 (prj_eq v g ▸ Euler.int_prj.2 (hi v)))) (at_emb he l1)
     obtain ⟨y, hy⟩ := Function.ne_iff.1 m0
     rw [bx] at this
     exact funext fun x => mul_right_cancel₀ (star_ne_zero.2 hy) (congrFun this (Sum.elim x y))
@@ -190,7 +190,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.badFactor_of (hD : DblX) (hS : StabEx) (hV :
     refine setIntegral_congr_fun cl.measurableSet fun g hg => ?_
     by_cases h : coef om ν Φ g = 0
     · rw [zint, h, mul_zero, Set.indicator_of_notMem (not_not.2 h)]
-    · rw [zint, hgt_one ha (emb_mem P.base P.herm h0 hK he (key g hg h).1), (key g hg h).2, Set.indicator_of_mem h]
+    · rw [zint, hgt_one ha (emb_mem hBg P.herm h0 hK he (key g hg h).1), (key g hg h).2, Set.indicator_of_mem h]
       simp
   simp only [val]
   refine ⟨differentiable_const _, smul_ne_zero (ENNReal.toReal_ne_zero.2 ⟨?_, ?_⟩) N⟩
@@ -200,7 +200,7 @@ theorem _root_.GlobalTheory.ThK.Dbl.badFactor_of (hD : DblX) (hS : StabEx) (hV :
   · have := P.good.haar
     obtain ⟨K₁, -, -, k1, k2, -⟩ := hS F E σ B n X r s P.base P.herm
     exact ((measure_mono fun g (h : g ∈ {g | coef om ν Φ g ≠ 0} ∩ {g | ∀ v ∉ T, IntAt v g}) =>
-      (stab_iff P.base P.herm h0 k1).2 (key g h.2 h.1).1).trans_lt k2.measure_lt_top).ne
+      (stab_iff hBg P.herm h0 k1).2 (key g h.2 h.1).1).trans_lt k2.measure_lt_top).ne
 
 end GlobalTheory.ThK.Dbl.Bad
 

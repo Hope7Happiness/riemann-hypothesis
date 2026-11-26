@@ -47,7 +47,7 @@ end Dict
 
 def DictSt : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (n d : ℕ) (B : Base F E)
-    (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (om : Rep σ X W) (χX χW : Chr F E), B.IsGood σ → (∃ r s, X.IsHerm σ B r s) →
+    (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (om : Rep σ X W) (χX χW : Chr F E), UpperTheory.TP.W.GoodK σ B → (∃ r s, X.IsHerm σ B r s) →
     (∃ r s, W.IsSkew σ B r s) → M.IsGood B.ψ → M.IsWeil B.ψ χX χW om → IsHecke F E χX → IsHecke F E χW →
     ∀ (v : Pl F) (t : E →ₐ[F] Fv F v), (∃ ι, M.IsLinBar B.ψ t 1 1 ι) ∧ ∃ ν α, USm ν ∧ USm α ∧ (1 ≤ n → 1 ≤ d → ν = 1 → chrW χW t = 1 ∨ chrW χW (t.comp σ) = 1) ∧
       ∀ ι, M.IsLinBar B.ψ t 1 1 ι → IsDict om v ι ν α

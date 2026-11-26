@@ -162,7 +162,7 @@ namespace GlobalTheory.LatSelfDualAll
 open GlobalTheory.InertSelfDual (exists_traceFamily det_ne_zero_of_herm det_ne_zero_of_skew decomp hTens_frame trace_expand)
 
 theorem latAtV_selfDual : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
-    (σ : E →ₐ[F] E) (B : Base F E) (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (r s r' s' : ℕ), B.IsGood σ →
+    (σ : E →ₐ[F] E) (B : Base F E) (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (r s r' s' : ℕ), UpperTheory.TP.W.GoodK σ B →
     X.IsHerm σ B r s → W.IsSkew σ B r' s' →
     ∀ (v : Pl (F := F)) (z : Matrix (Fin n) (Fin d) (AE F E)), At (evFin F v) z →
       (z ∈ latAtV X W v ↔ ∀ γ ∈ latAtV X W v, B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) z γ) = 1) := by

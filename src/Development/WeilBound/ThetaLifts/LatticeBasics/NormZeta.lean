@@ -44,11 +44,11 @@ theorem inv_scale {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup 
 
 theorem normZeta_of (hS : SWFullX) (hX : BoxSecX) (hW : DblX) (hH : HgtEx) (hT : HgtInt) (hK : Stab2Cpt) (hC : CptAll)
     (hB : ThetaBasic) (hP : PolSch) : NormZeta := by
-  intro F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' T h0 h0' hn hd K a e k1 k2 he ν hν Φ hΦ
-  have cX := hC F E σ B _ X _ _ T.base (.inl T.herm) h0
-  have cW := hC F E σ B _ W _ _ T.base (.inr T.skew) h0'
+  intro F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' hBg T h0 h0' hn hd K a e k1 k2 he ν hν Φ hΦ
+  have cX := hC F E σ B _ X _ _ hBg (.inl T.herm) h0
+  have cW := hC F E σ B _ W _ _ hBg (.inr T.skew) h0'
   obtain ⟨μ, D, hμ, hD⟩ := cW.ex
-  obtain ⟨⟨K', a', k1', k2', k3, k4⟩, e', ce, he'⟩ := hH F E σ B _ X _ _ T.base (.inl T.herm)
+  obtain ⟨⟨K', a', k1', k2', k3, k4⟩, e', ce, he'⟩ := hH F E σ B _ X _ _ hBg (.inl T.herm)
   obtain rfl : K' = K := Subgroup.ext fun k => (k1' k).trans (k1 k).symm
   obtain rfl : a' = a := funext fun x => by
     obtain ⟨p, t, hp, k, hk, rfl⟩ := k2.iwa x
@@ -58,11 +58,11 @@ theorem normZeta_of (hS : SWFullX) (hX : BoxSecX) (hW : DblX) (hH : HgtEx) (hT :
   have s1 := hP F E σ B _ _ _ _ _ _ _ _ _ _ _ _ T Φ hΦ
   obtain ⟨dd, om₂, S, l, d1, d2, d3, d4⟩ := hW F E σ B _ _ _ _ _ _ _ _ _ _ _ _ T
   obtain ⟨c', c0, hc⟩ := d4 ν hν
-  obtain ⟨t₀, hi⟩ := hT F E σ B _ X _ _ T.base (.inl T.herm) K' a' e' k1 k2 he M.μ T.good.haar
-  have sec := hX F E σ B _ _ _ _ M _ _ _ _ T.base hn hd T.herm T.skew h0' T.good χW T.hW T.resW dd om₂ S l d3 d1 K' a' k1 k2 Φ hΦ Φ hΦ
-  obtain ⟨U, Ê, hE, u, hv⟩ := hS F E σ B _ _ _ _ M _ _ _ _ T.base hn hd T.herm T.skew h0' T.good χW T.hW T.resW dd om₂ S l d3 d1
+  obtain ⟨t₀, hi⟩ := hT F E σ B _ X _ _ hBg (.inl T.herm) K' a' e' k1 k2 he M.μ T.good.haar
+  have sec := hX F E σ B _ _ _ _ M _ _ _ _ hBg hn hd T.herm T.skew h0' T.good χW T.hW T.resW dd om₂ S l d3 d1 K' a' k1 k2 Φ hΦ Φ hΦ
+  obtain ⟨U, Ê, hE, u, hv⟩ := hS F E σ B _ _ _ _ M _ _ _ _ hBg hn hd T.herm T.skew h0' T.good χW T.hW T.resW dd om₂ S l d3 d1
     K' a' k1 k2 μ D hμ hD Φ hΦ Φ hΦ
-  obtain ⟨hol, t₁, far⟩ := kpair_cont T.base (.inl T.herm) h0 cX T.hW he ce (hK F E σ B _ X _ _ T.base (.inl T.herm) K' k1)
+  obtain ⟨hol, t₁, far⟩ := kpair_cont hBg (.inl T.herm) h0 cX T.hW he ce (hK F E σ B _ X _ _ hBg (.inl T.herm) K' k1)
     k2 k3 k4 sec.cont sec.law hE T.good.haar T.good.dom hi
   haveI := cX.sc; haveI := cW.sc; haveI := cX.lc; haveI := cW.lc; haveI := T.good.haar; haveI := cX.right M.μ T.good.haar
   haveI := GlobalTheory.Doubling.isTopologicalRing_tens (F := F) (E := E) (R := AF F)
@@ -74,7 +74,7 @@ theorem normZeta_of (hS : SWFullX) (hX : BoxSecX) (hW : DblX) (hH : HgtEx) (hT :
   have c2 := Complex.ofReal_ne_zero.2 c0.ne'
   have id : ∀ z g, flat a' (fun x => l (om₂ x (boxFun Φ (star Φ)))) (((d : ℂ) - n) / 2) z (e' (1, g)) * detInv χW g =
       c' * zint om ν a' e' Φ z g⁻¹ := fun z g => by
-    have := (Law.flat (s₀ := ((d : ℂ) - n) / 2) (f := fun x => l (om₂ x (boxFun Φ (star Φ)))) sec.law k2 k4 z).diag (aniso_of T.base (.inl T.herm) h0) he g (e' (g⁻¹, 1))
+    have := (Law.flat (s₀ := ((d : ℂ) - n) / 2) (f := fun x => l (om₂ x (boxFun Φ (star Φ)))) sec.law k2 k4 z).diag (aniso_of hBg (.inl T.herm) h0) he g (e' (g⁻¹, 1))
     rw [← map_mul, Prod.mk_mul_mk, mul_inv_cancel, mul_one] at this
     have e2 := ((d2 Φ s1 Φ s1).2 1 g⁻¹ 1 _ (he _ _)).2
     rw [detInv_rat T.hW (one_mem _), one_smul, show ((1, 1) : UA σ X.J × UA σ W.J) = 1 from rfl, map_one, Module.End.one_apply] at e2

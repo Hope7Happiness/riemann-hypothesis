@@ -54,7 +54,7 @@ theorem form_eps (hs : ∀ x, σ (σ x) = x) {J : Matrix (Fin n) (Fin n) E} {ε 
 theorem eps_sq (ε : ℤˣ) : ((ε : ℤ) : E) * ((ε : ℤ) : E) = 1 := by
   rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self]; simp
 
-theorem isFr (hB : B.IsGood σ) (hY : Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s) (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) :
+theorem isFr (hB : UpperTheory.TP.W.GoodK σ B) (hY : Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s) (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) :
     ∃ (ε : E) (A' : Matrix (Fin n₁ ⊕ Fin 2) (Fin n) E), IsFr (σ : E →+* E) ε Y.J Y₁.J H.ι H.x H.y A' := by
   obtain ⟨ε, hε, -⟩ := exists_eps hY
   have hsk : ∀ x y, form σ Y.J x y = ((ε : ℤ) : E) * σ (form σ Y.J y x) := fun x y => by

@@ -499,7 +499,7 @@ theorem alphaZero_of (hI : ThKEnd.Iwa) (hC : CTBasic) (hA : IAut) (hU : UnipEx) 
     rw [e]
     exact ThKG.pureA_mem f hg
   obtain ⟨hp, hp', -⟩ := hP F E σ B a a' G X om om' hT
-  obtain ⟨h1, h2, hW₁⟩ := (hL F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ hT.base hH).2 hT.geo.hW
+  obtain ⟨h1, h2, hW₁⟩ := (hL F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ (.of_isGood hT.base) hH).2 hT.geo.hW
   have haB := hT.geo.aBig
   have hrk := hH.rank
   have hpl := (hI F E σ B _ _ _ _ H' _ _ _ _ hT.base hT.geo.hW hH).1
@@ -507,12 +507,12 @@ theorem alphaZero_of (hI : ThKEnd.Iwa) (hC : CTBasic) (hA : IAut) (hU : UnipEx) 
     (sig_isAut hA hT hf) (half_ne hT) hs.1 hs.2.1 hs.2.2 u hu h).1) fun h₁ l hl k hk => ?_
   obtain ⟨Φ, hΦ, Φ', hΦ', rfl⟩ := hf
   obtain ⟨s1, s2⟩ := hSt F E σ B a a' G X om om' hT k hk
-  obtain ⟨⟨M₁, hM₁⟩, hW⟩ := hPx F E σ B hT.base _ _ G.V W₁ _ _ _ _ hT.geo.hV hW₁
+  obtain ⟨⟨M₁, hM₁⟩, hW⟩ := hPx F E σ B (.of_isGood hT.base) _ _ G.V W₁ _ _ _ _ hT.geo.hV hW₁
   obtain ⟨om₁, hp₁⟩ := hW _ _ hp.hX hp.hW hp.resX (res_low hp.resW hH.rank) M₁ hM₁
   obtain ⟨⟨e₀, he₀⟩, -⟩ := hZ F E σ B _ _ G.V G.W G.M _ _ om _ _ _ _ hp d₁ G.V W₁ H' i₀ i₁ M₁ rfl hH hM₁
   obtain ⟨C, -, H0⟩ := hAn F E σ B a _ d₁ G.V G.W W₁ H' i₀ i₁ (a - G.p) G.p _ _ _ _ G.V G.M M₁ rfl (by omega) hH e₀ he₀
   obtain ⟨A₀, c1, c2, -⟩ := H0 _ _ om om₁ hp hp₁ _ (polData_le hp.good (s1 Φ hΦ))
-  obtain ⟨⟨M₂, hM₂⟩, hW'⟩ := hPx F E σ B hT.base _ _ G.V' W₁ _ _ _ _ hT.geo.hV' hW₁
+  obtain ⟨⟨M₂, hM₂⟩, hW'⟩ := hPx F E σ B (.of_isGood hT.base) _ _ G.V' W₁ _ _ _ _ hT.geo.hV' hW₁
   obtain ⟨om₂, hp₂⟩ := hW' _ _ hp'.hX hp'.hW hp'.resX (res_low hp'.resW hH.rank) M₂ hM₂
   obtain ⟨ya, yb, hy, Ψ₁, hΨ₁, hv⟩ := small hS hM hZ hP hT hH hp₂ (by omega) (by omega) (s2 Φ' hΦ')
   have e := congrFun (comp_eq hI hC hA hU hT hH (s1 Φ hΦ) (s2 Φ' hΦ') (xa := 0) (xb := A₀)
@@ -536,20 +536,20 @@ theorem betaZero_of (hI : ThKEnd.Iwa) (hC : CTBasic) (hA : IAut) (hU : UnipEx) (
     rw [e]
     exact ThKG.pureA_mem f hg
   obtain ⟨hp, hp', hw⟩ := hP F E σ B a a' G X om om' hT
-  obtain ⟨h1, h2, hW₁⟩ := (hL F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ hT.base hH).2 hT.geo.hW
+  obtain ⟨h1, h2, hW₁⟩ := (hL F E σ B _ _ G.W W₁ H' i₀ i₁ _ _ (.of_isGood hT.base) hH).2 hT.geo.hW
   have hlt := hT.geo.lt
   have heB := hT.geo.eBig
   have haB := hT.geo.aBig
   obtain ⟨k, hk⟩ := hT.geo.even
   have hrk := hH.rank
   obtain ⟨Φ, hΦ, Φ', hΦ', rfl⟩ := hf
-  obtain ⟨⟨M₁, hM₁⟩, hW⟩ := hPx F E σ B hT.base _ _ G.V W₁ _ _ _ _ hT.geo.hV hW₁
+  obtain ⟨⟨M₁, hM₁⟩, hW⟩ := hPx F E σ B (.of_isGood hT.base) _ _ G.V W₁ _ _ _ _ hT.geo.hV hW₁
   obtain ⟨om₁, hp₁⟩ := hW _ _ hp.hX hp.hW hp.resX (res_low hp.resW hH.rank) M₁ hM₁
   obtain ⟨⟨e₀, he₀⟩, -⟩ := hZ F E σ B _ _ G.V G.W G.M _ _ om _ _ _ _ hp d₁ G.V W₁ H' i₀ i₁ M₁ rfl hH hM₁
   obtain ⟨C₀, -, H0⟩ := hB F E σ B a (a + a') d₁ G.V G.W W₁ H' i₀ i₁ (a - G.p) G.p _ _ G.M M₁
     (by omega) ⟨(a - a') / 2, by omega, by omega⟩ hH e₀ he₀
   obtain ⟨A₀, A₁, c1, c2, c3, c4⟩ := H0 _ _ om om₁ (IsPair.cast hp rfl rfl (by omega) (by omega)) hp₁ Φ hΦ (by simp)
-  obtain ⟨⟨M₂, hM₂⟩, hW'⟩ := hPx F E σ B hT.base _ _ G.V' W₁ _ _ _ _ hT.geo.hV' hW₁
+  obtain ⟨⟨M₂, hM₂⟩, hW'⟩ := hPx F E σ B (.of_isGood hT.base) _ _ G.V' W₁ _ _ _ _ hT.geo.hV' hW₁
   obtain ⟨om₂, hp₂⟩ := hW' _ _ hp'.hX hp'.hW hp'.resX (res_low hp'.resW hH.rank) M₂ hM₂
   obtain ⟨⟨e₂, he₂⟩, -⟩ := hZ F E σ B _ _ G.V' G.W G.M' _ _ om' _ _ _ _ hp' d₁ G.V' W₁ H' i₀ i₁ M₂ rfl hH hM₂
   obtain ⟨C, -, H1⟩ := hAn F E σ B a' _ d₁ G.V' G.W W₁ H' i₀ i₁ G.q (a' - G.q) _ _ _ _ G.V' G.M' M₂ rfl (by omega) hH e₂ he₂
@@ -582,13 +582,13 @@ theorem alphaLow_of (hI : ThKEnd.Iwa) (hC : CTBasic) (hA : IAut) (hU : UnipEx) (
   obtain ⟨Φ, hΦ, Φ', hΦ', rfl⟩ := hf
   obtain ⟨s1, s2⟩ := hSt F E σ B _ a' G X om om' hT k hk
   obtain ⟨⟨e, he⟩, -⟩ := hCo F E σ B _ _ G.V G.W G.M _ _ om _ _ _ _ hp _ _ G₁.V G₁.W H H' _ _ _ _ G₁.M hc.hH hc.hH' hp₁.good
-  obtain ⟨K, μK, μ, hK1, -, hμK, hμ⟩ := hSx F E σ B _ G.V _ _ hT.base hp.herm
+  obtain ⟨K, μK, μ, hK1, -, hμK, hμ⟩ := hSx F E σ B _ G.V _ _ (.of_isGood hT.base) hp.herm
   have hcp := hCP F E σ B b a' G G₁ H H' hc e he K μK μ hK1 hμK hμ X om om' om₁ om₁' hT hT₁ _ (s1 Φ hΦ)
-  obtain ⟨⟨M₁, hM₁⟩, hW⟩ := hPx F E σ B hT.base _ _ G.V G₁.W _ _ _ _ hT.geo.hV hT₁.geo.hW
+  obtain ⟨⟨M₁, hM₁⟩, hW⟩ := hPx F E σ B (.of_isGood hT.base) _ _ G.V G₁.W _ _ _ _ hT.geo.hV hT₁.geo.hW
   obtain ⟨⟨e₀, he₀⟩, -⟩ := hZ F E σ B _ _ G.V G.W G.M _ _ om _ _ _ _ hp _ G.V G₁.W H' _ _ M₁ rfl hc.hH' hM₁
   obtain ⟨C₀, C₁, -, -, H0⟩ := hB F E σ B _ _ _ _ G.V G.W G₁.V G₁.W H H' _ _ _ _ (b - G₁.p) G₁.p (b + a' - (G₁.p + G₁.q))
     (G₁.p + G₁.q) G.M G₁.M hc.hH hc.hH' M₁ e₀ e hM₁ hT₁.geo.hM he₀ he ((b + 2 - a') / 2) ⟨by omega, by omega⟩ K μK μ
-    (hIw F E σ B _ _ G.V _ _ H hT.base hT.geo.hV (adapted_x_ne hc.hH) hc.hH.xx K hK1) hμK hμ
+    (hIw F E σ B _ _ G.V _ _ H (.of_isGood hT.base) hT.geo.hV (adapted_x_ne hc.hH) hc.hH.xx K hK1) hμK hμ
   obtain ⟨om₂, hp₂⟩ := hW _ _ hp.hX hp.hW hp.resX hp₁.resW M₁ hM₁
   obtain ⟨hs1, hf⟩ := hK F E σ B _ _ _ _ _ _ _ _ _ _ _ _ hp K hK1 _ (s1 Φ hΦ)
   obtain ⟨A₀, A₁, c1, c2, c3, c4⟩ := H0 _ _ om om₂ om₁ (IsPair.cast hp (by omega) (by omega) (by omega) (by omega))
@@ -1001,7 +1001,7 @@ theorem sigSplit_of (hS : SplitEx) (hP : Tow.PlaneSkew) (hI : Iwa) (hC : CTBasic
   have g := t.geo
   have := g.aBig
   have := g.lt
-  obtain ⟨Y, W₁, H, h1, -, h2⟩ := hP F E σ B t.base (a + a') (a + a' - 2) (by omega) (by omega) G.W _ _ (by omega) hy g.hW 0 1
+  obtain ⟨Y, W₁, H, h1, -, h2⟩ := hP F E σ B (.of_isGood t.base) (a + a') (a + a' - 2) (by omega) (by omega) G.W _ _ (by omega) hy g.hW 0 1
     one_pos (by omega)
   have t' : IsTriple B (reG G G.V G.V' Y) X om om' :=
     ⟨t.base, ⟨g.lt, g.even, g.kappa, g.eBig, g.aBig, g.hV, g.hV', h1, ⟨g.hM.rat, g.hM.vac, g.hM.std, g.hM.haar, g.hM.dom⟩,
@@ -1060,10 +1060,10 @@ theorem iAut_of (hT : ThetaBasic) (hC : PositivityTheory.ThKF.ICont) (hS : Posit
     · simp
     · rw [pow_add, div_eq_mul_inv, ← inv_pow, inv_neg, inv_one]
   have pairV : IsPair B G.M X.β (X.β / X.α) om (a - G.p) G.p (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨t.base, t.geo.hV, t.geo.hW, t.geo.hM, t.chars.heckeβ, hecke_div t.chars.heckeβ t.chars.heckeα,
+    ⟨.of_isGood t.base, t.geo.hV, t.geo.hW, t.geo.hM, t.chars.heckeβ, hecke_div t.chars.heckeβ t.chars.heckeα,
       t.chars.resβ, res_div t.chars.resβ t.chars.resα rfl, t.weil⟩
   have pairV' : IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, hecke_div t.chars.heckeα t.chars.heckeβ,
+    ⟨.of_isGood t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, hecke_div t.chars.heckeα t.chars.heckeβ,
       t.chars.resα, res_div t.chars.resα t.chars.resβ (add_comm _ _), t.weil'⟩
   have weilCondV : a + a' + 2 * min (a - G.p) G.p < 2 * a ∨ min (a - G.p) G.p = 0 := by
     have := t.geo.eBig
@@ -1179,11 +1179,11 @@ theorem sigRe_of (hA : ArchOp) (hM : CartanMove) (hC : CartanConj) (hI : Positiv
     · rw [pow_add, div_eq_mul_inv, ← inv_pow, inv_neg, inv_one]
   have pairV {G : Geo σ a a'} {om : Rep σ G.V G.W} {om' : Rep σ G.V' G.W} (h : IsTriple B G X om om') :
       IsPair B G.M X.β (X.β / X.α) om (a - G.p) G.p (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨h.base, h.geo.hV, h.geo.hW, h.geo.hM, h.chars.heckeβ, hecke_div h.chars.heckeβ h.chars.heckeα, h.chars.resβ,
+    ⟨.of_isGood h.base, h.geo.hV, h.geo.hW, h.geo.hM, h.chars.heckeβ, hecke_div h.chars.heckeβ h.chars.heckeα, h.chars.resβ,
       res_div h.chars.resβ h.chars.resα rfl, h.weil⟩
   have pairV' {G : Geo σ a a'} {om : Rep σ G.V G.W} {om' : Rep σ G.V' G.W} (h : IsTriple B G X om om') :
       IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) :=
-    ⟨h.base, h.geo.hV', h.geo.hW, h.geo.hM', h.chars.heckeα, hecke_div h.chars.heckeα h.chars.heckeβ, h.chars.resα,
+    ⟨.of_isGood h.base, h.geo.hV', h.geo.hW, h.geo.hM', h.chars.heckeα, hecke_div h.chars.heckeα h.chars.heckeβ, h.chars.resα,
       res_div h.chars.resα h.chars.resβ (add_comm _ _), h.weil'⟩
   have polData_le {n d : ℕ} {Y : Spc F E n} {Z : Spc F E d} {M : Model σ Y Z}
       (hM : M.IsGood B.ψ) : PolData B M ≤ schA F (Fin n × Fin d) := by

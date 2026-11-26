@@ -29,7 +29,7 @@ section Pair
 variable {n d n₁ d₁ : ℕ} {X : Spc F E n} {W : Spc F E d} {X₁ : Spc F E n₁} {W₁ : Spc F E d₁}
 
 structure IsPair (B : Base F E) (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W) (r s r' s' : ℕ) : Prop where
-  base : B.IsGood σ
+  base : UpperTheory.TP.W.GoodK σ B
   herm : X.IsHerm σ B r s
   skew : W.IsSkew σ B r' s'
   good : M.IsGood B.ψ
@@ -180,7 +180,7 @@ def EvCone : Prop :=
       (∃ e, IsEv B M M₁ H.ι H'.ι (isoA H H') e) ∧ ∃ e, IsEv B M M₁ H.ι H'.ι (isoB H H') e
 
 def StabEx : Prop :=
-  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n : ℕ) (X : Spc F E n) (r s : ℕ), B.IsGood σ → X.IsHerm σ B r s →
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n : ℕ) (X : Spc F E n) (r s : ℕ), UpperTheory.TP.W.GoodK σ B → X.IsHerm σ B r s →
     ∃ (K : Subgroup (UA σ X.J)) (μK : Measure K) (μ : Measure (AE F E)ˣ), IsStab B K ∧ IsCompact (K : Set (UA σ X.J)) ∧
       μK.IsHaarMeasure ∧ μ.IsHaarMeasure
 

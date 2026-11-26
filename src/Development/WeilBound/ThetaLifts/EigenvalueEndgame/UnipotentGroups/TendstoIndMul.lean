@@ -300,9 +300,9 @@ theorem match_fin (hP : PositivityTheory.ThKF.PureAct) (hm : IsMatched B G X om 
     (hh : h ∈ UAt σ G.W (evFin F v)) {Φ Φ'} (H : PolMatch B G X R Rf Φ Φ') : PolMatch B G X R Rf (om (1, h) Φ) (om' (1, h) Φ') := by
   classical
   have t := hm.triple
-  obtain ⟨ω, ρ, L⟩ := PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B _ _ G.M om ⟨t.base, ⟨_, _, t.geo.hV⟩, ⟨_, _, t.geo.hW⟩, t.geo.hM, _, _, t.weil⟩ v
+  obtain ⟨ω, ρ, L⟩ := PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B _ _ G.M om ⟨.of_isGood t.base, ⟨_, _, t.geo.hV⟩, ⟨_, _, t.geo.hW⟩, t.geo.hM, _, _, t.weil⟩ v
   obtain ⟨ω', ρ', L'⟩ := PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B _ _ G.M' om'
-    ⟨t.base, ⟨_, _, t.geo.hV'⟩, ⟨_, _, t.geo.hW⟩, t.geo.hM', _, _, t.weil'⟩ v
+    ⟨.of_isGood t.base, ⟨_, _, t.geo.hV'⟩, ⟨_, _, t.geo.hW⟩, t.geo.hM', _, _, t.weil'⟩ v
   have o := PositivityTheory.ThKH.Locrep.one_mem_UAt (σ := σ) G.V v
   have o' := PositivityTheory.ThKH.Locrep.one_mem_UAt (σ := σ) G.V' v
   obtain ⟨Op, o1, o2⟩ := common_op (S' := SB _) (hm.fin.onto v) (ω (1, h)) (ω' (1, h)) fun x hx x' hx' e =>

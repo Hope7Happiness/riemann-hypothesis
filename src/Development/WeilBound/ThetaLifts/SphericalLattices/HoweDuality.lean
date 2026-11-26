@@ -1454,7 +1454,7 @@ theorem dbl_eigenW {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F 
     exacts [congrFun (congrFun (hAt _ h1 u hu) i) j, congrFun (congrFun (hAt _ h2 u hu) i) j]
   · intro z hz h
     have ez : z = Matrix.fromCols z.toCols₁ z.toCols₂ := (Matrix.fromCols_toCols z).symm
-    refine ⟨_, mem_latAtV hB hX hW v (fun u hu => ?_) fun γ hγ => ?_, _, mem_latAtV hB hX hW v (fun u hu => ?_) fun γ hγ => ?_, ez⟩
+    refine ⟨_, mem_latAtV (.of_isGood hB) hX hW v (fun u hu => ?_) fun γ hγ => ?_, _, mem_latAtV (.of_isGood hB) hX hW v (fun u hu => ?_) fun γ hγ => ?_, ez⟩
     · ext i j; exact congrFun (congrFun (hz u hu) i) (Sum.inl j)
     · have := h _ ⟨γ, hγ, 0, zero_mem _, rfl⟩
       rwa [ez, symp_dblW, symp_zero, sub_zero] at this
@@ -1504,7 +1504,7 @@ theorem vacFixW {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d
   have hAt := (latAtV_at_stable X W v).1
   obtain ⟨r₀, x₀, h₀, h₁⟩ := exists_base (Fin n × Fin d) v
   have eig : ∀ k ∈ K, ∃ c : ℂ, Acts (evFin F v) (om (1, k)) (M.vac v) (c • M.vac v) := fun k hk =>
-    vacuum_eigenline_of_local locRepEx F E σ n d B X W M om ⟨hB, ⟨_, _, hX⟩, ⟨_, _, hW⟩, hM, _, _, hw⟩ v k hk
+    vacuum_eigenline_of_local locRepEx F E σ n d B X W M om ⟨.of_isGood hB, ⟨_, _, hX⟩, ⟨_, _, hW⟩, hM, _, _, hw⟩ v k hk
   set Φ := tens (evFin F v) (M.vac v) r₀ with hΦ
   have hΦs : Φ ∈ schA F _ := (h₀ _ hsb).2
   obtain ⟨y, hy⟩ := Function.ne_iff.1 h0
@@ -1526,7 +1526,7 @@ theorem vacFixW {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d
   have hcΦ : om (1, k) Φ = c • Φ := by rw [hΦ, hc r₀ (h₀ _ hsb), tens_smul]
   suffices h : c = 1 by rwa [h, one_smul] at hc
   obtain ⟨⟨-, dd, omd, hdd, ⟨-, hsp, hrule⟩, hres⟩, -, -⟩ := hw
-  obtain ⟨b, b', f', b1, b2, hb, pb, pf, hf⟩ := exists_beta hB hL k (hU k hk) (hP k hk) (hP _ (inv_mem hk))
+  obtain ⟨b, b', f', b1, b2, hb, pb, pf, hf⟩ := exists_beta (.of_isGood hB) hL k (hU k hk) (hP k hk) (hP _ (inv_mem hk))
   obtain ⟨gd, hgd⟩ := GlobalTheory.unitary_diag_one_mem_dbl (AF F) (AE F E) (cA σ) (Fin d) (incM F W.J) k
   have hm : At (evFin F v) (1 - mat k) := by simpa using at_sub at_zero (hU k hk)
   have pm : 1 - mat k ∈ Pres v W := sub_mem (one_mem _) (hP k hk)
@@ -1630,7 +1630,7 @@ theorem vacFixX {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d
   have hAt := (latAtV_at_stable X W v).1
   obtain ⟨r₀, x₀, h₀, h₁⟩ := exists_base (Fin n × Fin d) v
   have eig : ∀ k ∈ K, ∃ c : ℂ, Acts (evFin F v) (om (k, 1)) (M.vac v) (c • M.vac v) := fun k hk => by
-    refine eigen M.co hB.std (latAtV X W v) hAt (fun z hz h => mem_latAtV hB hX hW v hz h) _ hsb h0
+    refine eigen M.co hB.std (latAtV X W v) hAt (fun z hz h => mem_latAtV (.of_isGood hB) hX hW v hz h) _ hsb h0
       (fun γ hγ => (eq_of_acts v h₁ (h₀ _ hsb) (GlobalTheory.VacBridge.rho_acts_locCo M.co B.ψ v γ (hAt γ hγ) _)).trans
         (eq_of_acts v h₁ (h₀ _ hsb) (hθ γ hγ)).symm) (om (k, 1)) (hs.pres _) (hs.adm _) (actAB (cA σ) (k, 1)) (hs.impl _)
       (fun u hu => act_away (hU k hk) (PositivityTheory.ThKH.Locrep.one_mem_UAt W v) hu) fun γ hγ => ⟨mat k⁻¹ * γ, mul_latAtV (hP _ (inv_mem hk)) hγ, ?_, ?_⟩
@@ -1659,7 +1659,7 @@ theorem vacFixX {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d
   have hcΦ : om (k, 1) Φ = c • Φ := by rw [hΦ, hc r₀ (h₀ _ hsb), tens_smul]
   suffices h : c = 1 by rwa [h, one_smul] at hc
   obtain ⟨-, ⟨d', hd', -, dd, omd, hdd, ⟨-, hsp, hrule⟩, hres⟩, -⟩ := hw
-  obtain ⟨b, b', f', b1, b2, hb, pb, pf, hf⟩ := exists_beta hB hL k (hU k hk) (hP k hk) (hP _ (inv_mem hk))
+  obtain ⟨b, b', f', b1, b2, hb, pb, pf, hf⟩ := exists_beta (.of_isGood hB) hL k (hU k hk) (hP k hk) (hP _ (inv_mem hk))
   obtain ⟨gd, hgd⟩ := GlobalTheory.unitary_diag_one_mem_dbl (AF F) (AE F E) (cA σ) (Fin n) (incM F X.J) k
   have hm : At (evFin F v) (1 - mat k) := by simpa using at_sub at_zero (hU k hk)
   have pm : 1 - mat k ∈ Pres v X := sub_mem (one_mem _) (hP k hk)
@@ -1691,7 +1691,7 @@ theorem vacFixX {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d
     rw [i1, i2]; rfl
   have ev : ∀ g : UG (cA σ) (dbl (incM F X.J)), At (evFin F v) (g.1.1 - 1) → PresD v X (g⁻¹).1.1 →
       ∃ a : ℂ, omd g (boxFun Φ (star Φ)) = a • boxFun Φ (star Φ) := fun g h1 h2 => by
-    obtain ⟨a, ha⟩ := dbl_eigen hB hX hW vd hd' hdd hsp.toIsSplitting g h1 h2
+    obtain ⟨a, ha⟩ := dbl_eigen (.of_isGood hB) hX hW vd hd' hdd hsp.toIsSplitting g h1 h2
     exact ⟨a, by rw [bt, ha _ rd, tens_smul]⟩
   obtain ⟨a, ha⟩ := ev s₀ (by
       rw [es]
@@ -1769,7 +1769,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem inert_ctx {B : Base F E} {a a' : ℕ} {G : Geo σ a a'} {X : Chars F E} {om : Rep σ G.V G.W} {om' : Rep σ G.V' G.W}
     (hT : IsTriple B G X om om') {v : Pl F} (he : IsEmpty (E →ₐ[F] Fv F v)) :
     (∃ w, Formalism.UG.IsInertAt F E v w) ∧ v ∉ X.T :=
-  ⟨inert_of_local F E σ B hT.base v he, fun hv => he.false (B.τ ⟨v, hT.chars.sub hv⟩)⟩
+  ⟨inert_of_local F E σ B (.of_isGood hT.base) v he, fun hv => he.false (B.τ ⟨v, hT.chars.sub hv⟩)⟩
 
 theorem unrAt_div {χ χ' : Chr F E} {u : HeightOneSpectrum (𝓞 E)} (h : UnrAt χ u) (h' : UnrAt χ' u) :
     UnrAt (χ / χ') u := fun x hx => by

@@ -423,7 +423,8 @@ section -- clump:auto
 
 namespace UpperTheory.Lit
 
-theorem weilRepresentationExists_pair : GlobalTheory.Published.WeilRepresentationExists := PositivityTheory.ThKW.S.weilEx
+theorem weilRepresentationExists_pair : GlobalTheory.Published.WeilRepresentationExists :=
+  fun F E _ _ _ _ _ σ B hB => PositivityTheory.ThKW.S.weilEx F E σ B (.of_isGood hB)
 
 end UpperTheory.Lit
 end -- clump:auto

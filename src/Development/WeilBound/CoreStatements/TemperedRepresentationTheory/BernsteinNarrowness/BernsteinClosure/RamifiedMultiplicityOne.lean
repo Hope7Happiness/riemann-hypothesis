@@ -1076,7 +1076,7 @@ theorem soCoinv_of (NB : GlobalTheory.CompanionTheory.BernBridge.Split.NarrowBer
   intro F E _ _ _ _ _ σ B a a' G X om om' hT φ hφ hA
   obtain ⟨Rf, hF⟩ := hK F E σ B a a' G X om om' hT
   have ha' : 1 ≤ a' := by have := hT.geo.aBig; omega
-  obtain ⟨⟨ι, hι⟩, ν, α, hν, -, h1, hd⟩ := hD F E σ _ _ B G.V' G.W G.M' om' _ _ hT.base ⟨_, _, hT.geo.hV'⟩ ⟨_, _, hT.geo.hW⟩
+  obtain ⟨⟨ι, hι⟩, ν, α, hν, -, h1, hd⟩ := hD F E σ _ _ B G.V' G.W G.M' om' _ _ (.of_isGood hT.base) ⟨_, _, hT.geo.hV'⟩ ⟨_, _, hT.geo.hW⟩
     hT.geo.hM' hT.weil' hT.chars.heckeα (isHecke_div hT.chars.heckeα hT.chars.heckeβ) B.v₁ B.τ₁
   have hn := nu_statement F E σ B a a' G X om om' hT B.v₁ hT.chars.good
   have hν1 : ν ≠ 1 := fun e => (h1 ha' (by omega) e).elim (hn _) (hn _)

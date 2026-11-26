@@ -53,7 +53,7 @@ theorem torBd_sum {B : Base F E} {M : Model σ X W} {χX χW : Chr F E} {om : Re
       thetaSum_add F (hpres _ _ (hΦ a)) (hpres _ _ (Submodule.sum_mem _ fun i _ => hΦ i)), ENNReal.coe_add, add_mul]
     exact (enorm_add_le _ _).trans (add_le_add (hA s hs t ht κ hκ κ' hκ') (hA' s hs t ht κ hκ κ' hκ'))
 
-theorem torBd_pure (hC : LatCpt) {B : Base F E} {M : Model σ X W} {om : Rep σ X W} (hB : B.IsGood σ) (hX : EpsHerm σ X.J)
+theorem torBd_pure (hC : LatCpt) {B : Base F E} {M : Model σ X W} {om : Rep σ X W} (hB : UpperTheory.TP.W.GoodK σ B) (hX : EpsHerm σ X.J)
     (hW : EpsHerm σ W.J) {fr : Frame σ X.J} {fr' : Frame σ W.J} {𝓕 : Set ((Fin n × Fin d → Af F) → ℂ)}
     {S : Set (Matrix (Fin n) (Fin d) E)} (hS : SqBound B M om 𝓕 S) {e e₂ : (Fin fr.r → ℝ) → (Fin fr'.r → ℝ) → ℝ} {N : ℕ}
     (hT : ∀ C, IsCompact C → ∃ K : ℝ≥0, ∀ s ∈ Cone fr.r, ∀ t ∈ Cone fr'.r,
@@ -244,9 +244,9 @@ theorem res_div {K : Subgroup (AF F)ˣ} {χ₁ χ₂ : Chr F E} {a b n : ℕ} (h
 theorem triplePair_holds : TriplePair := by
   intro F E _ _ _ _ _ σ B a a' G X om om' h
   have g := h.geo.eBig
-  exact ⟨⟨h.base, h.geo.hV, h.geo.hW, h.geo.hM, h.chars.heckeβ, hecke_div h.chars.heckeβ h.chars.heckeα, h.chars.resβ,
+  exact ⟨⟨.of_isGood h.base, h.geo.hV, h.geo.hW, h.geo.hM, h.chars.heckeβ, hecke_div h.chars.heckeβ h.chars.heckeα, h.chars.resβ,
       res_div h.chars.resβ h.chars.resα h.geo.even h.geo.even, h.weil⟩,
-    ⟨h.base, h.geo.hV', h.geo.hW, h.geo.hM', h.chars.heckeα, hecke_div h.chars.heckeα h.chars.heckeβ, h.chars.resα,
+    ⟨.of_isGood h.base, h.geo.hV', h.geo.hW, h.geo.hM', h.chars.heckeα, hecke_div h.chars.heckeα h.chars.heckeβ, h.chars.resα,
       res_div h.chars.resα h.chars.resβ (add_comm a a' ▸ h.geo.even) h.geo.even, h.weil'⟩, by omega⟩
 
 theorem sqInt_of_leaves (hTh : ThetaBasic) (hG : GrpTop) (hE : EpsOf) (hS : SiegelAll) (hA : SqAll) (hO : SqSo) (hF : SoFin)

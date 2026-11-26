@@ -319,7 +319,7 @@ theorem vac_ind {B : Base F E} (hB : B.IsGood σ) {r s r' s' : ℕ} (hX : X.IsHe
     (mul_eq_right₀ h1).1 (hι.mult u (hAt u hu) hu0 φ hs φ hs (fix u hu (Or.inl hu0)) x hx h0).symm
   have k2 : ∀ x, At (evFin F v) x → x.map π₀ = 0 → (∀ u ∈ latAtV X W v, u.map π₁ = 0 →
       B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) x u) = 1) → x ∈ latAtV X W v := fun x hx h0 H =>
-    Vac.mem_latAtV hB hX hW v hx fun γ hγ => by
+    Vac.mem_latAtV (.of_isGood hB) hX hW v hx fun γ hγ => by
       obtain ⟨γ₀, h1, h2, h3⟩ := spl γ hγ
       have e0 : symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) (γ - γ₀) x = 0 := by
         rw [symp, iso _ x ((hAt γ hγ).kd_sub (hAt γ₀ h1)) (Or.inr ⟨h3, h0⟩), mul_zero, map_zero]
@@ -434,7 +434,7 @@ theorem model_Bar {B : Base F E} (hB : B.IsGood σ) {r s r' s' : ℕ} (hX : X.Is
     {b' : GL (Fin n) (Fv F v)} (hb' : b'.1 = δ • b.1) : ∃ ι, M.IsLinBar B.ψ t b' c ι ∧ ι (M.vac v) = intInd v ∧
       (∀ g ∈ UAt σ X (evFin F v), Reads v ι (om (g, 1)) (omB (chrW χW t) (chrW χX t) (inB t b' g) 1)) ∧
       ∀ h ∈ UAt σ W (evFin F v), Reads v ι (om (1, h)) (omB (chrW χW t) (chrW χX t) 1 (inB t c h)) := by
-  obtain ⟨⟨ι, hι⟩, -, -, k⟩ := dictX F E σ n d B X W M om χX χW hB ⟨_, _, hX⟩ ⟨_, _, hW⟩ hom v t
+  obtain ⟨⟨ι, hι⟩, -, -, k⟩ := dictX F E σ n d B X W M om χX χW (.of_isGood hB) ⟨_, _, hX⟩ ⟨_, _, hW⟩ hom v t
   have lin : ∀ a : ℂ, a ≠ 0 → M.IsLinBar B.ψ t b' c (chg (invT b') c⁻¹ a ι) := fun a ha => lin_chg hι _ _ ha fun u => by
     simp only [invT_val, Units.val_one, transpose_one, Matrix.one_mul, Matrix.mul_one, Matrix.mul_neg, Matrix.neg_mul,
       Matrix.mul_assoc, Units.mul_inv]
@@ -452,7 +452,7 @@ theorem model_alt {B : Base F E} (hB : B.IsGood σ) {r s r' s' : ℕ} (hX : X.Is
     (hβ : ∀ x, chrW χX (t.comp σ) x = (β x)⁻¹) : ∃ ι, M.IsLinW B.ψ t b c ι ∧ ι (M.vac v) = intInd v ∧
       (∀ g ∈ UAt σ X (evFin F v), Reads v ι (om (g, 1)) (omA ν β (inB t b g) 1)) ∧
       ∀ h ∈ UAt σ W (evFin F v), Reads v ι (om (1, h)) (omA ν β 1 (inB t c h)) := by
-  obtain ⟨⟨ι, hι⟩, -, -, k⟩ := dictX F E σ n d B X W M om χX χW hB ⟨_, _, hX⟩ ⟨_, _, hW⟩ hom v (t.comp σ)
+  obtain ⟨⟨ι, hι⟩, -, -, k⟩ := dictX F E σ n d B X W M om χX χW (.of_isGood hB) ⟨_, _, hX⟩ ⟨_, _, hW⟩ hom v (t.comp σ)
   obtain ⟨⟨sec, h⟩, -⟩ := section_statement F E σ hB.cm v (t.comp σ)
   have hG := grams h hX hW
   obtain ⟨A, hA⟩ := hG.uA
@@ -514,7 +514,7 @@ theorem split_place_dictionary : Dict := by
     (chrW_conj hB.cm τ T.chars.resβ)
   obtain ⟨ι', l2, v2, g2, h2⟩ := model_Bar hB T.geo.hV' T.geo.hW (T.geo.hM'.vac v) T.weil' hb₀ hc hδ hb'
   refine ⟨b, b', c, ι, ι', inB τ b, inB τ b', inB τ c, l1, l2, hP, v1, v2, g1, h1, g2, h2, fun x => ?_⟩
-  obtain ⟨-, -, k, -⟩ := dictX F E σ _ _ B _ _ G.M om _ _ hB ⟨_, _, T.geo.hV⟩ ⟨_, _, T.geo.hW⟩ T.weil v τ
+  obtain ⟨-, -, k, -⟩ := dictX F E σ _ _ B _ _ G.M om _ _ (.of_isGood hB) ⟨_, _, T.geo.hV⟩ ⟨_, _, T.geo.hW⟩ T.weil v τ
   obtain ⟨h, hh, e⟩ := k (c * x * c⁻¹)
   refine ⟨h, hh, ?_⟩
   rw [inB, show GeneralLinearGroup.map (piW τ) h.1 = c * x * c⁻¹ from Units.ext e]

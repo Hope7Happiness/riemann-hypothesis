@@ -271,12 +271,12 @@ theorem conv (h : IsLift σ B lift) {ν : Chr F E} {κ : InfinitePlace F → ℕ
   obtain ⟨e1, e2⟩ := nu_eq h hν ((h.idAt t.1).1 t.2)
   rw [hG, rationalWeight_eq_mul_norm_pow κ (e + 1), e1, e2, mul_assoc]
 
-theorem form_yx (hB : B.IsGood σ) {J : Matrix (Fin n) (Fin n) E} {ε : ℤˣ} (hJ : ∀ i j, σ (J j i) = ((ε : ℤ) : E) * J i j)
+theorem form_yx (hB : UpperTheory.TP.W.GoodK σ B) {J : Matrix (Fin n) (Fin n) E} {ε : ℤˣ} (hJ : ∀ i j, σ (J j i) = ((ε : ℤ) : E) * J i j)
     {x y : Fin n → E} (h : form σ J x y = 1) : form σ J y x = ((ε : ℤ) : E) := by
   have hs := PositivityTheory.ThKG.Tow.Levi.sig_sig hB.cm
   rw [← hs (form σ J y x), form_eps hs hJ, h, mul_one, map_intCast]
 
-theorem decomp (hB : B.IsGood σ) {r s} (hX : X.IsHerm σ B r s) {H : Plane E n n₁} {i j} (hH : H.IsAdapted σ B X X₁ i j)
+theorem decomp (hB : UpperTheory.TP.W.GoodK σ B) {r s} (hX : X.IsHerm σ B r s) {H : Plane E n n₁} {i j} (hH : H.IsAdapted σ B X X₁ i j)
     (z : Fin n → AE F E) : ∃ (U : Fin n₁ → AE F E) (a : AE F E),
       z = incM F H.ι *ᵥ U + a • incV F H.x + cA σ (bA σ X.J (incV F H.x) z) • incV F H.y := by
   obtain ⟨ε, A', hF⟩ := isFr hB (Or.inl hX) hH
@@ -333,7 +333,7 @@ theorem bA_r (J : Matrix (Fin n) (Fin n) E) (a : AE F E) (x y : Fin n → AE F E
   simpa using bA_smul J 1 a x y
 
 theorem genA (hA : ArchOp) (hE : EiDense) (hS : ArchSlice) {M : Model σ X W} {M₁ : Model σ X₁ W₁} {χX χW om om₁ r s r' s' r₁ s₁ r₁' s₁'}
-    (hP : IsPair B M χX χW om r s r' s') (hP₁ : IsPair B M₁ χX χW om₁ r₁ s₁ r₁' s₁') {H : Plane E n n₁} {H' : Plane E d d₁} {i j i' j'}
+    (hBg : B.IsGood σ) (hP : IsPair B M χX χW om r s r' s') (hP₁ : IsPair B M₁ χX χW om₁ r₁ s₁ r₁' s₁') {H : Plane E n n₁} {H' : Plane E d d₁} {i j i' j'}
     (hH : H.IsAdapted σ B X X₁ i j) (hH' : H'.IsAdapted σ B W W₁ i' j') {e ei ev} (he : IsEv B M M₁ H.ι H'.ι (isoA H H') e)
     (hv : IsEvLoc M M₁ e ei ev) {rX rW} (hm : Mix2 H H' χX χW rX rW om om₁ e) {K : Subgroup (UA σ X.J)} {m : LocMeas K}
     (hK : IsStab B K) (hm' : m.Is) {ν : Chr F E} (hc : Continuous ν) {κ : InfinitePlace F → ℕ} (hν : HasExp B.emb ν fun w => κ w)
@@ -343,7 +343,7 @@ theorem genA (hA : ArchOp) (hE : EiDense) (hS : ArchSlice) {M : Model σ X W} {M
   by_contra hn
   push Not at hn
   have cfg : Cfg B M M₁ H H' e (shiftA H H') :=
-    ⟨hP.base, ⟨_, _, hP.herm⟩, ⟨_, _, hP.skew⟩, ⟨_, _, hP₁.herm⟩, ⟨_, _, hP₁.skew⟩, hP.good, hP₁.good, ⟨_, _, hH⟩, ⟨_, _, hH'⟩, Or.inl ⟨he, rfl⟩⟩
+    ⟨hBg, ⟨_, _, hP.herm⟩, ⟨_, _, hP.skew⟩, ⟨_, _, hP₁.herm⟩, ⟨_, _, hP₁.skew⟩, hP.good, hP₁.good, ⟨_, _, hH⟩, ⟨_, _, hH'⟩, Or.inl ⟨he, rfl⟩⟩
   obtain ⟨lift, hlf⟩ := archDict_of F E σ B hP.base
   obtain ⟨hcp, hin, hsl⟩ := hS F E σ B n d n₁ d₁ X W X₁ W₁ M M₁ H H' e _ ei ev cfg hv lift hlf K m hK hm' _ _ om _ _ _ _ hP
   obtain ⟨f₀, hf₀⟩ := hE F E σ B n d n₁ d₁ X W X₁ W₁ M M₁ H H' e _ ei ev cfg hv l hl0
@@ -424,7 +424,7 @@ theorem genA (hA : ArchOp) (hE : EiDense) (hS : ArchSlice) {M : Model σ X W} {M
 
 
 theorem genB (hA : ArchOp) (hE : EiDense) (hS : ArchSlice) {M : Model σ X W} {M₁ : Model σ X₁ W₁} {χX χW om om₁ r s r' s' r₁ s₁ r₁' s₁'}
-    (hP : IsPair B M χX χW om r s r' s') (hP₁ : IsPair B M₁ χX χW om₁ r₁ s₁ r₁' s₁') {H : Plane E n n₁} {H' : Plane E d d₁} {i j i' j'}
+    (hBg : B.IsGood σ) (hP : IsPair B M χX χW om r s r' s') (hP₁ : IsPair B M₁ χX χW om₁ r₁ s₁ r₁' s₁') {H : Plane E n n₁} {H' : Plane E d d₁} {i j i' j'}
     (hH : H.IsAdapted σ B X X₁ i j) (hH' : H'.IsAdapted σ B W W₁ i' j') {e ei ev} (he : IsEv B M M₁ H.ι H'.ι (isoB H H') e)
     (hv : IsEvLoc M M₁ e ei ev) {rX rW} (hm : Mix2 H H' χX χW rX rW om om₁ e) {K : Subgroup (UA σ X.J)} {m : LocMeas K}
     (hK : IsStab B K) (hm' : m.Is) {ν : Chr F E} (hc : Continuous ν) {κ : InfinitePlace F → ℕ} (hν : HasExp B.emb ν fun w => κ w)
@@ -434,7 +434,7 @@ theorem genB (hA : ArchOp) (hE : EiDense) (hS : ArchSlice) {M : Model σ X W} {M
   by_contra hn
   push Not at hn
   have cfg : Cfg B M M₁ H H' e (shiftB σ H H') :=
-    ⟨hP.base, ⟨_, _, hP.herm⟩, ⟨_, _, hP.skew⟩, ⟨_, _, hP₁.herm⟩, ⟨_, _, hP₁.skew⟩, hP.good, hP₁.good, ⟨_, _, hH⟩, ⟨_, _, hH'⟩, Or.inr ⟨he, rfl⟩⟩
+    ⟨hBg, ⟨_, _, hP.herm⟩, ⟨_, _, hP.skew⟩, ⟨_, _, hP₁.herm⟩, ⟨_, _, hP₁.skew⟩, hP.good, hP₁.good, ⟨_, _, hH⟩, ⟨_, _, hH'⟩, Or.inr ⟨he, rfl⟩⟩
   obtain ⟨lift, hlf⟩ := archDict_of F E σ B hP.base
   obtain ⟨hcp, hin, hsl⟩ := hS F E σ B n d n₁ d₁ X W X₁ W₁ M M₁ H H' e _ ei ev cfg hv lift hlf K m hK hm' _ _ om _ _ _ _ hP
   obtain ⟨f₀, hf₀⟩ := hE F E σ B n d n₁ d₁ X W X₁ W₁ M M₁ H H' e _ ei ev cfg hv l hl0
@@ -564,7 +564,7 @@ theorem genB (hA : ArchOp) (hE : EiDense) (hS : ArchSlice) {M : Model σ X W} {M
 theorem kap_ex {a a' : ℕ} {G : Geo σ a a'} {Y : Chars F E} {om om'} (t : IsTriple B G Y om om') :
     ∃ κ : InfinitePlace F → ℕ, (∀ w, a + a' < κ w) ∧ HasExp B.emb Y.ν fun w => κ w := by
   refine ⟨fun w => (B.mα w - B.mβ w).toNat, fun w => by have := t.geo.kappa w; beta_reduce; omega, fun z hz => ?_⟩
-  obtain ⟨lift, h⟩ := archDict_of F E σ B t.base
+  obtain ⟨lift, h⟩ := archDict_of F E σ B (.of_isGood t.base)
   rw [Chars.ν, MonoidHom.div_apply, Circle.coe_div, t.chars.expα z hz, t.chars.expβ z hz, ← Finset.prod_div_distrib]
   refine Finset.prod_congr rfl fun w _ => ?_
   have h0 : piInf (B.emb w) (z : AE F E) ≠ 0 := (z.isUnit.map _).ne_zero
@@ -581,7 +581,7 @@ theorem bumpA_of (hA : ArchOp) (hE : EiDense) (hS : ArchSlice) (hM : MixAB) : Bu
   have h1 := t.geo.eBig; have h2 := t₁.geo.eBig; have h3 := c.ep; have h4 := c.q0; have h5 := c.q1
   obtain ⟨z, hz⟩ : ∃ z, (b + 2 - a') / 2 = z + 1 := ⟨(b + 2 - a') / 2 - 1, by omega⟩
   rw [hz] at hL
-  refine genA hA hE hS (pairV t) (pairV t₁) c.hH c.hH' he hv ((hM F E σ B _ _ _ _ _ _ _ _ H H' _ _ _ _ _ _ _ _ _ _ c.hH c.hH' _ _ om om₁
+  refine genA hA hE hS t.base (pairV t) (pairV t₁) c.hH c.hH' he hv ((hM F E σ B _ _ _ _ _ _ _ _ H H' _ _ _ _ _ _ _ _ _ _ c.hH c.hH' _ _ om om₁
     (pcast (pairV t) (by omega) (by omega) (by omega) (by omega)) (pairV t₁)).1 e he) hK hm
     (isHecke_div t.chars.heckeα t.chars.heckeβ).1 hκ (fun x => ?_) hL hl0 hl
   simp
@@ -590,7 +590,7 @@ theorem bumpB_of (hA : ArchOp) (hE : EiDense) (hS : ArchSlice) (hM : MixAB) : Bu
   intro F E _ _ _ _ _ σ B a b G G₁ H H' c e ei ev he hv K m hK hm X om om' om₁ om₁' t t₁ L hL l hl0 hl
   obtain ⟨κ, hκ', hκ⟩ := kap_ex t
   have h1 := t.geo.aBig; have h2 := t₁.geo.aBig; have h3 := c.ep; have h4 := c.eq; have h5 := t.geo.lt
-  exact genB hA hE hS (pairV' t) (pairV' t₁) c.hH c.hH' he hv ((hM F E σ B _ _ _ _ _ _ _ _ H H' _ _ _ _ _ _ _ _ _ _ c.hH c.hH' _ _ om' om₁'
+  exact genB hA hE hS t.base (pairV' t) (pairV' t₁) c.hH c.hH' he hv ((hM F E σ B _ _ _ _ _ _ _ _ H H' _ _ _ _ _ _ _ _ _ _ c.hH c.hH' _ _ om' om₁'
     (pcast (pairV' t) (by omega) (by omega) (by omega) (by omega)) (pairV' t₁)).2 e he) hK hm
     (isHecke_div t.chars.heckeα t.chars.heckeβ).1 hκ (fun x => rfl) (fun w => by have := hκ' w; omega) hL hl0 hl
 

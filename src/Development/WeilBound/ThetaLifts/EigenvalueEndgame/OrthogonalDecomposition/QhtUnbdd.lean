@@ -32,7 +32,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 variable {B : Base F E} {n d : ℕ} {X : Spc F E n} {W : Spc F E d} {M : Model σ X W} {χX χW : Chr F E} {om : Rep σ X W}
   {r s r' s' : ℕ}
 
-theorem qht_unbdd (hE : EpsOf) (hS : SiegelAll) (hH : PositivityTheory.ThKG.Tow.PlaneHerm) (hB : B.IsGood σ) (hX : X.IsHerm σ B r s)
+theorem qht_unbdd (hE : EpsOf) (hS : SiegelAll) (hH : PositivityTheory.ThKG.Tow.PlaneHerm) (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s)
     (h1 : 1 ≤ r) (h2 : 1 ≤ s) (h3 : 3 ≤ n) (b : ℝ) : ∃ g : UA σ X.J, b < qht g := by
   by_contra hn
   push Not at hn

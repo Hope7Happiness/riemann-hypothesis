@@ -230,7 +230,7 @@ theorem key {B : Base F E} {M : Model σ X W} {M₁ : Model σ X₁ W₁} {H : P
     (b : AE F E) (hb : At (evFin F v) (b • V₀)) (hne : ev v (rv B M v (b • V₀) φ) ≠ 0) : a • b • V₀ ∈ latAtV X W v := by
   obtain ⟨r, s, hX⟩ := hc.herm
   obtain ⟨r', s', hW⟩ := hc.skew
-  refine PositivityTheory.ThK.Vac.mem_latAtV hc.base hX hW v (at_smul a hb) fun γ hγ => ?_
+  refine PositivityTheory.ThK.Vac.mem_latAtV (.of_isGood hc.base) hX hW v (at_smul a hb) fun γ hγ => ?_
   obtain ⟨t, ht, e1⟩ := hcomp γ hγ
   have hi : At (evFin F v) (a • t • V₁) := at_smul a ((latAtV_at_stable X W v).1 _ ht)
   have e2 : a • t • V₁ = (algebraMap (AF F) (AE F E) a * t) • V₁ := by rw [mul_smul, algebraMap_smul]

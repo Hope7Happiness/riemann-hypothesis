@@ -342,7 +342,7 @@ private theorem full_of_self_dual {n : ℕ} (J : Matrix (Fin n) (Fin n) E) (L : 
     exact RingOfIntegers.not_isField E
       (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
 
-theorem exists_plane {B : Base F E} (hB : B.IsGood σ) {ε : E} (hε : ε = 1 ∨ ε = -1) {κ : ℂ} (hκ1 : κ * star κ = 1)
+theorem exists_plane {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {ε : E} (hε : ε = 1 ∨ ε = -1) {κ : ℂ} (hκ1 : κ * star κ = 1)
     (hκ : ∀ e : E →+* ℂ, star κ * e ε = κ) (D : Submodule (𝓞 E) E) (hD1 : (1 : E) ∈ D)
     (hDτ : ∀ v : B.P, ∀ c ∈ D, Valued.v (B.τ v c) ≤ 1) (n n₁ : ℕ) (hn : n = n₁ + 2) (hn₁ : 1 ≤ n₁) (Y : Spc F E n)
     (r s : ℕ) (hr : 1 ≤ r) (hs : 1 ≤ s) (hY : IsEps σ B ε κ D Y r s) (i₀ i₁ : ℕ) (h01 : i₀ < i₁) (h1n : i₁ < n) :

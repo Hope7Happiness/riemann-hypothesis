@@ -373,7 +373,7 @@ theorem openEmb (h : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, EmbOver E w)
   · rintro ⟨l, rfl⟩ w; exact pi_ne _ _
   · exact funext fun w => pi_uv h τ _ w
 
-theorem isLift_lft (B : Base F E) (hB : B.IsGood σ) : IsLift σ B (lft hB.cm B.emb) := by
+theorem isLift_lft (B : Base F E) (hB : UpperTheory.TP.W.GoodK σ B) : IsLift σ B (lft hB.cm B.emb) := by
   exact
     { supp c := at_of_fin (fin_lft _ _ c)
       pi := pi_lft _ _

@@ -32,7 +32,7 @@ theorem so_leK {n d : ℕ} {Y : Spc F E n} {W : Spc F E d} {M : Model σ Y W} (h
     exact PositivityTheory.ThKG.pureA_mem f hg)
 
 theorem clsV (hW : WeilConv) (hC : ICont) (hS : SqInt) (t : IsTriple B G X om om') : Cls B G.M om (schA F _) :=
-  have p : IsPair B G.M X.β (X.β / X.α) om (a - G.p) G.p (a + a' - (G.p + G.q)) (G.p + G.q) := ⟨t.base, t.geo.hV, t.geo.hW, t.geo.hM, t.chars.heckeβ, PositivityTheory.ThKG.isHecke_div t.chars.heckeβ t.chars.heckeα, t.chars.resβ, PositivityTheory.ThKG.resEtaPow_div t.chars.resβ t.chars.resα, t.weil⟩
+  have p : IsPair B G.M X.β (X.β / X.α) om (a - G.p) G.p (a + a' - (G.p + G.q)) (G.p + G.q) := ⟨.of_isGood t.base, t.geo.hV, t.geo.hW, t.geo.hM, t.chars.heckeβ, PositivityTheory.ThKG.isHecke_div t.chars.heckeβ t.chars.heckeα, t.chars.resβ, PositivityTheory.ThKG.resEtaPow_div t.chars.resβ t.chars.resα, t.weil⟩
   have wc : a + a' + 2 * min (a - G.p) G.p < 2 * a ∨ min (a - G.p) G.p = 0 := by
     have := t.geo.eBig
     left
@@ -45,7 +45,7 @@ theorem clsV' (hD : KDecay) (hK : KCoinv) (hc : SoCont) (hC : ICont) (hS : SqInt
     Cls B G.M' om' (G.M'.So B.ψ B.τ₁) := by
   have p : IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) := by
     let t := m.triple
-    exact ⟨t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, PositivityTheory.ThKG.isHecke_div t.chars.heckeα t.chars.heckeβ, t.chars.resα, by rw [add_comm a a']; exact PositivityTheory.ThKG.resEtaPow_div t.chars.resα t.chars.resβ, t.weil'⟩
+    exact ⟨.of_isGood t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, PositivityTheory.ThKG.isHecke_div t.chars.heckeα t.chars.heckeβ, t.chars.resα, by rw [add_comm a a']; exact PositivityTheory.ThKG.resEtaPow_div t.chars.resα t.chars.resβ, t.weil'⟩
   refine ⟨so_leK p.good, fun Φ h => ((hD F E σ B a a' G X om om' m.triple).2 Φ h).2.1,
     (hC F E σ B _ _ _ _ _ _ _ _ _ _ _ _ p).2 (hK F E σ B a a' G X om om' R Rf m).2, fun ψ hψ hf h => ?_,
     fun μ 𝓕 h1 h2 Φ h' h => (hS F E σ B a a' G X om om' m.triple μ 𝓕 h1 h2).2 Φ ⟨h, h'⟩⟩
@@ -59,7 +59,7 @@ theorem pure_soK (m : IsTriple B G X om om') (f : SInf F _) {φ} (h1 : ∀ u, φ
     {x} (hx : x ∈ Submodule.span ℂ (G.M'.SoLoc B.ψ B.τ₁)) : pure f (upd φ B.v₁ x) ∈ G.M'.So B.ψ B.τ₁ := by
   have p : IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) := by
     let t := m
-    exact ⟨t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, PositivityTheory.ThKG.isHecke_div t.chars.heckeα t.chars.heckeβ, t.chars.resα, by rw [add_comm a a']; exact PositivityTheory.ThKG.resEtaPow_div t.chars.resα t.chars.resβ, t.weil'⟩
+    exact ⟨.of_isGood t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, PositivityTheory.ThKG.isHecke_div t.chars.heckeα t.chars.heckeβ, t.chars.resα, by rw [add_comm a a']; exact PositivityTheory.ThKG.resEtaPow_div t.chars.resα t.chars.resβ, t.weil'⟩
   obtain ⟨j, hj, -⟩ := intersection_update_fsHerm_neg_one pureAct p f h1 h2 B.v₁
   rw [← hj]
   refine (Submodule.span_le (p := (G.M'.So B.ψ B.τ₁).comap j)).2 (fun y hy => ?_) hx
@@ -71,7 +71,7 @@ theorem kills0_of (hT : ThetaBasic) (hW : WeilConv) (hK : KCoinv) (h : Kills) : 
   intro F E _ _ _ _ _ σ B a a' G X om om' R Rf m q0 f hf φ h1 h2 h3
   have p2 : IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) := by
     let t := m.triple
-    exact ⟨t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, PositivityTheory.ThKG.isHecke_div t.chars.heckeα t.chars.heckeβ, t.chars.resα, by rw [add_comm a a']; exact PositivityTheory.ThKG.resEtaPow_div t.chars.resα t.chars.resβ, t.weil'⟩
+    exact ⟨.of_isGood t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, PositivityTheory.ThKG.isHecke_div t.chars.heckeα t.chars.heckeβ, t.chars.resα, by rw [add_comm a a']; exact PositivityTheory.ThKG.resEtaPow_div t.chars.resα t.chars.resβ, t.weil'⟩
   have cv := fun Φ hΦ => ((hW F E σ B _ _ _ _ _ _ _ _ _ _ _ _ p2 (Or.inr (by simp [q0]))).1 Φ hΦ).1
   obtain ⟨-, k2, k3, -⟩ := (hK F E σ B a a' G X om om' R Rf m).1 _ m.triple.chars.good
   obtain ⟨x, hx, e⟩ := k3 B.τ₁ (Rf.p' _ (φ B.v₁))

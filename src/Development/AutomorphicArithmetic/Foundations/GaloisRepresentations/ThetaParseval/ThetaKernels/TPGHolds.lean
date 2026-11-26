@@ -35,7 +35,7 @@ public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentation
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.TPGDecomp
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.WpSTop
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ThkBaseEisCont
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ThkTowModel
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowFinal
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Unfold0K
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Prelims.MultiplicationPackage
 public import Development.AutomorphicArithmetic.LocalEmbeddings.OppLagr
@@ -538,7 +538,7 @@ end UpperTheory.TP
 end
 
 section
-private theorem thetaBasic_pk : ThetaBasic_k := by
+private theorem thetaBasic_pk : ThetaBasic := by
   open PositivityTheory.ThKF0.Grow PositivityTheory.ThKF0 in
   intro F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' hP
   have hS := hP.weil.isUSplitting
@@ -555,7 +555,7 @@ private theorem thetaBasic_pk : ThetaBasic_k := by
     exact darboux_coordinates_rational_exist F E σ hP.base.cm B.ψ hP.base.std n d X.J W.J hP.herm.herm hX
       hP.skew.skew hW M.co hP.good.rat χX χW hP.hX hP.hW om hP.weil γ hγ γ' hγ' _ (hS.pres _ _ hΦ)
   · obtain ⟨N₀, k₂, C₂, hL⟩ := _root_.PositivityTheory.ThKF0.LatSum.thetaSum_norm_le_pow F (Fin n × Fin d)
-    obtain ⟨C₁, k₁, hA⟩ := PositivityTheory.ThKF0.Grow.schwartz_decay_uniform htBd finInv (sob_of derivOK) trBd
+    obtain ⟨C₁, k₁, hA⟩ := PositivityTheory.ThKF0.Grow.weil_rep_rapid_decay_of_growth htBd finInv (sob_of derivOK) trBd
       F E σ B n d X W M χX χW om r s r' s' hP Φ hΦ N₀
     obtain ⟨C, -, hC⟩ := htBd F E σ n d X W M
     obtain ⟨m₀, hm₀, h₀⟩ := finInv F _ B.ψ hP.base.std Φ hΦ
@@ -739,13 +739,13 @@ theorem UpperTheory.TP.K.tLiftK : UpperTheory.TP.TLiftK :=
       boxSec := l1
       dbl := dblX_k
       stab2 := stab2Cpt_k
-      cpt := cptAll_of_k PositivityTheory.ThKEst.grpTop_of PositivityTheory.ThKEst.epsOf_of_k
+      cpt := cptAll_of_k PositivityTheory.ThKEst.grpTop_of PositivityTheory.ThKEst.epsOf_of
         (PositivityTheory.ThKEst.siegelAll_of _root_.GlobalTheory.CompanionTheory.SiegelRed.siegelSetUnitary) PositivityTheory.ThKEst.finVolU
         PositivityTheory.ThKF.unimodularity_holds
       basic := thetaBasic_pk
       polSch := polSch_k
       unfold0 := unfold0_k
-      pairEx := PositivityTheory.ThKG.Tow.pairEx_of_k PositivityTheory.ThKG.Tow.modelEx_k
+      pairEx := PositivityTheory.ThKG.Tow.pairEx_of PositivityTheory.ThKG.Tow.modelEx
         PositivityTheory.ThKW.S.weilEx_k
       split := splitFree_pk
       vacFix := vacFix2_k

@@ -228,9 +228,9 @@ theorem exists_model {D : D7} (B : Base D.host.F D.host.E) (hB : B.IsGood D.sp.c
   classical
   obtain ⟨ν, 𝓕, hH, hfd⟩ := GlobalTheory.Ker.HypModel.exists_haar_fundDom D M
   obtain ⟨hH', hfd'⟩ := GlobalTheory.ConjUTransport.map_isHaar_isFundamentalDomain M c hc eY _ _ hH hfd
-  obtain ⟨co, hrat⟩ := GlobalTheory.RatDarboux.exists_rational_darboux_of_isGood B hB Y Z r s r' s' hY hZ
-  have hind := Tw.VacIndic.eventually_isVac_indicator B hB Y Z r s r' s' hY hZ co hrat
-  have hany := _root_.GlobalTheory.VacAny.exists_isVac_any_darboux B hB Y Z r s r' s' hY hZ co
+  obtain ⟨co, hrat⟩ := GlobalTheory.RatDarboux.exists_rational_darboux_of_isGood B (.of_isGood hB) Y Z r s r' s' hY hZ
+  have hind := Tw.VacIndic.eventually_isVac_indicator B (.of_isGood hB) Y Z r s r' s' hY hZ co hrat
+  have hany := _root_.GlobalTheory.VacAny.exists_isVac_any_darboux B (.of_isGood hB) Y Z r s r' s' hY hZ co
   let ind : ∀ v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := D.host.F), (Fin M.rank × Fin k → Fv D.host.F v) → ℂ :=
     fun v => Set.indicator {x | ∀ i, x i ∈ v.adicCompletionIntegers D.host.F} 1
   let vac : ∀ v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := D.host.F), (Fin M.rank × Fin k → Fv D.host.F v) → ℂ :=

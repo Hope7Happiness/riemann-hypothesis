@@ -35,10 +35,10 @@ structure IsLift (σ : E →ₐ[F] E) (B : Base F E) (lift : (InfinitePlace F �
     ∀ g : (InfinitePlace F → ℂ) → ℂ, @integral _ _ _ _ (borel _) x (fun l => g fun w => piInf (B.emb w) (l.1 : AE F E)) =
       κ * ∫ c, g c * ((∏ w, ‖c w‖ ^ 2 : ℝ) : ℂ)⁻¹
 
-def ArchDict : Prop := ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E), B.IsGood σ → ∃ lift, IsLift σ B lift
+def ArchDict : Prop := ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E), UpperTheory.TP.W.GoodK σ B → ∃ lift, IsLift σ B lift
 
 def ArchHeis : Prop :=
-  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W), B.IsGood σ →
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W), UpperTheory.TP.W.GoodK σ B →
     (∀ u, ∀ Φ ∈ schA F (Fin n × Fin d), M.co.rho B.ψ u Φ ∈ schA F (Fin n × Fin d)) ∧
     ∀ u, At (evI F) u → ∀ f : SInf F (Fin n × Fin d), ∃ f₁ : SInf F (Fin n × Fin d), Acts (evI F) (M.co.rho B.ψ u) f f₁
 

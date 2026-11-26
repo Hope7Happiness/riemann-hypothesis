@@ -171,7 +171,7 @@ theorem lin_basis (b : Module.Basis (Fin m) F T) (t : T) :
 
   simp only [← LinearMap.map_smul_of_tower, ← map_sum, b.sum_equivFun]
 
-theorem PolT.exp (hP : PolT σ X W X₁ W₁ ι ι' I U) (hE : ThetaExp) (hB : B.IsGood σ) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ)
+theorem PolT.exp (hP : PolT σ X W X₁ W₁ ι ι' I U) (hE : ThetaExp) (hB : UpperTheory.TP.W.GoodK σ B) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ)
     (he : IsEv B M M₁ ι ι' I e) : ∃ C : ℂ, C ≠ 0 ∧ ∀ Φ ∈ schA F _,
       HasSum (fun t : T => C * thetaSum F (e (M.co.rho B.ψ (incM F (U t)) Φ))) (thetaSum F Φ) := by
   obtain ⟨m, b, z, hP⟩ := hP
@@ -182,13 +182,13 @@ theorem PolT.exp (hP : PolT σ X W X₁ W₁ ι ι' I U) (hE : ThetaExp) (hB : B
   rw [← lin_basis b]
   rfl
 
-theorem PolT.uniq (hP : PolT σ X W X₁ W₁ ι ι' I U) (hE : EvUniq) (hB : B.IsGood σ) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ)
+theorem PolT.uniq (hP : PolT σ X W X₁ W₁ ι ι' I U) (hE : EvUniq) (hB : UpperTheory.TP.W.GoodK σ B) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ)
     {e'} (he : IsEv B M M₁ ι ι' I e) (he' : IsEv B M M₁ ι ι' I e') : ∃ c : ℂ, c ≠ 0 ∧ ∀ Φ ∈ schA F _, e' Φ = c • e Φ := by
   obtain ⟨m, b, z, hP⟩ := hP
   exact hE F E σ B n d n₁ d₁ X W X₁ W₁ M M₁ hB hM hM₁ ι ι' I e e' he he' m _ z hP
 
 theorem comp_ne {n₀ d₀ : ℕ} {X₀ : Spc F E n₀} {W₀ : Spc F E d₀} {M₀ : Model σ X₀ W₀} (hP : PolT σ X W X₁ W₁ ι ι' I U)
-    (hE : ThetaExp) (hB : B.IsGood σ) (hM₀ : M₀.IsGood B.ψ) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ) {κ κ' J}
+    (hE : ThetaExp) (hB : UpperTheory.TP.W.GoodK σ B) (hM₀ : M₀.IsGood B.ψ) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ) {κ κ' J}
     {e₀ : Fn F n₀ d₀ →ₗ[ℂ] Fn F n d} (he₀ : IsEv B M₀ M κ κ' J e₀) (he : IsEv B M M₁ ι ι' I e) :
     ∃ Φ ∈ schA F (Fin n₀ × Fin d₀), e (e₀ Φ) ≠ 0 := by
   by_contra h0

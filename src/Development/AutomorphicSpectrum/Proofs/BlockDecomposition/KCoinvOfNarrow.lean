@@ -370,9 +370,9 @@ theorem kCoinv_of_ne (hS : SurjSt) (hI : IrrStNe) (hD : DictSt) (hN : NuSt) (hSo
   refine ⟨fun v hv => ?_, hSo F E σ B a a' G X om om' hT⟩
   have ha' : 1 ≤ a' := by have := hT.geo.aBig; omega
   have ha : 1 ≤ a := by have := hT.geo.lt; omega
-  have D1 := fun t => hD F E σ _ _ B G.V G.W G.M om _ _ hT.base ⟨_, _, hT.geo.hV⟩ ⟨_, _, hT.geo.hW⟩ hT.geo.hM hT.weil
+  have D1 := fun t => hD F E σ _ _ B G.V G.W G.M om _ _ (.of_isGood hT.base) ⟨_, _, hT.geo.hV⟩ ⟨_, _, hT.geo.hW⟩ hT.geo.hM hT.weil
     hT.chars.heckeβ (isHecke_div hT.chars.heckeβ hT.chars.heckeα) v t
-  have D2 := fun t => hD F E σ _ _ B G.V' G.W G.M' om' _ _ hT.base ⟨_, _, hT.geo.hV'⟩ ⟨_, _, hT.geo.hW⟩ hT.geo.hM' hT.weil'
+  have D2 := fun t => hD F E σ _ _ B G.V' G.W G.M' om' _ _ (.of_isGood hT.base) ⟨_, _, hT.geo.hV'⟩ ⟨_, _, hT.geo.hW⟩ hT.geo.hM' hT.weil'
     hT.chars.heckeα (isHecke_div hT.chars.heckeα hT.chars.heckeβ) v t
   have hn := hN F E σ B a a' G X om om' hT v hv
   have := hF.nontriv v

@@ -225,11 +225,11 @@ structure OrthIn : Prop where
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {B : Base F E} {n d : ℕ}
   {X : Spc F E n} {W : Spc F E d} {M : Model σ X W} {χ χ' : Chr F E} {om : Rep σ X W} {r s r' s' : ℕ}
-private lemma exists_poly_height_bound_theta_of_min_eq_zero (I : OrthIn) (p : IsPair B M χ χ' om r s r' s') (h0 : min r s = 0) {Φ : Fn F n d}
+private lemma exists_poly_height_bound_theta_of_min_eq_zero (I : OrthIn) (hBg : B.IsGood σ) (p : IsPair B M χ χ' om r s r' s') (h0 : min r s = 0) {Φ : Fn F n d}
     (hΦ : Φ ∈ schA F (Fin n × Fin d)) :
     ∃ (C : ℝ) (k : ℕ), 0 ≤ C ∧ ∀ g h, ‖theta om Φ g h‖ ≤ C * (ht h : ℝ) ^ k := by
   obtain ⟨-, hinv, C, k, hb⟩ := (I.basic F E σ B n d X W M χ χ' om r s r' s' p).1 Φ hΦ
-  have hcpt : Cpt σ X.J := I.all F E σ B n X r s p.base (Or.inl p.herm) h0
+  have hcpt : Cpt σ X.J := I.all F E σ B n X r s hBg (Or.inl p.herm) h0
   obtain ⟨Ω, hΩ, hcov⟩ := hcpt.cov
   have hepsX := (I.eps F E σ B p.base n X r s (Or.inl p.herm)).1
   obtain ⟨C₀, hC₀⟩ := (I.top F E σ p.base.cm n X.J hepsX).2.2.2.2.2.2.2 Ω hΩ
@@ -260,7 +260,7 @@ private lemma integral_integral_swap_of_bounded_continuous [SecondCountableTopol
   exact Integrable.mono' (integrable_const C) hf.aestronglyMeasurable
     (Filter.Eventually.of_forall fun q => hC q.1 q.2)
 
-theorem cusp_lift (I : OrthIn) (p : IsPair B M χ χ' om r s r' s') (h0 : min r s = 0) (hn : 1 ≤ n) (hd : 1 ≤ d)
+theorem cusp_lift (I : OrthIn) (hBg : B.IsGood σ) (p : IsPair B M χ χ' om r s r' s') (h0 : min r s = 0) (hn : 1 ≤ n) (hd : 1 ≤ d)
     {φ : UA σ W.J → ℂ} (hφ : IsRapid φ) (hc : IsCusp W φ) {μ : Measure (UA σ W.J)} {D : Set (UA σ W.J)} (hμ : μ.IsHaarMeasure)
     (hD : IsFundamentalDomain (ratU σ W.J) D μ) {Φ₂ : Fn F n d} (h2 : Φ₂ ∈ PolData B M)
     (hth : ∀ g, th om μ D φ Φ₂ g = th om μ D φ Φ₂ 1) (hne : ∫ h in D, M.I om Φ₂ h * starRingEnd ℂ (φ h) ∂μ ≠ 0)
@@ -275,24 +275,24 @@ theorem cusp_lift (I : OrthIn) (p : IsPair B M χ χ' om r s r' s') (h0 : min r 
   have hepsX := (I.eps F E σ B hB n X r s (Or.inl p.herm)).1
   have htopX := I.top F E σ hB.cm n X.J hepsX
   have : SecondCountableTopology (UA σ X.J) := htopX.2.1
-  have hcpt : Cpt σ X.J := I.all F E σ B n X r s hB (Or.inl p.herm) h0
+  have hcpt : Cpt σ X.J := I.all F E σ B n X r s hBg (Or.inl p.herm) h0
   have hfinD : μ D < ⊤ := I.vol F E σ hB.cm d W.J hepsW μ D hμ hD
   have hfinX : M.μ M.dom < ⊤ := hcpt.fin M.μ M.dom p.good.haar p.good.dom
-  obtain ⟨⟨K, a, hS, ha, ca, a0⟩, e, ce, he⟩ := I.hgt F E σ B d W r' s' hB (Or.inr hskew)
-  obtain ⟨t₀, hi⟩ := I.int F E σ B d W r' s' hB (Or.inr hskew) K a e hS ha he μ hμ
-  have hK := I.cpt F E σ B d W r' s' hB (Or.inr hskew) K hS
+  obtain ⟨⟨K, a, hS, ha, ca, a0⟩, e, ce, he⟩ := I.hgt F E σ B d W r' s' hBg (Or.inr hskew)
+  obtain ⟨t₀, hi⟩ := I.int F E σ B d W r' s' hBg (Or.inr hskew) K a e hS ha he μ hμ
+  have hK := I.cpt F E σ B d W r' s' hBg (Or.inr hskew) K hS
   obtain ⟨-, -, -, ht1⟩ := I.emb F E σ d W
   obtain ⟨dd, om₂, S, l, hdbl, hbox, hcoord, -⟩ := I.dbl F E σ B n d X W M χ χ' om r s r' s' p
   have hsch1 := GlobalTheory.ThK.Dbl.pol_sch p.good h1
   have hsch2 := GlobalTheory.ThK.Dbl.pol_sch p.good h2
-  obtain ⟨U, Ê, hEis, hs₀, hval⟩ := I.sw F E σ B n d X W M r s r' s' hB hn hd p.herm h0 hskew p.good χ p.hX
+  obtain ⟨U, Ê, hEis, hs₀, hval⟩ := I.sw F E σ B n d X W M r s r' s' hBg hn hd p.herm h0 hskew p.good χ p.hX
     p.resX dd om₂ S l hcoord hdbl K a hS ha Φ₁ h1 Φ₂ h2
-  have hsec := I.box F E σ B n d X W M r s r' s' hB hn hd p.herm h0 hskew p.good χ p.hX p.resX dd om₂ S l
+  have hsec := I.box F E σ B n d X W M r s r' s' hBg hn hd p.herm h0 hskew p.good χ p.hX p.resX dd om₂ S l
     hcoord hdbl K a hS ha Φ₁ h1 Φ₂ h2
-  have hcE := GlobalTheory.ThK.Dbl.ct_zero I.off I.unip I.eis I.emb hB hd hskew hepsW.2 htopW.2.2.2.2.2.2.2 p.hX he ce
+  have hcE := GlobalTheory.ThK.Dbl.ct_zero I.off I.unip I.eis I.emb hBg hd hskew hepsW.2 htopW.2.2.2.2.2.2.2 p.hX he ce
     hS hK ha ca a0 hsec.cont hsec.law hEis hμ hD hfinD hi hφ hc _ hs₀
-  obtain ⟨C₁, k₁, hC₁0, hb₁⟩ := exists_poly_height_bound_theta_of_min_eq_zero I p h0 hsch1
-  obtain ⟨C₂, k₂, hC₂0, hb₂⟩ := exists_poly_height_bound_theta_of_min_eq_zero I p h0 hsch2
+  obtain ⟨C₁, k₁, hC₁0, hb₁⟩ := exists_poly_height_bound_theta_of_min_eq_zero I hBg p h0 hsch1
+  obtain ⟨C₂, k₂, hC₂0, hb₂⟩ := exists_poly_height_bound_theta_of_min_eq_zero I hBg p h0 hsch2
   obtain ⟨Mφ, hMφ0, hMφ⟩ := hφ.bound ht1 k₂
   have hbasic1 := (I.basic F E σ B n d X W M χ χ' om r s r' s' p).1 Φ₁ hsch1
   have hbasic2 := (I.basic F E σ B n d X W M χ χ' om r s r' s' p).1 Φ₂ hsch2
@@ -404,11 +404,11 @@ private lemma evFin_eq_zero_of_At_evI {κ : Type} (z : κ → Formalism.MainNoti
   rw [h3]
   exact map_zero _
 
-theorem cusp_re (I : OrthIn) (p : IsPair B M χ χ' om r s r' s') (h0 : min r s = 0) (X₂ : Spc F E n) (W₂ : Spc F E d)
+theorem cusp_re (I : OrthIn) (hBg : B.IsGood σ) (p : IsPair B M χ χ' om r s r' s') (h0 : min r s = 0) (X₂ : Spc F E n) (W₂ : Spc F E d)
     (p₂ : IsPair B (X := reS X X₂) (W := reS W W₂) ⟨M.co, M.vac, M.μ, M.dom⟩ χ χ' om r s r' s')
     (hc : ∀ Φ ∈ PolData B M, IsCusp W (M.I om Φ)) {Φ : Fn F n d}
     (hΦ : Φ ∈ PolData B (σ := σ) (X := reS X X₂) (W := reS W W₂) ⟨M.co, M.vac, M.μ, M.dom⟩) : IsCusp W (M.I om Φ) := by
-  obtain ⟨h, hh, hθ⟩ := I.conj F E σ B d W W₂ r' s' p.base p.skew p₂.skew
+  obtain ⟨h, hh, hθ⟩ := I.conj F E σ B d W W₂ r' s' hBg p.skew p₂.skew
   obtain ⟨g, hg, -, hT⟩ := I.move F E σ B n d X W M χ χ' om r s r' s' p X₂ W₂ ⟨M.co, M.vac, M.μ, M.dom⟩ rfl p₂
     h hh hθ
   obtain ⟨T, hTa, -⟩ := I.arch F E σ B n d X W M χ χ' om r s r' s' p g hg h hh
@@ -441,7 +441,7 @@ theorem cusp_re (I : OrthIn) (p : IsPair B M χ χ' om r s r' s') (h0 : min r s 
       exact Submodule.smul_mem _ a hx
   have hΦs := hsch Φ hΦ
   have hΨ := hc _ (hgen Φ hΦ)
-  have hcpt : GlobalTheory.ThK.Dbl.Cpt σ X.J := I.all F E σ B n X r s p.base (Or.inl p.herm) h0
+  have hcpt : GlobalTheory.ThK.Dbl.Cpt σ X.J := I.all F E σ B n X r s hBg (Or.inl p.herm) h0
   have hI : M.I om ((om (g, h)) Φ) = fun h' => M.I om Φ (h' * h) := by
     have e1 : (g, h) = ((1 : UA σ X.J), h) * (g, 1) := by simp
     funext h'
@@ -458,7 +458,7 @@ theorem cusp_re (I : OrthIn) (p : IsPair B M χ χ' om r s r' s') (h0 : min r s 
 
 theorem isCT_of_cusp (I : OrthIn) (hB : B.IsGood σ) (hW : W.IsSkew σ B r s) {d₁ i₀ i₁ : ℕ} {W₁ : Spc F E d₁} (hW₁ : W₁.IsSkew σ B r' s')
     {H : Plane E d d₁} (hH : H.IsAdapted σ B W W₁ i₀ i₁) {f : UA σ W.J → ℂ} (hf : IsCusp W f) : IsCT H f 0 := by
-  have hW₁d : W₁.J.det ≠ 0 := (I.eps F E σ B hB d₁ W₁ r' s' (Or.inr hW₁)).1.2
+  have hW₁d : W₁.J.det ≠ 0 := (I.eps F E σ B (.of_isGood hB) d₁ W₁ r' s' (Or.inr hW₁)).1.2
   have hP : PositivityTheory.ThKEnd.IsPlane σ H W W₁ := ⟨hH.rank, hH.xx, hH.yy, hH.xy, hH.orth, hH.gram, hW₁d⟩
   have hEq := I.line F E σ hB.cm d d₁ W W₁ H (Or.inr hW.skew) hP
   have hx : H.x ≠ 0 := by
@@ -507,16 +507,16 @@ private lemma isPair_and_isPair_of_isTriple {a a' : ℕ} {G : Geo σ a a'} {X : 
   obtain ⟨base, geo, chars, weil, weil'⟩ := T
   have h1 := isHecke_div_and_resEtaPow_div X.α X.β a a' _ chars.heckeα chars.heckeβ chars.resα chars.resβ
   have h2 := isHecke_div_and_resEtaPow_div X.β X.α a' a _ chars.heckeβ chars.heckeα chars.resβ chars.resα
-  refine ⟨⟨base, geo.hV, geo.hW, geo.hM, chars.heckeβ, h1.1, chars.resβ, h1.2, weil⟩,
-    ⟨base, geo.hV', geo.hW, geo.hM', chars.heckeα, h2.1, chars.resα, ?_, weil'⟩⟩
+  refine ⟨⟨.of_isGood base, geo.hV, geo.hW, geo.hM, chars.heckeβ, h1.1, chars.resβ, h1.2, weil⟩,
+    ⟨.of_isGood base, geo.hV', geo.hW, geo.hM', chars.heckeα, h2.1, chars.resα, ?_, weil'⟩⟩
   rw [Nat.add_comm]
   exact h2.2
 
 private lemma exists_trace_zero_generator_of_isCMExt (I : OrthIn) (hB : B.IsGood σ) (hW : W.IsSkew σ B r s) {d₁ i₀ i₁ : ℕ} {W₁ : Spc F E d₁}
     (hW₁ : W₁.IsSkew σ B r' s') {H : Plane E d d₁} (hH : H.IsAdapted σ B W W₁ i₀ i₁)
     {f c c' : UA σ W.J → ℂ} (hc : IsCT H f c) (hc' : IsCT H f c') : c = c' := by
-  have hW₁d : W₁.J.det ≠ 0 := (I.eps F E σ B hB d₁ W₁ r' s' (Or.inr hW₁)).1.2
-  have hWd : W.J.det ≠ 0 := (I.eps F E σ B hB d W r s (Or.inr hW)).1.2
+  have hW₁d : W₁.J.det ≠ 0 := (I.eps F E σ B (.of_isGood hB) d₁ W₁ r' s' (Or.inr hW₁)).1.2
+  have hWd : W.J.det ≠ 0 := (I.eps F E σ B (.of_isGood hB) d W r s (Or.inr hW)).1.2
   have hP : PositivityTheory.ThKEnd.IsPlane σ H W W₁ := ⟨hH.rank, hH.xx, hH.yy, hH.xy, hH.orth, hH.gram, hW₁d⟩
   have hEq := I.line F E σ hB.cm d d₁ W W₁ H (Or.inr hW.skew) hP
   obtain ⟨μ, 𝓕, h1, h2, h3⟩ := (I.unip F E σ hB.cm d W (Or.inr hW.skew) hWd (E ∙ H.x)).1.ex
@@ -542,14 +542,14 @@ theorem orthAn_of (I : OrthIn) (hR : PositivityTheory.ThKEnd.Orth.SigRapid) (hT 
     by_contra hne
     have hth := (hT F E σ B a a' G X om om' T f hf hr μ 𝓕 hμ h𝓕).1 Φ (GlobalTheory.ThK.Dbl.pol_sch hG.hM hΦ)
     have hcusp : ∀ Φ₁ ∈ GlobalTheory.ThK.PolData B G.M, IsCusp G.W (G.M.I om Φ₁) := fun Φ₁ hΦ₁ =>
-      cusp_lift I hpair.1 (by simp [hp]) (by have := hG.lt; omega) (by have := hG.lt; omega) hr hc hμ h𝓕
+      cusp_lift I T.base hpair.1 (by simp [hp]) (by have := hG.lt; omega) (by have := hG.lt; omega) hr hc hμ h𝓕
         hΦ hth hne hΦ₁
     obtain ⟨b, rfl⟩ : ∃ b, a' = b + 2 := ⟨a' - 2, by have := hG.aBig; omega⟩
     obtain ⟨V, V', W, T', G₁, H, H', cfg, om₁, om₁', T₁⟩ := hB F E σ B a b G X om om' T hq
     have hpair' := isPair_and_isPair_of_isTriple T'
     have hcR : ∀ Ψ ∈ GlobalTheory.ThK.PolData B (GlobalTheory.ThK.reG G V V' W).M,
         IsCusp (GlobalTheory.ThK.reG G V V' W).W ((GlobalTheory.ThK.reG G V V' W).M.I om Ψ) := fun Ψ hΨ =>
-      cusp_re I hpair.1 (by simp [hp]) V W hpair'.1 hcusp hΨ
+      cusp_re I T.base hpair.1 (by simp [hp]) V W hpair'.1 hcusp hΨ
     obtain ⟨⟨e, hev⟩, hmap⟩ := hE F E σ B _ _ _ _ _ _ _ _ _ _ _ _ hpair'.1 _ _ _ H' _ _ G₁.M cfg.eV cfg.hH'
       T₁.geo.hM
     obtain ⟨C, hC0, hCT⟩ := hC F E σ B a b _ G₁ H H' cfg e hev
@@ -576,14 +576,14 @@ theorem orthAn_of (I : OrthIn) (hR : PositivityTheory.ThKEnd.Orth.SigRapid) (hT 
     have hΦ'p := (Submodule.mem_inf.mp hΦ').1
     have hth := (hT F E σ B a a' G X om om' T f hf hr μ 𝓕 hμ h𝓕).2 Φ' (GlobalTheory.ThK.Dbl.pol_sch hG.hM' hΦ'p)
     have hcusp : ∀ Φ₁ ∈ GlobalTheory.ThK.PolData B G.M', IsCusp G.W (G.M'.I om' Φ₁) := fun Φ₁ hΦ₁ =>
-      cusp_lift I hpair.2 (by simp [hq]) (by have := hG.aBig; omega) (by have := hG.aBig; omega) hr hc hμ
+      cusp_lift I T.base hpair.2 (by simp [hq]) (by have := hG.aBig; omega) (by have := hG.aBig; omega) hr hc hμ
         h𝓕 hΦ'p hth hne hΦ₁
     obtain ⟨b, rfl⟩ : ∃ b, a = b + 2 := ⟨a - 2, by have := hG.aBig; have := hG.lt; omega⟩
     obtain ⟨V, V', W, T', G₁, H, H', cfg, om₁, om₁', T₁⟩ := hA F E σ B b a' G X om om' T hq hp
     have hpair' := isPair_and_isPair_of_isTriple T'
     have hcR : ∀ Ψ ∈ GlobalTheory.ThK.PolData B (GlobalTheory.ThK.reG G V V' W).M',
         IsCusp (GlobalTheory.ThK.reG G V V' W).W ((GlobalTheory.ThK.reG G V V' W).M'.I om' Ψ) := fun Ψ hΨ =>
-      cusp_re I hpair.2 (by simp [hq]) V' W hpair'.2 hcusp hΨ
+      cusp_re I T.base hpair.2 (by simp [hq]) V' W hpair'.2 hcusp hΨ
     obtain ⟨⟨e, hev⟩, hmap⟩ := hE F E σ B _ _ _ _ _ _ _ _ _ _ _ _ hpair'.2 _ _ _ H' _ _ G₁.M' cfg.eV cfg.hH'
       T₁.geo.hM'
     obtain ⟨C, hC0, hCT⟩ := hC' F E σ B b a' _ G₁ H H' cfg e hev

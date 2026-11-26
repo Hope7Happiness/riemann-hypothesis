@@ -19,7 +19,7 @@ open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.Genus
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {n : ℕ} {v : Pl F}
 
-theorem unramAt {B : Base F E} (hB : B.IsGood σ) (v : Pl F) : GlobalTheory.IndefiniteRowSideFullHecke.UnitaryLatticeOrthogonal.UnramAt F E v := fun w hw => by
+theorem unramAt {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) (v : Pl F) : GlobalTheory.IndefiniteRowSideFullHecke.UnitaryLatticeOrthogonal.UnramAt F E v := fun w hw => by
   haveI := hB.unram
   haveI := w.isPrime
   exact w.asIdeal.ramificationIdx_eq_one (𝓞 F)
@@ -114,7 +114,7 @@ theorem inD_mul {δ : F} (hδ : InD δ) (o : 𝓞 E) : InD (algebraMap F E δ * 
   have hi : IsIntegral ℤ (Algebra.trace F E ((a * o : 𝓞 E) : E)) := Algebra.isIntegral_trace (a * o).isIntegral_coe
   exact hδ ⟨_, hi⟩
 
-theorem exists_selfDual {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n} {r s : ℕ} (hY : Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s)
+theorem exists_selfDual {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {Y : Spc F E n} {r s : ℕ} (hY : Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s)
     (v : Pl F) : ∃ ξ : E, ξ ≠ 0 ∧ IsHermND σ (ξ • Y.Jᵀ) ∧ IsSelfDualAt σ (ξ • Y.Jᵀ) Y.L v := by
   have hdet : ∀ ξ : E, ξ ≠ 0 → (ξ • Y.Jᵀ).det ≠ 0 := fun ξ h => by
     rw [Matrix.det_smul, Matrix.det_transpose]

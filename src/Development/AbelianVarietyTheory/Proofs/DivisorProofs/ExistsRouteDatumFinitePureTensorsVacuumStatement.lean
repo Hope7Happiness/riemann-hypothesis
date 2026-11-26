@@ -435,7 +435,7 @@ theorem exists_vac (hL : L.Is μ₀) (h : IsTripleOf W M t i j e Bs Γ X) (hT : 
   have hle := latPtS_le t e X₁ Y₁ rfl rfl v
   obtain ⟨hgen, hsd⟩ := GlobalTheory.SmallDatLat.latPtS_le_closure_and_selfDual hL W t i j e Γ h.JW₁ h.JWW v
   have hiso : ∀ γ ∈ latAtV X₁ Y₁ v, ∀ γ' ∈ latAtV X₁ Y₁ v, W.ψ (sympS Γ γ γ') = 1 := fun γ hγ γ' hγ' => by
-    have := GlobalTheory.LatVacArith.psi_symp_latAtV _ Bs X₁ Y₁ _ _ _ _ hT.base h₁ h₂ v (-1) 1 (by rw [map_one]; exact one_mem _)
+    have := GlobalTheory.LatVacArith.psi_symp_latAtV _ Bs X₁ Y₁ _ _ _ _ (.of_isGood hT.base) h₁ h₂ v (-1) 1 (by rw [map_one]; exact one_mem _)
       γ hγ γ' hγ'
     rw [one_mul, h.ψ] at this
     convert this using 3

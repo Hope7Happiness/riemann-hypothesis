@@ -126,7 +126,7 @@ theorem mem_kAt {K : Subgroup (UA σ X.J)} {k} : k ∈ kAt K (evI F) ↔ k ∈ K
   have : Subgroup.closure (UAt σ X (evI F)) = atGrp σ X (evI F) := Subgroup.closure_eq (atGrp σ X (evI F))
   rw [kAt, this]; rfl
 
-theorem kAt_cpt (hS : StabEx) (hB : B.IsGood σ) {r s} (hX : X.IsHerm σ B r s) {K : Subgroup (UA σ X.J)} (hK : IsStab B K) :
+theorem kAt_cpt (hS : StabEx) (hB : UpperTheory.TP.W.GoodK σ B) {r s} (hX : X.IsHerm σ B r s) {K : Subgroup (UA σ X.J)} (hK : IsStab B K) :
     IsCompact (kAt K (evI F) : Set (UA σ X.J)) := by
   obtain ⟨K', -, -, h1, h2, -⟩ := hS F E σ B n X r s hB hX
   obtain rfl : K' = K := Subgroup.ext fun g => (h1 g).trans (hK g).symm

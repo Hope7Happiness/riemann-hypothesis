@@ -68,7 +68,7 @@ open scoped GlobalTheory.VacAny
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {B : Base F E}
   {n n₁ d j₀ j₁ r s r' s' : ℕ} {X : Spc F E n} {X₁ : Spc F E n₁} {W : Spc F E d} {H : Plane E n n₁}
 
-theorem hTens_frame (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hH : H.IsAdapted σ B X X₁ j₀ j₁) (J' : Matrix (Fin d) (Fin d) (AE F E))
+theorem hTens_frame (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hH : H.IsAdapted σ B X X₁ j₀ j₁) (J' : Matrix (Fin d) (Fin d) (AE F E))
     (w w' : Matrix (Fin n₁ ⊕ Fin 2) (Fin d) (AE F E)) : hTens (cA σ) (incM F X.J) J' (incM F (frame H) * w) (incM F (frame H) * w') =
       ∑ j, ∑ l, w (.inr 1) j * J' j l * cA σ (w' (.inr 0) l) + ∑ j, ∑ l, w (.inr 0) j * J' j l * cA σ (w' (.inr 1) l) +
         hTens (cA σ) (incM F X₁.J) J' (w.submatrix .inl id) (w'.submatrix .inl id) := by
@@ -88,7 +88,7 @@ theorem hTens_frame (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hH : H.IsAdapte
     Matrix.mul_one, hTens_plane_left, one_mul] at this
   exact this
 
-theorem chi_indep (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') {θ θ' : 𝓞 E} (h : (θ : E) + σ θ = 1)
+theorem chi_indep (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') {θ θ' : 𝓞 E} (h : (θ : E) + σ θ = 1)
     (h' : (θ' : E) + σ θ' = 1) {v : Pl (F := F)} {γ} (hγ : γ ∈ latAtV X W v) :
     B.ψ (⅟(2 : AF F) * symp (cA σ) (inclR (F := F) (AF F) (θ : E)) (incM F X.J) (incM F W.J) γ γ) =
       B.ψ (⅟(2 : AF F) * symp (cA σ) (inclR (F := F) (AF F) (θ' : E)) (incM F X.J) (incM F W.J) γ γ) := by
@@ -139,7 +139,7 @@ theorem dot_extend {α β R : Type} [Fintype α] [Fintype β] {j : α → β} (h
   exact Finset.sum_congr rfl fun i _ => by simp [hj.extend_apply]
 
 theorem adapted_index_vector_compatibility : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E)
-    (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (r s r' s' : ℕ), B.IsGood σ → X.IsHerm σ B r s → W.IsSkew σ B r' s' →
+    (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (r s r' s' : ℕ), UpperTheory.TP.W.GoodK σ B → X.IsHerm σ B r s → W.IsSkew σ B r' s' →
     ∀ (n₁ : ℕ) (X₁ : Spc F E n₁) (H : Plane E n n₁) (j₀ j₁ : ℕ) (M₁ : Model σ X₁ W) (r₁ s₁ : ℕ), X₁.IsHerm σ B r₁ s₁ →
       H.IsAdapted σ B X X₁ j₀ j₁ → M₁.IsGood B.ψ →
       ∀ (j : Fin n₁ × Fin d → Fin n × Fin d) (co : Darboux (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J)) (Fin n × Fin d)),
@@ -253,7 +253,7 @@ open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNo
 open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK
 
 theorem PositivityTheory.Mix.darboux_model_rational_lattice : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E)
-    (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (r s r' s' : ℕ), B.IsGood σ → X.IsHerm σ B r s →
+    (n d : ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (r s r' s' : ℕ), UpperTheory.TP.W.GoodK σ B → X.IsHerm σ B r s →
     W.IsSkew σ B r' s' → M.IsGood B.ψ →
     ∀ co : Darboux (symp (R := AF F) (_root_.Algebra.TensorProduct.map (_root_.AlgHom.id (AF F) (AF F)) σ) (-1) ((_root_.Matrix.map · (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.inclR (F := F) (AF F))) X.J) ((_root_.Matrix.map · (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.inclR (F := F) (AF F))) W.J)) (Fin n × Fin d),
       (∀ x : Matrix (Fin n) (Fin d) E, ∃ y z : Fin n × Fin d → F,
@@ -678,7 +678,7 @@ open GlobalTheory.Doubling (absE)
 open PositivityTheory.Mix
 
 theorem PositivityTheory.Mix.exists_unitary_scaling_isotropic : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (X : Spc F E n)
-    (X₁ : Spc F E n₁) (H : Plane E n n₁) (j₀ j₁ r s r₁ s₁ : ℕ), B.IsGood σ → H.IsAdapted σ B X X₁ j₀ j₁ → X.IsHerm σ B r s → X₁.IsHerm σ B r₁ s₁ →
+    (X₁ : Spc F E n₁) (H : Plane E n n₁) (j₀ j₁ r s r₁ s₁ : ℕ), UpperTheory.TP.W.GoodK σ B → H.IsAdapted σ B X X₁ j₀ j₁ → X.IsHerm σ B r s → X₁.IsHerm σ B r₁ s₁ →
       ∀ t : ℕ, t ≠ 0 → ∃ m : UA σ X.J, mat m *ᵥ incV F H.x = (t : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E)) • incV F H.x ∧
         (t : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E)) • (mat m *ᵥ incV F H.y) = incV F H.y ∧ ∀ z : Fin n₁ → _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E), mat m *ᵥ (incM F H.ι *ᵥ z) = incM F H.ι *ᵥ z := by
   intro F E _ _ _ _ _ σ B n n₁ X X₁ H j₀ j₁ r s r₁ s₁ hB hH hX _ t ht
@@ -815,7 +815,7 @@ open GlobalTheory.Doubling (absE)
 open PositivityTheory.Mix
 
 theorem PositivityTheory.Mix.unitary_fixing_isotropic_complement : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (X : Spc F E n)
-    (X₁ : Spc F E n₁) (H : Plane E n n₁) (j₀ j₁ r s r₁ s₁ : ℕ), B.IsGood σ → H.IsAdapted σ B X X₁ j₀ j₁ → X.IsHerm σ B r s → X₁.IsHerm σ B r₁ s₁ →
+    (X₁ : Spc F E n₁) (H : Plane E n n₁) (j₀ j₁ r s r₁ s₁ : ℕ), UpperTheory.TP.W.GoodK σ B → H.IsAdapted σ B X X₁ j₀ j₁ → X.IsHerm σ B r s → X₁.IsHerm σ B r₁ s₁ →
       ∀ u : UA σ X.J, mat u *ᵥ incV F H.x = incV F H.x →
       (∀ z : Fin n₁ → AE F E, ∃ a : AE F E, mat u *ᵥ (incM F H.ι *ᵥ z) = incM F H.ι *ᵥ z + a • incV F H.x) →
       ∀ (m m' : UA σ X.J) (t : ℕ),

@@ -107,7 +107,7 @@ theorem GlobalTheory.InertBridgeLine.locVac_line : ∀ (F E : Type) [Field F] [N
     exact GlobalTheory.LatVac.half_mem_adicCompletionIntegers F v (hTr.base.inert v w hin).1
   have hone : ∀ γ ∈ latAtV G.V' G.W v, B.ψ (⅟(2 : AF F) * symp (_root_.Algebra.TensorProduct.map (_root_.AlgHom.id (AF F) (AF F)) σ) (inclR (F := F) (AF F) (θ : E))
       ((_root_.Matrix.map · (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.inclR (F := F) (AF F))) G.V'.J) ((_root_.Matrix.map · (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.inclR (F := F) (AF F))) G.W.J) γ γ) = 1 := fun γ hγ =>
-    GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V' G.W _ _ _ _ hTr.base hTr.geo.hV' hTr.geo.hW v θ _ h2 γ hγ γ hγ
+    GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V' G.W _ _ _ _ (.of_isGood hTr.base) hTr.geo.hV' hTr.geo.hW v θ _ h2 γ hγ γ hγ
   have hm' : ∀ γ ∈ latAtV G.V' G.W v, Acts (evFin F v) (G.M'.co.rho B.ψ γ) (m : (Fin a' × Fin (a + a') → Fv F v) → ℂ)
       (B.ψ (⅟(2 : AF F) * symp (_root_.Algebra.TensorProduct.map (_root_.AlgHom.id (AF F) (AF F)) σ) (inclR (F := F) (AF F) (θ : E)) ((_root_.Matrix.map · (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.inclR (F := F) (AF F))) G.V'.J) ((_root_.Matrix.map · (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.inclR (F := F) (AF F))) G.W.J) γ γ) •
         (m : (Fin a' × Fin (a + a') → Fv F v) → ℂ)) := by
@@ -384,7 +384,7 @@ theorem exists_frame_one : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
   have hJ : IsHermND σ G.V'.Jᵀ :=
     ⟨fun i j => by simp only [Matrix.transpose_apply]; exact hX.herm j i, hd⟩
   have hs : IsSelfDualAt σ G.V'.Jᵀ G.V'.L v :=
-    GlobalTheory.HermSelfDualLoc.isSelfDualAt_transpose F E σ B a' G.V' _ _ hB hX v
+    GlobalTheory.HermSelfDualLoc.isSelfDualAt_transpose F E σ B a' G.V' _ _ (.of_isGood hB) hX v
   have hspan : Submodule.span E (G.V'.L : Set (Fin a' → E)) = ⊤ := by
     by_contra hne
     obtain ⟨f, hf0, hf⟩ := Submodule.exists_le_ker_of_lt_top _ (lt_top_iff_ne_top.mpr hne)
@@ -1547,7 +1547,7 @@ theorem vac_locVac : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numbe
   obtain ⟨r, hr, x₀, hx₀⟩ := GlobalTheory.RestComplement.exists_rest_ne_zero v (G.M'.vac v) hSB
   refine ⟨⟨G.M'.vac v, hSB⟩, rfl, fun h => hne (congrArg Subtype.val h), fun u hu => ?_⟩
   have hγ : κ u ∈ latAtV G.V' G.W v := (hLat u).1 hu
-  have hone := GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V' G.W _ _ _ _ hTr.base hTr.geo.hV' hTr.geo.hW v θ
+  have hone := GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V' G.W _ _ _ _ (.of_isGood hTr.base) hTr.geo.hV' hTr.geo.hW v θ
     (⅟(2 : AF F)) hb (κ u) hγ (κ u) hγ
   have h1 := hfix (κ u) hγ
   rw [hone, one_smul] at h1

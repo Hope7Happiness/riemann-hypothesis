@@ -318,7 +318,7 @@ theorem latAtV_le (X : Spc F E n) (Y : Spc F E d) (G : Finset (Matrix (Fin n) (F
   | add g g' _ _ h h' => rw [incM_add, smul_add]; exact add_mem h h'
   | neg g _ h => rw [incM_neg, smul_neg]; exact neg_mem h
 
-theorem isVac_indicator_of_theta {σ : E →ₐ[F] E} (B : Base F E) (hB : B.IsGood σ) {n d : ℕ} (X : Spc F E n)
+theorem isVac_indicator_of_theta {σ : E →ₐ[F] E} (B : Base F E) (hB : UpperTheory.TP.W.GoodK σ B) {n d : ℕ} (X : Spc F E n)
     (Y : Spc F E d) (r s r' s' : ℕ) (hX : X.IsHerm σ B r s) (hY : Y.IsSkew σ B r' s')
     (co : GlobalTheory.WeilM.Darboux (GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (-1) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J)
       (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J)) (Fin n × Fin d))
@@ -403,7 +403,7 @@ theorem isVac_indicator_of_theta {σ : E →ₐ[F] E} (B : Base F E) (hB : B.IsG
     (fun k => (hA γ hγ' k).2.2.1) (fun k => (hA γ hγ' k).2.2.2)
 
 theorem eventually_isVac_indicator : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
-    (B : Base F E), B.IsGood σ → ∀ {n d : ℕ} (X : Spc F E n) (Y : Spc F E d) (r s r' s' : ℕ),
+    (B : Base F E), UpperTheory.TP.W.GoodK σ B → ∀ {n d : ℕ} (X : Spc F E n) (Y : Spc F E d) (r s r' s' : ℕ),
     X.IsHerm σ B r s → Y.IsSkew σ B r' s' → ∀ (co : GlobalTheory.WeilM.Darboux (GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (-1) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J)) (Fin n × Fin d)), (∀ x : Matrix (Fin n) (Fin d) E, ∃ y z : Fin n × Fin d → F, co.e (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F x) = (fun k => algebraMap F (AF F) (y k), fun k => algebraMap F (AF F) (z k))) →
     ∀ᶠ v in Filter.cofinite, Model.IsVac (Model.mk (σ := σ) (X := X) (W := Y) co (fun _ => 0) 0 ∅) B.ψ v
       (Set.indicator {x | ∀ k, x k ∈ v.adicCompletionIntegers F} 1) := by

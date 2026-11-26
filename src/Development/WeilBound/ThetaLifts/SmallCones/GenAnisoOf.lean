@@ -20,7 +20,7 @@ open GlobalTheory.Doubling (absE)
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
   {n d d₁ : ℕ} {B : Base F E} {X : Spc F E n} {W : Spc F E d} {W₁ : Spc F E d₁} {H' : Plane E d d₁}
 
-theorem dom_change (hG : GrpTop) (hE : EpsOf) (hB : B.IsGood σ) {r s : ℕ} (hX : X.IsHerm σ B r s)
+theorem dom_change (hG : GrpTop) (hE : EpsOf) (hB : UpperTheory.TP.W.GoodK σ B) {r s : ℕ} (hX : X.IsHerm σ B r s)
     {m m' : Measure (UA σ X.J)} {D D' : Set (UA σ X.J)} (hm : m.IsHaarMeasure) (hm' : m'.IsHaarMeasure)
     (hd : IsFundamentalDomain (ratU σ X.J) D m) (hd' : IsFundamentalDomain (ratU σ X.J) D' m') :
     ∃ c : ℂ, c ≠ 0 ∧ ∀ φ : UA σ X.J → ℂ, (∀ γ ∈ ratU σ X.J, ∀ g, φ (γ * g) = φ g) →

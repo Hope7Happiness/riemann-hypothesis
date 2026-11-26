@@ -294,7 +294,7 @@ theorem mat_bk {ξ : E} (hξ : ξ ≠ 0) (J : Matrix (Fin n) (Fin n) E) (z : GAd
 theorem bk_surj {ξ : E} (hξ : ξ ≠ 0) (J : Matrix (Fin n) (Fin n) E) (g : UA σ J) : ∃ z, bk (σ := σ) hξ J z = g :=
   ⟨⟨g.1, (mem_iff hξ _ _).2 g.2⟩, rfl⟩
 
-theorem iwaLoc {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n} {r s : ℕ} (hY : Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s)
+theorem iwaLoc {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {Y : Spc F E n} {r s : ℕ} (hY : Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s)
     {x : Fin n → E} (hx : x ≠ 0) (h0 : form σ Y.J x x = 0) (v : Pl F) {g : UA σ Y.J} (hg : g ∈ UAt σ Y (evFin F v)) :
     ∃ p ∈ UAt σ Y (evFin F v), ∃ k ∈ KAt σ Y v, ∃ t : (AE F E)ˣ,
       mat p *ᵥ GlobalTheory.ThK.incV F x = t.1 • GlobalTheory.ThK.incV F x ∧ g = p * k := by

@@ -522,7 +522,7 @@ theorem co_U {B : Base F E} {X : Spc F E n} {K : Subgroup (UA σ X.J)} (hK : IsS
 
 theorem stab_compact (hS : StabEx) {B : Base F E} {X : Spc F E n} {r s : ℕ} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s)
     {K : Subgroup (UA σ X.J)} (hK : IsStab B K) : IsCompact (K : Set (UA σ X.J)) := by
-  obtain ⟨K', -, -, h1, h2, -⟩ := hS F E σ B n X r s hB hX
+  obtain ⟨K', -, -, h1, h2, -⟩ := hS F E σ B n X r s (.of_isGood hB) hX
   have : K = K' := Subgroup.ext fun g => (hK g).trans (h1 g).symm
   exact this ▸ h2
 

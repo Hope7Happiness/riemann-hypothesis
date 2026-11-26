@@ -364,7 +364,7 @@ theorem frame_X {B : Base F E} {X : Spc F E n} {r s : ℕ} (hX : X.IsHerm σ B r
   rw [hx', ha]
   exact isIntegral_map a.isIntegral_coe
 
-theorem frame_alt_alt {B : Base F E} {W : Spc F E d} {r s : ℕ} (hB : B.IsGood σ) (hW : W.IsSkew σ B r s) :
+theorem frame_alt_alt {B : Base F E} {W : Spc F E d} {r s : ℕ} (hB : UpperTheory.TP.W.GoodK σ B) (hW : W.IsSkew σ B r s) :
     ∃ (N : ℕ) (y y' : Fin N → Fin d → E), (∀ i, y i ∈ W.L) ∧ (∀ i, y' i ∈ W.L) ∧
       ∀ z, ∑ i, Algebra.trace F E (form σ W.J (y' i) z) • y i = z := by
   have hσ := _root_.GlobalTheory.AdelicU.cm_conj_conj hB.cm
@@ -388,7 +388,7 @@ theorem frame_alt_alt {B : Base F E} {W : Spc F E d} {r s : ℕ} (hB : B.IsGood 
   rw [e1, ← Algebra.trace_trace (S := F), hy', ha]
   exact Algebra.isIntegral_trace a.isIntegral_coe
 
-theorem exists_frames {B : Base F E} {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hB : B.IsGood σ)
+theorem exists_frames {B : Base F E} {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hB : UpperTheory.TP.W.GoodK σ B)
     (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') :
     ∃ (ι : Type) (_ : Fintype ι) (x x' : ι → Fin n → E) (y y' : ι → Fin d → E),
       (∀ i, x i ∈ X.L ∧ x' i ∈ X.L ∧ y i ∈ W.L ∧ y' i ∈ W.L) ∧ ∀ u : Matrix (Fin n) (Fin d) (AE F E),
@@ -440,7 +440,7 @@ theorem exists_frames {B : Base F E} {X : Spc F E n} {W : Spc F E d} {r s r' s' 
     rw [one_smul, one_mul] at h
     rw [h, smul_smul]
 
-theorem mem_latAtV_of_dual {B : Base F E} {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hB : B.IsGood σ)
+theorem mem_latAtV_of_dual {B : Base F E} {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hB : UpperTheory.TP.W.GoodK σ B)
     (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') {v : Pl F} (hv : PsiUnr B.ψ v)
     {u : Matrix (Fin n) (Fin d) (AE F E)} (hu : At (evFin F v) u)
     (h : ∀ γ ∈ latAtV X W v, B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) γ u) = 1) :
@@ -636,10 +636,10 @@ theorem sphFun_of (hCount : CountSt) (hAvg : AvgSt) (hPInv : PInvSt) (hLift : Un
   haveI : LocallyCompactSpace (Fv F v) :=
     (PI.AdicCompletionValuation.isCompact_adicCompletionIntegers F v).locallyCompactSpace_of_mem_nhds_of_addGroup
       ((Valued.isOpen_valuationSubring _).mem_nhds (zero_mem (v.adicCompletionIntegers F)))
-  obtain ⟨w, hw⟩ := inert_of_local F E σ B hT.base v he
+  obtain ⟨w, hw⟩ := inert_of_local F E σ B (.of_isGood hT.base) v he
   have hv : v ∉ X.T := fun h => he.false (B.τ ⟨v, hT.chars.sub h⟩)
-  have P : PairOK B G.V G.W G.M om := ⟨hT.base, ⟨_, _, hT.geo.hV⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM, _, _, hT.weil⟩
-  have P' : PairOK B G.V' G.W G.M' om' := ⟨hT.base, ⟨_, _, hT.geo.hV'⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM', _, _, hT.weil'⟩
+  have P : PairOK B G.V G.W G.M om := ⟨.of_isGood hT.base, ⟨_, _, hT.geo.hV⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM, _, _, hT.weil⟩
+  have P' : PairOK B G.V' G.W G.M' om' := ⟨.of_isGood hT.base, ⟨_, _, hT.geo.hV'⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM', _, _, hT.weil'⟩
   obtain ⟨m, Cy, hL, hAd, hIw, -⟩ := PositivityTheory.ThKH.Iwas.iwasawa F E σ _ _ B _ _ _ _ P v hT.geo.even ⟨w, hw⟩
   obtain ⟨l₀, hl, hl0⟩ := PositivityTheory.ThKH.Evl.evVac F E σ _ _ B _ _ _ _ P v ⟨w, hw⟩ m Cy hL hAd
   obtain ⟨l₀', hl', hl0'⟩ := PositivityTheory.ThKH.Evl.evVac F E σ _ _ B _ _ _ _ P' v ⟨w, hw⟩ m Cy hL hAd

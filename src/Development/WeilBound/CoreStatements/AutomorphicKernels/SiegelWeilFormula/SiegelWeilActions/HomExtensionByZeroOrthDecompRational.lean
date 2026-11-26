@@ -23,18 +23,8 @@ open GlobalTheory.Doubling (absE)
 namespace PositivityTheory.SiegelWeilFormula.Act.C5.JC
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
-variable {d : SD σ}
-
-def ext0 (L : LD d) (x : Fin L.n → AE F E) (i : Fin d.n) : AE F E :=
-  ∑ k, (if L.em k = i then (1 : AE F E) else 0) * x k
-
-variable {L : LD d}
 
 def cv (σ : E →ₐ[F] E) {ι : Type} (x : ι → AE F E) : ι → AE F E := fun r => cA σ (x r)
-
-variable {R : RD d}
-variable {nb : nA σ d.Y d.b → d.G} {uM : (Fin L.n → AE F E) → d.G} {nb' : nA σ L.Y L.b → G2 σ L.Y} {w₁ : d.G}
-  {cM : (Fin L.n → AE F E) × AF F → d.G} {δ : E}
 
 theorem inFrame_rat_mem {n : ℕ} {Y : Spc F E n} (b : GL (Fin n ⊕ Fin n) E) {x : G2 σ Y} (hx : x ∈ rat2 σ Y)
     (i j : Fin n ⊕ Fin n) : inFrame b x i j ∈ (inclR (F := F) (E := E) (AF F)).range := by

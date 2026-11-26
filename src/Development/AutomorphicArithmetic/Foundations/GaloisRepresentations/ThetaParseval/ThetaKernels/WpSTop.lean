@@ -345,7 +345,7 @@ private theorem exists_dbl_target_pk (hB : GoodK σ B) {nS nT : ℕ} {JS : Matri
     (by rw [GlobalTheory.WeilSchrodinger.DblTargetF.ugDbl_coe, hgd]) φ₁ hφ₁ φ₂ hφ₂
   rw [MonoidHom.comp_apply, MonoidHom.comp_apply, MonoidHom.inl_apply]; exact key
 
-theorem weilEx_k : PositivityTheory.ThKG.Tow.WeilEx_k := by
+theorem weilEx_k : PositivityTheory.ThKG.Tow.WeilEx := by
   intro F E _ _ _ _ _ σ B hB n d X W r s r' s' hX hW M hM χX χW hcX hcW rX rW
   obtain ⟨ξ₀, hξ, hσξ⟩ := GlobalTheory.T.exists_trace_zero_element F E σ B hB
   have hXu := _root_.GlobalTheory.isUnit_det_of_isHerm F E σ B n X r s hX
@@ -421,7 +421,7 @@ variable {σ : E →ₐ[F] E}
 variable {B : Base F E} {n d : ℕ} {X : Spc F E n} {W : Spc F E d} {M : Model σ X W}
 variable {χX χW : Chr F E} {om : Rep σ X W}
 
-private theorem lift_equiv_pk (T : Tools_k) (hp : IsPair_k B M χX χW om n 0 d 0) {Φ : Fn F n d}
+private theorem lift_equiv_pk (T : Tools_k) (hp : IsPair B M χX χW om n 0 d 0) {Φ : Fn F n d}
     (hΦ : Φ ∈ schA F (Fin n × Fin d)) {φ : UA σ X.J → ℂ} (hφ : IsFn φ) (a : UA σ X.J) (b h : UA σ W.J) :
     lift M om (om (a, b) Φ) (fun y => φ (y * a)) h = lift M om Φ φ (h * b) := by
   have c : Cpt σ X.J := T.cpt F E σ B n X n 0 hp.base (Or.inl hp.herm) (by simp)
@@ -444,7 +444,7 @@ private theorem lift_equiv_pk (T : Tools_k) (hp : IsPair_k B M χX χW om n 0 d 
       Function.bijective_id (fun γ x => mul_assoc γ.1 x a⁻¹)
   rw [hL, h1, hfd.setIntegral_eq hp.good.dom (f := G) (fun γ x => hinv γ.1 γ.2 x)]; rfl
 
-private theorem lift_lin_pk (T : Tools_k) (hP : IsPair_k B M χX χW om n 0 d 0) :
+private theorem lift_lin_pk (T : Tools_k) (hP : IsPair B M χX χW om n 0 d 0) :
     (∀ Φ ∈ schA F (Fin n × Fin d), ∀ Φ' ∈ schA F (Fin n × Fin d), ∀ φ : UA σ X.J → ℂ, IsFn φ →
       lift M om (Φ + Φ') φ = lift M om Φ φ + lift M om Φ' φ) ∧
     (∀ (c : ℂ), ∀ Φ ∈ schA F (Fin n × Fin d), ∀ φ : UA σ X.J → ℂ, IsFn φ →
@@ -479,7 +479,7 @@ private theorem lift_lin_pk (T : Tools_k) (hP : IsPair_k B M χX χW om n 0 d 0)
     rw [show (fun g => theta om Φ g h * (star c * star (φ g))) =
       fun g => star c * (theta om Φ g h * star (φ g)) from funext fun _ => by ring, integral_const_mul]
 
-private theorem pol_arch_pk (hp : IsPair_k B M χX χW om n 0 d 0) {g : UA σ X.J} (hg : g ∈ UAt σ X (evI F))
+private theorem pol_arch_pk (hp : IsPair B M χX χW om n 0 d 0) {g : UA σ X.J} (hg : g ∈ UAt σ X (evI F))
     {h : UA σ W.J} (hh : h ∈ UAt σ W (evI F)) {Φ : Fn F n d} (hΦ : Φ ∈ PolData B M) : om (g, h) Φ ∈ PolData B M := by
   obtain ⟨T, hT, hP⟩ := PositivityTheory.ThKF.A.archOp_k F E σ B n d X W M χX χW om n 0 d 0 hp g hg h hh
   have kg : g ∈ KInf σ X B.emb := ⟨hg, fun w => by
@@ -494,7 +494,7 @@ private theorem pol_arch_pk (hp : IsPair_k B M χX χW om n 0 d 0) {g : UA σ X.
   rw [e f, hT.1 f ξ hξ, ← e (T f)]
   exact subset_span ⟨T f, hP kg kh f f1, φ, f2, f3, rfl⟩
 
-private theorem pol_fin_pk (T : Tools_k) {r s r' s' : ℕ} (hp : IsPair_k B M χX χW om r s r' s') (v : Pl F)
+private theorem pol_fin_pk (T : Tools_k) {r s r' s' : ℕ} (hp : IsPair B M χX χW om r s r' s') (v : Pl F)
     {g : UA σ X.J} (hg : g ∈ UAt σ X (evFin F v)) {h : UA σ W.J} (hh : h ∈ UAt σ W (evFin F v))
     {Φ : Fn F n d} (hΦ : Φ ∈ PolData B M) : om (g, h) Φ ∈ PolData B M := by
   classical
@@ -512,7 +512,7 @@ private theorem pol_fin_pk (T : Tools_k) {r s r' s' : ℕ} (hp : IsPair_k B M χ
   · subst hu; simpa using s1
   · simpa [Function.update_of_ne hu] using hSB u
 
-private theorem levelX_pure_pk {r s r' s' : ℕ} (hp : IsPair_k B M χX χW om r s r' s')
+private theorem levelX_pure_pk {r s r' s' : ℕ} (hp : IsPair B M χX χW om r s r' s')
     {φ : (Fin n × Fin d → Af F) → ℂ} (hφ : φ ∈ SB (Fin n × Fin d → Af F)) :
     ∃ U ∈ 𝓝 (1 : UA σ X.J), ∀ u ∈ U, (∀ w, (mat u).map (piInf (B.emb w)) = 1) →
       ∀ f : SInf F (Fin n × Fin d), om (u, 1) (pureA F f φ) = pureA F f φ := by

@@ -104,7 +104,7 @@ theorem pv_act {M : Model σ X W} (hM : M.IsGood B.ψ) {S} {f f₁ : SInf F (Fin
 theorem pv_smul (M : Model σ X W) (c : ℂ) (f) : PV M (c • f) = c • PV M f := by
   funext x; simp [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure, mul_assoc]
 
-theorem pv_rho {M : Model σ X W} (hB : B.IsGood σ) (hM : M.IsGood B.ψ) {u} (hu : At (evI F) u) (f) :
+theorem pv_rho {M : Model σ X W} (hB : UpperTheory.TP.W.GoodK σ B) (hM : M.IsGood B.ψ) {u} (hu : At (evI F) u) (f) :
     ∃ f₁, M.co.rho B.ψ u (PV M f) = PV M f₁ :=
   let ⟨f₁, h⟩ := (archHeis_of F E σ B n d X W M hB).2 u hu f; ⟨f₁, pv_act hM h⟩
 

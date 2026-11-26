@@ -83,7 +83,7 @@ theorem UpperTheory.exists_ne_zero_linearModel_vacuum_eq_smul :
       rw [e, ← Matrix.mul_assoc, ← Matrix.mul_assoc, Units.mul_inv, Matrix.one_mul, Matrix.mul_assoc, Units.inv_mul,
         Matrix.mul_one])
     (fun x hx h => by
-      refine (GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B n d X W r s r' s' hB hX hW v x hx.1).2 fun γ hγ => ?_
+      refine (GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B n d X W r s r' s' (.of_isGood hB) hX hW v x hx.1).2 fun γ hγ => ?_
       obtain ⟨γ₁, h₁, γ₂, h₂, rfl, e₁, e₂⟩ := GlobalTheory.LatSplit.latAtV_decomp hB.cm X W v t₁ γ hγ
       have e : GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (-1)
           (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F W.J) x (γ₁ + γ₂) =

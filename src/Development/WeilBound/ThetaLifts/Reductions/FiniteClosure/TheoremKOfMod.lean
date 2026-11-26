@@ -591,8 +591,8 @@ theorem finAt_sph {ω ρ ω' ρ'} (L : IsLocRep G.M B.ψ om v ω ρ) (L' : IsLoc
 
 theorem finInert_of (hV : VacInert) (hF : SphFun) (hA : LocRepEx) : FinInert := by
   intro F E _ _ _ _ _ σ B a a' G X om om' hT v ⟨hv, he⟩
-  have P : PairOK B G.V G.W G.M om := ⟨hT.base, ⟨_, _, hT.geo.hV⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM, _, _, hT.weil⟩
-  have P' : PairOK B G.V' G.W G.M' om' := ⟨hT.base, ⟨_, _, hT.geo.hV'⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM', _, _, hT.weil'⟩
+  have P : PairOK B G.V G.W G.M om := ⟨.of_isGood hT.base, ⟨_, _, hT.geo.hV⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM, _, _, hT.weil⟩
+  have P' : PairOK B G.V' G.W G.M' om' := ⟨.of_isGood hT.base, ⟨_, _, hT.geo.hV'⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM', _, _, hT.weil'⟩
   obtain ⟨ω, ρ, L⟩ := hA F E σ _ _ B _ _ _ _ P v
   obtain ⟨ω', ρ', L'⟩ := hA F E σ _ _ B _ _ _ _ P' v
   obtain ⟨V1, V2⟩ := hV F E σ B a a' G X om om' hT v he

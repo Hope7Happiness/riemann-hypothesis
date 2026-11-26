@@ -65,7 +65,7 @@ theorem fr_span {R : Type} [CommRing R] {K : Type} [CommRing K] [Algebra R K] {c
     rwa [vecMulVec_apply, e1, one_mul] at this
 
 theorem setX {n n₁ d r s r' s' r₁ s₁ j₀ j₁ : ℕ} {X : Spc F E n} {W : Spc F E d} {X₁ : Spc F E n₁} {H : Plane E n n₁} {M : Model σ X W}
-    {M₁ : Model σ X₁ W} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') (hM : M.IsGood B.ψ)
+    {M₁ : Model σ X₁ W} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hW : W.IsSkew σ B r' s') (hM : M.IsGood B.ψ)
     (hX₁ : X₁.IsHerm σ B r₁ s₁) (hH : H.IsAdapted σ B X X₁ j₀ j₁) (hM₁ : M₁.IsGood B.ψ) {e}
     (he : IsEv B M M₁ H.ι 1 {u | ∃ z, u = Matrix.vecMulVec (incV F H.x) z} e) :
     ∃ (S : V (AF F) (Fin n × Fin d) ≃ₗ[AF F] V (AF F) (Fin n × Fin d)) (j : Fin n₁ × Fin d → Fin n × Fin d), IsSp S ∧

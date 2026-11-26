@@ -888,7 +888,7 @@ theorem psi_half_symp_theta_indep : ∀ (F E : Type) [Field F] [NumberField F] [
         2 * symp (R := AF F) (cA σ) (inclR (F := F) (AF F) (((θ * (θ - θ') : 𝓞 E)) : E)) (incM F X.J) (incM F W.J) γ γ := by
     simp only [symp, hmul]
     rw [← htdef, mul_assoc, ← hz, ← h2, hz, sub_mul, map_sub]; ring
-  have h1 := GlobalTheory.LatVacArith.psi_symp_latAtV σ B X W r s r' s' hB hX hW v (θ * (θ - θ')) 1
+  have h1 := GlobalTheory.LatVacArith.psi_symp_latAtV σ B X W r s r' s' (.of_isGood hB) hX hW v (θ * (θ - θ')) 1
     (by rw [map_one]; exact one_mem _) γ hγ γ hγ
   rw [key, mul_add, ← mul_assoc, invOf_mul_self, one_mul, AddChar.map_add_eq_mul, ← one_mul (symp (R := AF F) (cA σ) (inclR (F := F) (AF F) (((θ * (θ - θ') : 𝓞 E)) : E)) (incM F X.J) (incM F W.J) γ γ), h1, mul_one]
 

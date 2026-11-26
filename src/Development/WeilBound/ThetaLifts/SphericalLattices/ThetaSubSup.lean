@@ -111,9 +111,9 @@ theorem locRep_tri {B : Base F E} {a a' : ℕ} {G : Geo σ a a'} {Y : Chars F E}
     (hT : IsTriple B G Y om om') (v : Pl F) :
     (∃ ω ρ, IsLocRep G.M B.ψ om v ω ρ) ∧ ∃ ω ρ, IsLocRep G.M' B.ψ om' v ω ρ :=
   ⟨PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B G.V G.W G.M om
-      ⟨hT.base, ⟨_, _, hT.geo.hV⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM, ⟨_, _, hT.weil⟩⟩ v,
+      ⟨.of_isGood hT.base, ⟨_, _, hT.geo.hV⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM, ⟨_, _, hT.weil⟩⟩ v,
     PositivityTheory.ThKH.Locrep.locRepEx F E σ _ _ B G.V' G.W G.M' om'
-      ⟨hT.base, ⟨_, _, hT.geo.hV'⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM', ⟨_, _, hT.weil'⟩⟩ v⟩
+      ⟨.of_isGood hT.base, ⟨_, _, hT.geo.hV'⟩, ⟨_, _, hT.geo.hW⟩, hT.geo.hM', ⟨_, _, hT.weil'⟩⟩ v⟩
 
 theorem maxFinT_of (h : SphTri) : PositivityTheory.HoweDualityUnitaryAlt.MaxFinT := by
   intro F E _ _ _ _ _ σ B a a' G X om om' hT v _

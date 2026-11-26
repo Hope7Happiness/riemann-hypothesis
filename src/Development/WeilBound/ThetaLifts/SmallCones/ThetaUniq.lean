@@ -88,7 +88,7 @@ def ThetaInj : Prop :=
 
 def Slice : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d n₁ d₁ : ℕ) (X : Spc F E n) (W : Spc F E d)
-    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), B.IsGood σ → M.IsGood B.ψ → M₁.IsGood B.ψ →
+    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), UpperTheory.TP.W.GoodK σ B → M.IsGood B.ψ → M₁.IsGood B.ψ →
     ∀ ι ι' I e, IsEv B M M₁ ι ι' I e → ∀ (m : ℕ) (u z : Fin m → Matrix (Fin n) (Fin d) E), Dual σ X W I u z →
     ∀ φ ∈ SB (Fin n × Fin d → Af F), ∃ (r : ℕ) (φ₁ : Fin r → (Fin n₁ × Fin d₁ → Af F) → ℂ) (C : Set (Fin m → Af F))
       (A : Fin r → (Fin m → AF F) → SInf F (Fin n × Fin d) →L[ℂ] SInf F (Fin n₁ × Fin d₁)),
@@ -100,7 +100,7 @@ def Slice : Prop :=
 
 def EvAdm : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d n₁ d₁ : ℕ) (X : Spc F E n) (W : Spc F E d)
-    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), B.IsGood σ → M.IsGood B.ψ → M₁.IsGood B.ψ →
+    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), UpperTheory.TP.W.GoodK σ B → M.IsGood B.ψ → M₁.IsGood B.ψ →
     (∃ l ∈ (adeleClass F).adm (Fin n₁ × Fin d₁), ∀ Φ ∈ schA F _, l Φ = thetaSum F Φ) ∧
     (∀ u, ∀ Φ ∈ schA F _, M.co.rho B.ψ u Φ ∈ schA F (Fin n × Fin d)) ∧
     ∀ ι ι' I e, IsEv B M M₁ ι ι' I e → ∀ u, ∀ l ∈ (adeleClass F).adm (Fin n₁ × Fin d₁),
@@ -108,14 +108,14 @@ def EvAdm : Prop :=
 
 def ThetaExp : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d n₁ d₁ : ℕ) (X : Spc F E n) (W : Spc F E d)
-    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), B.IsGood σ → M.IsGood B.ψ → M₁.IsGood B.ψ →
+    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), UpperTheory.TP.W.GoodK σ B → M.IsGood B.ψ → M₁.IsGood B.ψ →
     ∀ ι ι' I e, IsEv B M M₁ ι ι' I e → ∀ (m : ℕ) (u z : Fin m → Matrix (Fin n) (Fin d) E), Polar σ X W X₁ W₁ ι ι' I u z →
     ∃ C : ℂ, C ≠ 0 ∧ ∀ Φ ∈ schA F _, HasSum (fun y : Fin m → F =>
       C * thetaSum F (e (M.co.rho B.ψ (lin u fun j => algebraMap F (AF F) (y j)) Φ))) (thetaSum F Φ)
 
 def EvUniq : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d n₁ d₁ : ℕ) (X : Spc F E n) (W : Spc F E d)
-    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), B.IsGood σ → M.IsGood B.ψ → M₁.IsGood B.ψ →
+    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), UpperTheory.TP.W.GoodK σ B → M.IsGood B.ψ → M₁.IsGood B.ψ →
     ∀ ι ι' I e e', IsEv B M M₁ ι ι' I e → IsEv B M M₁ ι ι' I e' →
     ∀ (m : ℕ) (u z : Fin m → Matrix (Fin n) (Fin d) E), Polar σ X W X₁ W₁ ι ι' I u z →
     ∃ c : ℂ, c ≠ 0 ∧ ∀ Φ ∈ schA F _, e' Φ = c • e Φ
@@ -127,13 +127,13 @@ def SchInt : Prop :=
     ∃ f : SchwartzMap V ℂ, ∀ T : SchwartzMap V ℂ →L[ℂ] ℂ, Integrable (fun a => T (G a)) μ ∧ T f = ∫ a, T (G a) ∂μ
 
 def TateAbs : Prop :=
-  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E), B.IsGood σ → ∀ μ : Measure (AE F E)ˣ, μ.IsHaarMeasure → ∀ z : ℕ, 2 ≤ z → ∃ N : ℕ, ∀ C : Set (AE F E), IsCompact C →
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E), UpperTheory.TP.W.GoodK σ B → ∀ μ : Measure (AE F E)ˣ, μ.IsHaarMeasure → ∀ z : ℕ, 2 ≤ z → ∃ N : ℕ, ∀ C : Set (AE F E), IsCompact C →
     ∫⁻ l in {l : (AE F E)ˣ | ∃ c ∈ C, At (evI F) ((l : AE F E) - c)},
       ENNReal.ofReal ((absE F E l : ℝ) ^ z / (1 + ∑ w, ‖piInf (B.emb w) (l : AE F E)‖) ^ N) ∂μ < ⊤
 
 def LineInt : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d n₁ d₁ : ℕ) (X : Spc F E n) (W : Spc F E d)
-    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), B.IsGood σ → M.IsGood B.ψ → M₁.IsGood B.ψ →
+    (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (M : Model σ X W) (M₁ : Model σ X₁ W₁), UpperTheory.TP.W.GoodK σ B → M.IsGood B.ψ → M₁.IsGood B.ψ →
     ∀ ι ι' I e, IsEv B M M₁ ι ι' I e → ∀ v₀ z₀ : Matrix (Fin n) (Fin d) E, (∀ a : AE F E, a • incM F z₀ ∈ I) →
     IsUnit (hTens (cA σ) (incM F X.J) (incM F W.J) (incM F z₀) (incM F v₀)) →
     ∀ τ : AE F E →ₐ[AF F] AE F E, τ = AlgHom.id _ _ ∨ τ = cA σ → ∀ μ : Measure (AE F E)ˣ, μ.IsHaarMeasure →
@@ -147,17 +147,17 @@ def LineInt : Prop :=
         l₁ Ψ₁ = ∫ l, l₁ (e (M.co.rho B.ψ (τ l.1 • incM F v₀) Ψ)) * (ν l : ℂ) * ((absE F E l : ℝ) : ℂ) ^ z ∂μ
 
 def Low : Prop :=
-  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (Y : Spc F E n) (Y₁ : Spc F E n₁) (H : Plane E n n₁) (i₀ i₁ r s : ℕ), B.IsGood σ → H.IsAdapted σ B Y Y₁ i₀ i₁ →
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (Y : Spc F E n) (Y₁ : Spc F E n₁) (H : Plane E n n₁) (i₀ i₁ r s : ℕ), UpperTheory.TP.W.GoodK σ B → H.IsAdapted σ B Y Y₁ i₀ i₁ →
     (Y.IsHerm σ B r s → 1 ≤ r ∧ 1 ≤ s ∧ Y₁.IsHerm σ B (r - 1) (s - 1)) ∧
       (Y.IsSkew σ B r s → 1 ≤ r ∧ 1 ≤ s ∧ Y₁.IsSkew σ B (r - 1) (s - 1))
 
 def Witt : Prop :=
-  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n : ℕ) (X : Spc F E n) (r s : ℕ), B.IsGood σ → X.IsHerm σ B r s →
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n : ℕ) (X : Spc F E n) (r s : ℕ), UpperTheory.TP.W.GoodK σ B → X.IsHerm σ B r s →
     (min r s = 0 → ∀ x, form σ X.J x x = 0 → x = 0) ∧
     ∀ (n₁ : ℕ) (H : Plane E n n₁), H.x ≠ 0 → form σ X.J H.x H.x = 0 → ∃ γ, Moves (σ := σ) (X := X) H γ
 
 def UnipEx : Prop :=
-  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (Y : Spc F E n) (Y₁ : Spc F E n₁) (H : Plane E n n₁) (i₀ i₁ r s : ℕ), B.IsGood σ →
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (Y : Spc F E n) (Y₁ : Spc F E n₁) (H : Plane E n n₁) (i₀ i₁ r s : ℕ), UpperTheory.TP.W.GoodK σ B →
     (Y.IsHerm σ B r s ∨ Y.IsSkew σ B r s) → H.IsAdapted σ B Y Y₁ i₀ i₁ →
     (∃ (μ : Measure (unip σ Y H)) (𝓕 : Set (unip σ Y H)), μ.IsHaarMeasure ∧
       IsFundamentalDomain ((ratU σ Y.J).subgroupOf (unip σ Y H)) 𝓕 μ ∧ μ 𝓕 = 1) ∧
@@ -170,11 +170,11 @@ def UnipEx : Prop :=
     ∃ t : (AE F E)ˣ, 1 < (absE F E t : ℝ)
 
 def IwaEx : Prop :=
-  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (X : Spc F E n) (r s : ℕ) (H : Plane E n n₁), B.IsGood σ → X.IsHerm σ B r s → H.x ≠ 0 →
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (X : Spc F E n) (r s : ℕ) (H : Plane E n n₁), UpperTheory.TP.W.GoodK σ B → X.IsHerm σ B r s → H.x ≠ 0 →
     form σ X.J H.x H.x = 0 → ∀ K : Subgroup (UA σ X.J), IsStab B K → Iwa H K
 
 def Unfold : Prop :=
-  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (X : Spc F E n) (X₁ : Spc F E n₁) (H : Plane E n n₁) (j₀ j₁ r s : ℕ), B.IsGood σ → X.IsHerm σ B r s →
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n n₁ : ℕ) (X : Spc F E n) (X₁ : Spc F E n₁) (H : Plane E n n₁) (j₀ j₁ r s : ℕ), UpperTheory.TP.W.GoodK σ B → X.IsHerm σ B r s →
     H.IsAdapted σ B X X₁ j₀ j₁ → ∀ (K : Subgroup (UA σ X.J)) (μK : Measure K) (μ : Measure (AE F E)ˣ) (ν : Measure (UA σ X.J))
       (D : Set (UA σ X.J)) (ν₁ : Measure (UA σ X₁.J)) (D₁ : Set (UA σ X₁.J)) (lev : (AE F E)ˣ × UA σ X₁.J → UA σ X.J),
     Iwa H K → μK.IsHaarMeasure → μ.IsHaarMeasure → ν.IsHaarMeasure → IsFundamentalDomain (ratU σ X.J) D ν → ν₁.IsHaarMeasure →
@@ -202,7 +202,7 @@ def TwoExp : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d n₁ d₁ : ℕ) (X : Spc F E n) (W : Spc F E d)
     (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (H : Plane E n n₁) (H' : Plane E d d₁) (j₀ j₁ i₀ i₁ r s r' s' : ℕ)
     (M : Model σ X W) (M₀ : Model σ X₁ W₁), H.IsAdapted σ B X X₁ j₀ j₁ → H'.IsAdapted σ B W W₁ i₀ i₁ →
-    B.IsGood σ → X.IsHerm σ B r s → W.IsSkew σ B r' s' → M.IsGood B.ψ → M₀.IsGood B.ψ →
+    UpperTheory.TP.W.GoodK σ B → X.IsHerm σ B r s → W.IsSkew σ B r' s' → M.IsGood B.ψ → M₀.IsGood B.ψ →
     ∀ eA eB, IsEv B M M₀ H.ι H'.ι (isoA H H') eA → IsEv B M M₀ H.ι H'.ι (isoB H H') eB → ∃ c : ℂ, c ≠ 0 ∧ ∀ Ψ ∈ schA F _,
       (Summable fun ξ : E => thetaSum F (eA (M.co.rho B.ψ (incM F (ξ • Matrix.vecMulVec H.x H'.y)) Ψ))) ∧
       (Summable fun ξ : E => thetaSum F (eB (M.co.rho B.ψ (incM F (ξ • Matrix.vecMulVec H.y H'.x)) Ψ))) ∧
@@ -217,7 +217,7 @@ def SoEv : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d n₁ d₁ : ℕ) (X : Spc F E n) (W : Spc F E d)
     (X₁ : Spc F E n₁) (W₁ : Spc F E d₁) (H : Plane E n n₁) (H' : Plane E d d₁) (j₀ j₁ i₀ i₁ r s r' s' : ℕ)
     (M : Model σ X W) (M₀ : Model σ X₁ W₁), H.IsAdapted σ B X X₁ j₀ j₁ → H'.IsAdapted σ B W W₁ i₀ i₁ →
-    B.IsGood σ → X.IsHerm σ B r s → W.IsSkew σ B r' s' → M.IsGood B.ψ → M₀.IsGood B.ψ →
+    UpperTheory.TP.W.GoodK σ B → X.IsHerm σ B r s → W.IsSkew σ B r' s' → M.IsGood B.ψ → M₀.IsGood B.ψ →
     ∀ e, IsEv B M M₀ H.ι H'.ι (isoB H H') e → ∀ Ψ ∈ M.So B.ψ B.τ₁, e Ψ = 0 ∧
       ∀ a : AE F E, e (M.co.rho B.ψ (a • incM F (Matrix.vecMulVec H.y H'.x)) Ψ) ∈ M₀.So B.ψ B.τ₁
 

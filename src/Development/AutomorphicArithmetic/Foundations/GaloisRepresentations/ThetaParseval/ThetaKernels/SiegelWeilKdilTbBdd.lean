@@ -89,7 +89,7 @@ private def xi : d.ME ≃ (Ix_k d → F) :=
    fun X => funext fun i => funext fun j => d.bs.sum_repr (X i j),
    fun c => funext fun ⟨_, _, k⟩ => congrFun (d.bs.repr_sum_self fun k => c (_, _, k)) k⟩
 theorem cpt_k (hS : GlobalTheory.Published.SiegelSetUnitary) : GlobalTheory.ThK.Dbl.Cpt σ d.A.J := by
-  have hC := cptAll_of_k PositivityTheory.ThKEst.grpTop_of _root_.PositivityTheory.ThKEst.epsOf_of_k
+  have hC := cptAll_of_k PositivityTheory.ThKEst.grpTop_of _root_.PositivityTheory.ThKEst.epsOf_of
     (PositivityTheory.ThKEst.siegelAll_of hS) PositivityTheory.ThKEst.finVolU PositivityTheory.ThKF.unimodularity_holds
   exact hC F E σ d.B d.m d.A d.r d.s d.ok.good (d.ok.sign.imp And.left And.left) d.ok.aniso
 end Tb

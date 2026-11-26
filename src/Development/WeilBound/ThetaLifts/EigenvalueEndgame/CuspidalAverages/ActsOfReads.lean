@@ -670,7 +670,7 @@ theorem locV (hB : ThetaBasic) (hK : KDecay) (hA : IAut) (hT : IsTriple B G X om
       IsLoc (W := G.W) t (chrW (X.β / X.α) t * apowH (((a + a' : ℕ) : ℂ) / 2))⁻¹ (chrW X.β t * apowH ((a : ℂ) / 2)) S ∧
         S (ι (G.M.vac v)) = G.M.I om Φ := by
   have hp : IsPair B G.M X.β (X.β / X.α) om (a - G.p) G.p (a + a' - (G.p + G.q)) (G.p + G.q) := by
-    refine ⟨hT.base, hT.geo.hV, hT.geo.hW, hT.geo.hM, hT.chars.heckeβ, ?_, hT.chars.resβ, ?_, hT.weil⟩
+    refine ⟨.of_isGood hT.base, hT.geo.hV, hT.geo.hW, hT.geo.hM, hT.chars.heckeβ, ?_, hT.chars.resβ, ?_, hT.weil⟩
     · exact ⟨hT.chars.heckeβ.1.div' hT.chars.heckeα.1, fun x => by
         rw [MonoidHom.div_apply, hT.chars.heckeβ.2 x, hT.chars.heckeα.2 x, div_one]⟩
     · intro x
@@ -694,7 +694,7 @@ theorem locV' (hB : ThetaBasic) (hK : KDecay) (hA : IAut) (hT : IsTriple B G X o
       IsLoc (W := G.W) t (chrW (X.α / X.β) t * apowH (((a + a' : ℕ) : ℂ) / 2))⁻¹ (chrW X.α t * apowH ((a' : ℂ) / 2)) S ∧
         S (ι (G.M'.vac v)) = G.M'.I om' Φ := by
   have hp : IsPair B G.M' X.α (X.α / X.β) om' G.q (a' - G.q) (a + a' - (G.p + G.q)) (G.p + G.q) := by
-    refine ⟨hT.base, hT.geo.hV', hT.geo.hW, hT.geo.hM', hT.chars.heckeα, ?_, hT.chars.resα, ?_, hT.weil'⟩
+    refine ⟨.of_isGood hT.base, hT.geo.hV', hT.geo.hW, hT.geo.hM', hT.chars.heckeα, ?_, hT.chars.resα, ?_, hT.weil'⟩
     · exact ⟨hT.chars.heckeα.1.div' hT.chars.heckeβ.1, fun x => by
         rw [MonoidHom.div_apply, hT.chars.heckeα.2 x, hT.chars.heckeβ.2 x, div_one]⟩
     · intro x

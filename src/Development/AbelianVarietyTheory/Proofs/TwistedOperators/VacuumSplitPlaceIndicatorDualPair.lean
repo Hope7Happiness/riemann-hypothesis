@@ -93,7 +93,7 @@ theorem dblFun_eigen_left {σ : E →ₐ[F] E} {B : Base F E} {a a' : ℕ} {G : 
     ∃ c : ℂ, omd g (GlobalTheory.InertDbl.dblFun (tens (evFin F v) (G.M'.vac v) R)) =
       c • GlobalTheory.InertDbl.dblFun (tens (evFin F v) (G.M'.vac v) R) := by
   obtain ⟨hSB, h0, θ, -, hvac⟩ := hG.hM'.vac v
-  have hsd := GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B _ _ G.V' G.W _ _ _ _ hB hG.hV' hG.hW v
+  have hsd := GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B _ _ G.V' G.W _ _ _ _ (.of_isGood hB) hG.hV' hG.hW v
   refine dbl_line_coord hB.std v hunr hG.hW.lat.toIsLattice hG.hV'.lat.toIsLattice (fun z hz => ?_) d' _ hSB h0 (θ : E) (fun γ hγ => ?_)
     dd omd hdc hS R hR g hg
   · have hzt : At (evFin F v) zᵀ := fun u hu => by

@@ -387,7 +387,7 @@ variable {n d n₁ d₁ m : ℕ} {B : Base F E} {X : Spc F E n} {W : Spc F E d} 
   {M : Model σ X W} {M₁ : Model σ X₁ W₁} {ι : Matrix (Fin n) (Fin n₁) E} {ι' : Matrix (Fin d) (Fin d₁) E}
   {I : Set (Ten F E n d)} {e : Fn F n d →ₗ[ℂ] Fn F n₁ d₁} {u z : Fin m → Matrix (Fin n) (Fin d) E}
 
-theorem slice_unif (hS : Slice) (hB : B.IsGood σ) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ) (he : IsEv B M M₁ ι ι' I e)
+theorem slice_unif (hS : Slice) (hB : UpperTheory.TP.W.GoodK σ B) (hM : M.IsGood B.ψ) (hM₁ : M₁.IsGood B.ψ) (he : IsEv B M M₁ ι ι' I e)
     (hD : Dual σ X W I u z) {Φ} (hΦ : Φ ∈ schA F (Fin n × Fin d)) : ∃ b : (Fin m → F) → ℝ, Summable b ∧ ∀ y w,
       ‖thetaSum F (M₁.co.rho B.ψ w (e (M.co.rho B.ψ (lin u fun j => algebraMap F (AF F) (y j)) Φ)))‖ ≤ b y := by
   obtain ⟨l, -, hl⟩ := (GlobalTheory.CompanionTheory.ThetaAdm.theta_adm F (Fin n₁ × Fin d₁)).2.1

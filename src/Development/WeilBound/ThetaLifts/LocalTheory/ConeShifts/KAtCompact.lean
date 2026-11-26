@@ -88,7 +88,7 @@ theorem tate (hI : IdeleFub) (hJ : IdealId0) (hS : StabEx) {B : Base F E} {M : M
   obtain ⟨i', j', hH'⟩ := hc.hH'
   obtain ⟨𝔞, h𝔞, hin⟩ := hJ F E σ B n d n₁ d₁ X W X₁ W₁ H H' r s r' s' i j i' j' hc.base hX hW hH hH' u
     (hc.ev.imp And.right And.right)
-  obtain ⟨-, -, μ, -, -, -, hμ⟩ := hS F E σ B n X r s hc.base hX
+  obtain ⟨-, -, μ, -, -, -, hμ⟩ := hS F E σ B n X r s (.of_isGood hc.base) hX
   obtain ⟨πi, π, κ, -, hπ, hF⟩ := hI F E σ B n X K m μ hc.base hm hμ 𝔞 z h𝔞 hz
   have hint := ((hF 1 ∅ ∅ continuous_const (Finset.Subset.refl _) (fun w _ x _ => map_one Circle.toUnits)
     (fun w hw => absurd hw (Finset.notMem_empty _))).1 v (Finset.notMem_empty v)).2

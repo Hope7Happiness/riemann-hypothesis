@@ -677,14 +677,14 @@ theorem latAtV_selfDual : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [
   have h1v : evFin F v (1 : AF F) ∈ v.adicCompletionIntegers F := by rw [map_one]; exact one_mem _
   constructor
   · intro hzΓ γ hγ
-    have h := GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V' G.W _ _ _ _ hB hV' hW v (-1) 1 h1v z hzΓ γ hγ
+    have h := GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V' G.W _ _ _ _ (.of_isGood hB) hV' hW v (-1) 1 h1v z hzΓ γ hγ
     simpa using h
   · intro hc
     obtain ⟨X₀, hX₀⟩ := _root_.GlobalTheory.LatPtDecomp.decomp F E G.V' G.W hV'.lat hW.lat v z hz
     have hc₀ : ∀ γ ∈ latAtV G.V' G.W v, B.ψ (symp (cA σ) (-1) (incM F G.V'.J) (incM F G.W.J)
         (GlobalTheory.EmbChart.atPlace v 1 • incM F X₀) γ) = 1 := by
       intro γ hγ
-      have h1 := GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V' G.W _ _ _ _ hB hV' hW v (-1) 1 h1v _ hX₀ γ hγ
+      have h1 := GlobalTheory.LatVacArith.psi_symp_latAtV σ B G.V' G.W _ _ _ _ (.of_isGood hB) hV' hW v (-1) 1 h1v _ hX₀ γ hγ
       have hm : inclR (F := F) (AF F) (((-1 : 𝓞 E)) : E) = -1 := by simp
       rw [hm, one_mul] at h1
       have e : GlobalTheory.EmbChart.atPlace v 1 • incM F X₀ = z + -(z - GlobalTheory.EmbChart.atPlace v 1 • incM F X₀) := by abel

@@ -1048,7 +1048,7 @@ theorem chrW_norm {v : Pl F} (χ : Chr F E) (t : E →ₐ[F] Fv F v) (x : (Fv F 
 
 theorem const_of (hL : LocDist) (hC : ConstOfGood) (hT : ThetaBasic) (h1 : GrpTop) (h2 : EpsOf) (h3 : FinVolU) (h4 : Unimod)
     (hS : SplitModel) {B : Base F E} {X : Spc F E n} {X' : Spc F E n'} {W : Spc F E d} {M : Model σ X W} {M' : Model σ X' W}
-    {om : Rep σ X W} {om' : Rep σ X' W} {χ χ' χ₂ : Chr F E} {r s r₁ s₁ r' s' : ℕ} (p : IsPair B M χ (χ / χ') om r s r' s')
+    {om : Rep σ X W} {om' : Rep σ X' W} {χ χ' χ₂ : Chr F E} {r s r₁ s₁ r' s' : ℕ} (hBg : B.IsGood σ) (p : IsPair B M χ (χ / χ') om r s r' s')
     (p' : IsPair B M' χ' χ₂ om' r₁ s₁ r' s') (e : Fin n ⊕ Fin n' ≃ Fin d) (hn : 2 ≤ n) (T : Finset (Pl F))
     (hne : ∀ v ∉ T, SplitsFully E v → ∃ t : E →ₐ[F] Fv F v, chrW (χ / χ') t (unifAt v) ≠ 1)
     (C : Fn F n' d →ₗ[ℂ] (UA σ W.J → ℂ)) (hr : ∀ Φ ∈ PolData B M', IsRapid (C Φ))
@@ -1135,7 +1135,7 @@ theorem const_of (hL : LocDist) (hC : ConstOfGood) (hT : ThetaBasic) (h1 : GrpTo
   have fin := h3 F E σ hB.cm d W.J eW μ D hμ hD
   have hk : ∀ Ψ ∈ schA F (Fin n × Fin d), Ker (theta om Ψ) := (hT F E σ B n d X W M _ _ om _ _ _ _ p).1
   have hp := p.weil.isUSplitting.pres
-  refine hC F E σ B n X r s hB p.herm hn T _ ((hk Ψ hΨ).cont a5 (hr Φ hΦ) fin) (fun γ hγ g => ?_) fun v hv hs u hu g => ?_
+  refine hC F E σ B n X r s hBg p.herm hn T _ ((hk Ψ hΨ).cont a5 (hr Φ hΦ) fin) (fun γ hγ g => ?_) fun v hv hs u hu g => ?_
   · have : theta om Ψ (γ * g) = theta om Ψ g := funext fun h => by
       rw [← (hk Ψ hΨ).2.1 γ hγ 1 (one_mem _) g h, one_mul]
     rw [th, th, this]
@@ -1233,9 +1233,9 @@ theorem thConst_of (hL : LocDist) (hG : GoodNe) (hC : ConstOfGood) (hF : Factor)
   have l1 := hm.triple.geo.lt
   have l2 := hm.triple.geo.aBig
   rw [← c1 y hy]
-  refine ⟨c2 _ _ hy.2 ▸ const_of hL hC hT h1 h2 h3 h4 hS (pairV hm.triple) (pairV' hm.triple) finSumFinEquiv (by omega) X.T
+  refine ⟨c2 _ _ hy.2 ▸ const_of hL hC hT h1 h2 h3 h4 hS hm.triple.base (pairV hm.triple) (pairV' hm.triple) finSumFinEquiv (by omega) X.T
     (fun v hv hs => ?_) C' (fun Φ' h => ?_) (fun v w h hh Φ' hΦ => ?_) hμ hD' _ (PositivityTheory.ThKG.polMatch_mem hy.2).2,
-    const_of hL hC hT h1 h2 h3 h4 hS (pairV' hm.triple) (pairV hm.triple) ((Equiv.sumComm _ _).trans finSumFinEquiv) (by omega) X.T
+    const_of hL hC hT h1 h2 h3 h4 hS hm.triple.base (pairV' hm.triple) (pairV hm.triple) ((Equiv.sumComm _ _).trans finSumFinEquiv) (by omega) X.T
     (fun v hv hs => ?_) C r1 e1 hμ hD' _ (PositivityTheory.ThKG.polMatch_mem hy.2).1⟩
   · obtain ⟨⟨t⟩, h⟩ := hg v ⟨hv, hs⟩
     refine ⟨t, fun h' => h t ?_⟩

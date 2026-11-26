@@ -313,7 +313,7 @@ theorem dbl_vac_unique : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
     show vac t * star (vac t) ≠ 0
     exact mul_ne_zero ht (star_ne_zero.mpr ht)
 
-  have hsd := GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B _ _ G.V' G.W _ _ _ _ hTr.base hTr.geo.hV' hTr.geo.hW v
+  have hsd := GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B _ _ G.V' G.W _ _ _ _ (.of_isGood hTr.base) hTr.geo.hV' hTr.geo.hW v
   have hunr := (hTr.base.inert v w hin).2.2
   obtain ⟨c, hc0, hcb⟩ := GlobalTheory.LatBound.locCo_latAtV_bounded G.V' G.W v G.M'.co hTr.geo.hV'.lat.toIsLattice hTr.geo.hW.lat.toIsLattice
   have hfill := GlobalTheory.SelfDualFirstProj.exists_pair_of_annihilator v (GlobalTheory.LatVac.psiAt B.ψ v)

@@ -63,7 +63,7 @@ theorem pol_stable_kInf : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [
     B.IsGood σ → M.IsGood B.ψ → M.IsWeil B.ψ χ₁ χ₂ om → ∀ k ∈ KInf σ W B.emb,
     ∀ f ∈ M.Pol B.ψ B.emb, ∀ f₁ : SInf F (Fin n × Fin d), Acts (evI F) (om (1, k)) (⇑f) (⇑f₁) → f₁ ∈ M.Pol B.ψ B.emb := by
   intro F E _ _ _ _ _ σ B n d Y W M om χ₁ χ₂ hB hM hw k hk f hf f₁ hf₁
-  obtain ⟨A, hA⟩ := _root_.GlobalTheory.ArchLocalAct.exists_op_of_KInf F E σ B n d Y W M om χ₁ χ₂ hB hM hw k hk
+  obtain ⟨A, hA⟩ := _root_.GlobalTheory.ArchLocalAct.exists_op_of_KInf F E σ B n d Y W M om χ₁ χ₂ (.of_isGood hB) hM hw k hk
   obtain ⟨D, hD⟩ := _root_.GlobalTheory.HeisDer.derEx F E σ _ _ _ B.ψ _ _ M.co hB.std
   have hL := actsLaws F (Fin n × Fin d)
   have hSD : ∀ u, At (evI F) u → ∀ φ, SD (M.heisLine B.ψ u) φ (D u φ) := fun u hu φ => (hD u hu φ).1

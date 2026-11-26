@@ -234,7 +234,7 @@ theorem connection_fixes_split_subspace : _root_.GlobalTheory.FunPr.ThetaLocalIn
       ⟨hSB, h0, θ, hθ, ?_⟩ dd omd hdc hws.2.1 R hRv n hn.1
     · intro z hz
       have h := GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B _ _ G.V' G.W _ _ _ _
-        hTr.base hTr.geo.hV' hTr.geo.hW v zᵀ ((at_transpose v z).2 hz)
+        (.of_isGood hTr.base) hTr.geo.hV' hTr.geo.hW v zᵀ ((at_transpose v z).2 hz)
       rw [mem_latAtV_transpose] at h
       rw [h]
       constructor
@@ -1379,7 +1379,7 @@ theorem vdbl_line_of_unr : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
     ring
 
   obtain ⟨c, hc0, hcb⟩ := GlobalTheory.LatBound.locCo_latAtV_bounded G.V G.W v G.M.co hT.geo.hV.lat.toIsLattice hT.geo.hW.lat.toIsLattice
-  have hsd := GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B _ _ G.V G.W _ _ _ _ hT.base hT.geo.hV hT.geo.hW v
+  have hsd := GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B _ _ G.V G.W _ _ _ _ (.of_isGood hT.base) hT.geo.hV hT.geo.hW v
   have hfill := GlobalTheory.SelfDualFirstProj.exists_pair_of_annihilator v (GlobalTheory.LatVac.psiAt B.ψ v)
     (Λ.map (GlobalTheory.LatVac.locCo G.M.co v)) c hc0 (fun x => hunr x)
     (GlobalTheory.LatVac.DualLoc.map_selfDual v G.M.co B.ψ Λ hat hsd)

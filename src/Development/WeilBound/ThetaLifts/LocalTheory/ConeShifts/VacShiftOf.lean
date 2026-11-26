@@ -74,7 +74,7 @@ theorem coneIntegralFactorisation_of (hA : ActsEx) (hI : IdeleFub) (hKF : KFub) 
   obtain ⟨κ, hκ, HG⟩ := gen hA hI hKF hV hS hAr hF hP hSp hC hE hK h1 h2 hm h0 hlat hz
   refine ⟨κ, hκ, fun X om om' om₁ om₁' t _ => ?_⟩
   have := HG _ _ _ _ _ _ _ (by
-    refine ⟨t.base, t.geo.hV, t.geo.hW, t.geo.hM, t.chars.heckeβ, ?_, t.chars.resβ, ?_, t.weil⟩
+    refine ⟨.of_isGood t.base, t.geo.hV, t.geo.hW, t.geo.hM, t.chars.heckeβ, ?_, t.chars.resβ, ?_, t.weil⟩
     · exact ⟨t.chars.heckeβ.1.div' t.chars.heckeα.1, fun x => by rw [MonoidHom.div_apply, t.chars.heckeβ.2, t.chars.heckeα.2, div_one]⟩
     · intro x
       rw [MonoidHom.div_apply, Circle.coe_div, t.chars.resβ, t.chars.resα]
@@ -104,7 +104,7 @@ theorem coneFacB_of (hA : ActsEx) (hI : IdeleFub) (hKF : KFub) (hV : VacFixX) (h
   obtain ⟨κ, hκ, HG⟩ := gen hA hI hKF hV hS hAr hF hP hSp hC hE hK h1 h2 hm h0 hlat hz
   refine ⟨κ, hκ, fun X om om' om₁ om₁' t _ => ?_⟩
   have := HG _ _ _ _ _ _ _ (by
-    refine ⟨t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, ?_, t.chars.resα, ?_, t.weil'⟩
+    refine ⟨.of_isGood t.base, t.geo.hV', t.geo.hW, t.geo.hM', t.chars.heckeα, ?_, t.chars.resα, ?_, t.weil'⟩
     · exact ⟨t.chars.heckeα.1.div' t.chars.heckeβ.1, fun x => by rw [MonoidHom.div_apply, t.chars.heckeα.2, t.chars.heckeβ.2, div_one]⟩
     · intro x
       rw [MonoidHom.div_apply, Circle.coe_div, t.chars.resα, t.chars.resβ]

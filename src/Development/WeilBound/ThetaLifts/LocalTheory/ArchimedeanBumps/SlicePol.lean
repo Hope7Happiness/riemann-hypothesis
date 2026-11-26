@@ -169,8 +169,8 @@ theorem pol_fd (hA : ActsLaws) (hD : DerEx) (hV : VacLine) (hF : FockEx) (hFr : 
   obtain ⟨r₁', s₁', hW₁⟩ := hc.skew₁
   obtain ⟨i, j, hp⟩ := hc.hH
   obtain ⟨i', j', hp'⟩ := hc.hH'
-  obtain ⟨ε, oX⟩ := PositivityTheory.Mix.planeOK_herm hB hp hX
-  obtain ⟨ε', oW⟩ := PositivityTheory.Mix.planeOK_skew hB hp' hW
+  obtain ⟨ε, oX⟩ := PositivityTheory.Mix.planeOK_herm (.of_isGood hB) hp hX
+  obtain ⟨ε', oW⟩ := PositivityTheory.Mix.planeOK_skew (.of_isGood hB) hp' hW
   obtain ⟨I, hI⟩ : ∃ I, IsEv B M M₁ H.ι H'.ι I e := hc.ev.elim (fun h => ⟨_, h.1⟩) fun h => ⟨_, h.1⟩
   obtain ⟨ψ, hψ, -, hq⟩ := vac_fin hc.good
   obtain ⟨ψ₁, hψ₁, ⟨a, ha⟩, hq₁⟩ := vac_fin hc.good₁
@@ -193,7 +193,7 @@ theorem pol_fd (hA : ActsLaws) (hD : DerEx) (hV : VacLine) (hF : FockEx) (hFr : 
   have hder : ∀ s, At (evI F) s → ∀ v, At (evI F) v → ∀ g : SInf F (Fin n × Fin d), ∀ l ∈ (adeleClass F).adm (Fin n₁ × Fin d₁),
       HasDerivAt (fun t => l (e (M.co.rho B.ψ s (M.co.rho B.ψ (realAd F t • v) (pureA F g ψ))))) (l (pureA F (A s (D v g)) ψ₁)) 0 :=
     fun s hs v hv g l hl' => by
-      obtain ⟨l', h1, h2⟩ := (hE F E σ B n d n₁ d₁ X W X₁ W₁ M M₁ hB hc.good hc.good₁).2.2 _ _ I e hI s l hl'
+      obtain ⟨l', h1, h2⟩ := (hE F E σ B n d n₁ d₁ X W X₁ W₁ M M₁ (.of_isGood hB) hc.good hc.good₁).2.2 _ _ I e hI s l hl'
       have := (hD0 v hv g).1 ψ hψ l' h1
       rw [h2 _ (pureA_mem' _ hψ), hAe s hs] at this
       refine this.congr_of_eventuallyEq (Eventually.of_forall fun t => ?_)
@@ -306,7 +306,7 @@ theorem pol_fd (hA : ActsLaws) (hD : DerEx) (hV : VacLine) (hF : FockEx) (hFr : 
 theorem archCone_of (hDi : ArchDict) (hSt : StabEx) (hO : ArchOp) (hS : Slice) (hH : ArchHeis) (hU : ArchUniq) (hI : SchInt)
     (hA : ActsLaws) (hD : DerEx) (hV : VacLine) (hF : FockEx) (hFr : FrameEx) (hE : EvAdm) (hK' : KFinData) : ArchCone := by
   intro F E _ _ _ _ _ σ B n d n₁ d₁ X W X₁ W₁ M M₁ H H' e u ei ev hc hl K m hK hm χX χW om r s r' s' hP ν z hν hz
-  obtain ⟨lift, hL⟩ := hDi F E σ B hc.base
+  obtain ⟨lift, hL⟩ := hDi F E σ B (.of_isGood hc.base)
   obtain ⟨L, h⟩ := cone_core hSt hO hS hH hU hI hc hl hL hK hm hP ν z hν hz
   refine ⟨L, fun f y => ?_, fun f hf => ?_, fun f y => ⟨(h f (evAt y)).1, (h f (evAt y)).2.1⟩⟩
   · rw [← evAt_apply y (L f), (h f (evAt y)).2.2]

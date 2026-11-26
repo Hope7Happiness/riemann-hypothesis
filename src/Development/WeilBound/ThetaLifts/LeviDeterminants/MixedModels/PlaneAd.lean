@@ -29,7 +29,7 @@ theorem det_ne_of_sig {M : Matrix (Fin n) (Fin n) ℂ} {r s : ℕ} (h : HasSig M
   simp at h2
   exact pow_ne_zero s (neg_ne_zero.2 one_ne_zero) h2.symm
 
-theorem conj_conj {B : Base F E} (h : B.IsGood σ) (x : E) : σ (σ x) = x := by
+theorem conj_conj {B : Base F E} (h : UpperTheory.TP.W.GoodK σ B) (x : E) : σ (σ x) = x := by
   obtain ⟨φ⟩ : Nonempty (E →+* ℂ) := inferInstance
   exact φ.injective (by rw [h.cm.2.2.2, h.cm.2.2.2, star_star])
 
@@ -52,7 +52,7 @@ theorem vec_eq {m : ℕ} (z : Fin m → AE F E) : z = ∑ j, z j • incV F (Pi.
 theorem bf_sum_l {R : Type} [CommRing R] {c : R →+* R} {J : Matrix (Fin n) (Fin n) R} {m : ℕ} (u : Fin m → Fin n → R) (v) :
     bf c J (∑ j, u j) v = ∑ j, bf c J (u j) v := sum_dotProduct _ _ _
 
-theorem planeOK {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n} {Y₁ : Spc F E k} {H : Plane E n k} {i₀ i₁ : ℕ}
+theorem planeOK {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {Y : Spc F E n} {Y₁ : Spc F E k} {H : Plane E n k} {i₀ i₁ : ℕ}
     (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) (ε : ℤˣ) (hJ : ∀ i j, σ (Y.J j i) = ((ε : ℤ) : E) * Y.J i j) (hd : Y.J.det ≠ 0)
     (hL : Y.L.IsFullLattice E) :
     PlaneOK (cA σ).toRingHom (incM F Y.J) ((ε : ℤ) : AE F E) (incV F H.x) (incV F H.y) (incM F H.ι) := by
@@ -107,7 +107,7 @@ theorem planeOK {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n} {Y₁ : Spc F 
     have := congrArg (· ᵥ* (incM F Y.J)⁻¹) h0
     simpa [Matrix.vecMul_vecMul, Matrix.mul_nonsing_inv _ hu] using this
 
-theorem planeOK_herm {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n} {Y₁ : Spc F E k} {H : Plane E n k} {i₀ i₁ r s : ℕ}
+theorem planeOK_herm {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {Y : Spc F E n} {Y₁ : Spc F E k} {H : Plane E n k} {i₀ i₁ r s : ℕ}
     (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) (hY : Y.IsHerm σ B r s) :
     ∃ ε, PlaneOK (cA σ).toRingHom (incM F Y.J) ε (incV F H.x) (incV F H.y) (incM F H.ι) := by
   obtain ⟨w⟩ : Nonempty (InfinitePlace F) := inferInstance
@@ -116,7 +116,7 @@ theorem planeOK_herm {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n} {Y₁ : S
   rw [h0, map_zero] at this
   exact this.symm
 
-theorem planeOK_skew {B : Base F E} (hB : B.IsGood σ) {Y : Spc F E n} {Y₁ : Spc F E k} {H : Plane E n k} {i₀ i₁ r s : ℕ}
+theorem planeOK_skew {B : Base F E} (hB : UpperTheory.TP.W.GoodK σ B) {Y : Spc F E n} {Y₁ : Spc F E k} {H : Plane E n k} {i₀ i₁ r s : ℕ}
     (hH : H.IsAdapted σ B Y Y₁ i₀ i₁) (hY : Y.IsSkew σ B r s) :
     ∃ ε, PlaneOK (cA σ).toRingHom (incM F Y.J) ε (incV F H.x) (incV F H.y) (incM F H.ι) := by
   obtain ⟨w⟩ : Nonempty (InfinitePlace F) := inferInstance

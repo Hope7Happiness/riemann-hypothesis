@@ -198,7 +198,7 @@ theorem vdbl_line : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Number
     ring
 
   obtain ⟨c, hc0, hcb⟩ := GlobalTheory.LatBound.locCo_latAtV_bounded G.V G.W v G.M.co hT.geo.hV.lat.toIsLattice hT.geo.hW.lat.toIsLattice
-  have hsd := GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B _ _ G.V G.W _ _ _ _ hT.base hT.geo.hV hT.geo.hW v
+  have hsd := GlobalTheory.LatSelfDualAll.latAtV_selfDual F E σ B _ _ G.V G.W _ _ _ _ (.of_isGood hT.base) hT.geo.hV hT.geo.hW v
   have hfill := GlobalTheory.SelfDualFirstProj.exists_pair_of_annihilator v (GlobalTheory.LatVac.psiAt B.ψ v)
     (Λ.map (GlobalTheory.LatVac.locCo G.M.co v)) c hc0 (fun x => (hT.base.inert v w hw).2.2 x)
     (GlobalTheory.LatVac.DualLoc.map_selfDual v G.M.co B.ψ Λ hat hsd)
@@ -862,7 +862,7 @@ theorem exists_local_dictionary : ∀ (F E : Type) [Field F] [NumberField F] [Fi
   have hJ : (X.Jᵀ).det ≠ 0 := by
     rw [Matrix.det_transpose]; exact GlobalTheory.HermSelfDualLoc.det_ne_zero_of_isHerm σ B hX
   obtain ⟨Bm, ⟨k, hk⟩, eB⟩ := InertChart.exists_gram hw hc hJ
-    (GlobalTheory.HermSelfDualLoc.isSelfDualAt_transpose F E σ B n X r s hB hX v) ha
+    (GlobalTheory.HermSelfDualLoc.isSelfDualAt_transpose F E σ B n X r s (.of_isGood hB) hX v) ha
   have hkij : ∀ i j, ((k.1 i j : Formalism.UG.Ov E w) : w.adicCompletion E) = Bm.1 i j := fun i j => by
     rw [← hk]; rfl
   have hBt : Bm.1ᵀ = a.1ᵀ * X.J.map (algebraMap E (w.adicCompletion E)) * a.1.map (conjW σ hw) := by

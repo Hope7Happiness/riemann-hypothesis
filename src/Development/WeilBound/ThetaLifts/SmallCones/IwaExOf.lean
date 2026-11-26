@@ -76,7 +76,7 @@ def LocIwa (σ : E →ₐ[F] E) (X : Spc F E n) (x : Fin n → E) : Prop :=
 theorem map_one' {S : Type} [CommRing S] (f : AE F E →+* S) : (1 : Matrix (Fin n) (Fin n) (AE F E)).map f = 1 :=
   Matrix.map_one _ (map_zero _) (map_one _)
 
-theorem exists_arch (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hx : x ≠ 0) (h0 : form σ X.J x x = 0) (g : UA σ X.J) :
+theorem exists_arch (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hx : x ≠ 0) (h0 : form σ X.J x x = 0) (g : UA σ X.J) :
     ∃ (p : UA σ X.J) (t : (AE F E)ˣ), mat p *ᵥ incV F x = t.1 • incV F x ∧
       ∀ w, Commute ((mat (p⁻¹ * g)).map (piInf (B.emb w))) (X.θ w) := by
   have hσ := hB.cm
@@ -203,7 +203,7 @@ theorem exists_fin (B : Base F E) (hl : LocIwa σ X x) (S : Finset (Pl F)) :
     · rw [mat_mul, ← Matrix.mulVec_mulVec, h1, Matrix.mulVec_smul, ht, smul_smul, Units.val_mul]
     · rw [mul_inv_rev, mat_mul, Matrix.map_mul, h2, piInf_loc (at_iff.2 (cut_eq.1 (congrArg mat (mem_loc.1 hp')))), mul_one]
 
-theorem iwa_glob {n₁ : ℕ} {H : Plane E n n₁} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) (hx : H.x ≠ 0)
+theorem iwa_glob {n₁ : ℕ} {H : Plane E n n₁} (hB : UpperTheory.TP.W.GoodK σ B) (hX : X.IsHerm σ B r s) (hx : H.x ≠ 0)
     (h0 : form σ X.J H.x H.x = 0) (hl : LocIwa σ X H.x) {K : Subgroup (UA σ X.J)} (hK : IsStab B K) (g : UA σ X.J) :
     ∃ (p k : UA σ X.J) (l : (AE F E)ˣ), k ∈ K ∧ mat p *ᵥ incV F H.x = l.1 • incV F H.x ∧ g = p * k := by
   obtain ⟨q, t, h1, h2⟩ := exists_arch hB hX hx h0 g

@@ -72,7 +72,7 @@ theorem exists_good_model : ∀ (D : D7) (Bs : GlobalTheory.IndefiniteRowSideFul
       μ.IsHaarMeasure → IsFundamentalDomain (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.ratU D.sp.cm.sig V.J) dom μ →
     ∃ M : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model D.sp.cm.sig V Ws, M.μ = μ ∧ M.dom = dom ∧ M.IsGood Bs.ψ := by
   intro D Bs hB n d V Ws r s r' s' hV hW μ dom hμ hdom
-  obtain ⟨co, hco⟩ := _root_.GlobalTheory.RatDarboux.exists_rational_darboux D.sp.cm.sig Bs V Ws r s r' s' hB hV hW
+  obtain ⟨co, hco⟩ := _root_.GlobalTheory.RatDarboux.exists_rational_darboux D.sp.cm.sig Bs V Ws r s r' s' (.of_isGood hB) hV hW
   let M0 : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model D.sp.cm.sig V Ws := ⟨co, fun _ => 0, μ, dom⟩
   have hb := GlobalTheory.LatVac.exists_isVac D.sp.cm.sig Bs V Ws r s r' s' hB hV hW M0 hco
   have hc := GlobalTheory.StdVacuum.eventually_isVac_indicator D.sp.cm.sig Bs V Ws r s r' s' hB hV hW M0 hco

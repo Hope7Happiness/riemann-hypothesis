@@ -5,7 +5,12 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenS
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsAHEqOfMemRatPts
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNatMulIntegralOfIsCompact
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ThkTowModel
+public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
+public import Development.WeilBound.ThetaLifts.FrameEstimates.BlockForm
+public import Development.WeilBound.ThetaLifts.TowerModels.ModelEx
+public import Development.WeilBound.ThetaLifts.TowerModels.StabEx
+public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.ExistsIntAddConjEqOneOfBaseGood
+public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.StandardAddCharSymplecticLocalLatticeEqOne
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.DefsPlus
 public import Development.WeilBound.ThetaLifts.LatticeBasics.CompCA
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ContinuousFlat
@@ -100,7 +105,7 @@ open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (Base Spc Model Ha
 theorem exists_int_add_conj_eq_one_of_base_good_k : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E]
   [Algebra F E] {σ : E →ₐ[F] E}
     (B : Base F E), GoodK σ B → ∃ θ : 𝓞 E, (θ : E) + σ θ = 1 := by
-  exact Tw.exists_int_add_conj_eq_one_of_base_good_k
+  exact Tw.exists_int_add_conj_eq_one_of_base_good
 end GlobalTheory
 end
 
@@ -180,7 +185,7 @@ variable {Y : Spc F E n} {A : Spc F E m}
 def DblX_k : Prop :=
   ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (B : Base F E) (n d :
     ℕ) (X : Spc F E n) (W : Spc F E d) (M : Model σ X W) (χX χW : Chr F E) (om : Rep σ X W) (r s r' s' : ℕ),
-    IsPair_k B M χX χW om r s r' s' → ∃ dd om₂ S l,
+    IsPair B M χX χW om r s r' s' → ∃ dd om₂ S l,
       IsDbl (A := W) (Y := X) (κ := (Fin n × Fin d) ⊕ (Fin n × Fin d)) B.ψ dd χW om₂ S l ∧
       (∀ Φ₁ ∈ schA F _, ∀ Φ₂ ∈ schA F _, boxFun Φ₁ (star Φ₂) ∈ schA F _ ∧ ∀ h g g' x, IsEmb g g' x →
         detInv χW g' * thetaSum F (om₂ x (S h (boxFun Φ₁ (star Φ₂)))) = theta om Φ₁ g h * star (theta om Φ₂ g' h) ∧

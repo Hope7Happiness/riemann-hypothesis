@@ -41,17 +41,17 @@ theorem towerB_of (hP : PlaneEx) (hM : ModelEx) (hW : WeilEx) : TowerB := by
   have c := hT.chars
   have hb := g.aBig
   have hl := g.lt
-  obtain ⟨Y', V₁, H, hY', hV₁, hH⟩ := hP.1 F E σ B hT.base (b + 2) b rfl (by omega) G.V' G.q (b + 2 - G.q)
+  obtain ⟨Y', V₁, H, hY', hV₁, hH⟩ := hP.1 F E σ B (.of_isGood hT.base) (b + 2) b rfl (by omega) G.V' G.q (b + 2 - G.q)
     hq (by omega) g.hV' 0 (b + 1) (by omega) (by omega)
-  obtain ⟨W', W₁, H', hW', hW₁, hH'⟩ := hP.2 F E σ B hT.base (a + (b + 2)) (a + b) (by omega) (by omega) G.W
+  obtain ⟨W', W₁, H', hW', hW₁, hH'⟩ := hP.2 F E σ B (.of_isGood hT.base) (a + (b + 2)) (a + b) (by omega) (by omega) G.W
     (a + (b + 2) - (G.p + G.q)) (G.p + G.q) (by omega) (by omega) g.hW a (a + b + 1) (by omega) (by omega)
   have hV0 : (reS G.V G.V).IsHerm σ B (a - G.p) G.p := g.hV
-  obtain ⟨M₁, hM₁⟩ := hM F E σ B hT.base a (a + b) (reS G.V G.V) W₁ _ _ _ _ hV0 hW₁
-  obtain ⟨M₁', hM₁'⟩ := hM F E σ B hT.base b (a + b) V₁ W₁ _ _ _ _ hV₁ hW₁
+  obtain ⟨M₁, hM₁⟩ := hM F E σ B (.of_isGood hT.base) a (a + b) (reS G.V G.V) W₁ _ _ _ _ hV0 hW₁
+  obtain ⟨M₁', hM₁'⟩ := hM F E σ B (.of_isGood hT.base) b (a + b) V₁ W₁ _ _ _ _ hV₁ hW₁
   have rα : ResEtaPow (Units.map (algebraMap F (AF F)).toMonoidHom).range X.α b := resEtaPow_of_add_two c.resα
-  obtain ⟨om₁, hom₁⟩ := hW F E σ B hT.base a (a + b) (reS G.V G.V) W₁ _ _ _ _ hV0 hW₁ M₁ hM₁ X.β (X.β / X.α)
+  obtain ⟨om₁, hom₁⟩ := hW F E σ B (.of_isGood hT.base) a (a + b) (reS G.V G.V) W₁ _ _ _ _ hV0 hW₁ M₁ hM₁ X.β (X.β / X.α)
     c.heckeβ (isHecke_div c.heckeβ c.heckeα) c.resβ (resEtaPow_div c.resβ rα)
-  obtain ⟨om₁', hom₁'⟩ := hW F E σ B hT.base b (a + b) V₁ W₁ _ _ _ _ hV₁ hW₁ M₁' hM₁' X.α (X.α / X.β)
+  obtain ⟨om₁', hom₁'⟩ := hW F E σ B (.of_isGood hT.base) b (a + b) V₁ W₁ _ _ _ _ hV₁ hW₁ M₁' hM₁' X.α (X.α / X.β)
     c.heckeα (isHecke_div c.heckeα c.heckeβ) rα (by rw [Nat.add_comm]; exact resEtaPow_div rα c.resβ)
   refine ⟨G.V, Y', W', ⟨hT.base, ⟨g.lt, g.even, g.kappa, g.eBig, g.aBig, hV0, hY', hW', ⟨g.hM.rat, g.hM.vac, g.hM.std, g.hM.haar, g.hM.dom⟩,
       ⟨g.hM'.rat, g.hM'.vac, g.hM'.std, g.hM'.haar, g.hM'.dom⟩⟩, c, hT.weil, hT.weil'⟩,
@@ -85,17 +85,17 @@ theorem towerCodimensionTwo_of (hP : PlaneEx) (hM : ModelEx) (hW : WeilEx) : Pos
   have hb := g.aBig
   have hl := g.lt
   have he := g.eBig
-  obtain ⟨Y', V₁, H, hY', hV₁, hH⟩ := hP.1 F E σ B hT.base (b + 2) b rfl (by omega) G.V (b + 2 - G.p) G.p
+  obtain ⟨Y', V₁, H, hY', hV₁, hH⟩ := hP.1 F E σ B (.of_isGood hT.base) (b + 2) b rfl (by omega) G.V (b + 2 - G.p) G.p
     (by omega) hp g.hV 0 (b + 1) (by omega) (by omega)
-  obtain ⟨W', W₁, H', hW', hW₁, hH'⟩ := hP.2 F E σ B hT.base (b + 2 + a') (b + a') (by omega) (by omega) G.W
+  obtain ⟨W', W₁, H', hW', hW₁, hH'⟩ := hP.2 F E σ B (.of_isGood hT.base) (b + 2 + a') (b + a') (by omega) (by omega) G.W
     (b + 2 + a' - (G.p + G.q)) (G.p + G.q) (by omega) (by omega) g.hW 0 (b + 1) (by omega) (by omega)
   have hV0' : (reS G.V' G.V').IsHerm σ B G.q (a' - G.q) := g.hV'
-  obtain ⟨M₁, hM₁⟩ := hM F E σ B hT.base b (b + a') V₁ W₁ _ _ _ _ hV₁ hW₁
-  obtain ⟨M₁', hM₁'⟩ := hM F E σ B hT.base a' (b + a') (reS G.V' G.V') W₁ _ _ _ _ hV0' hW₁
+  obtain ⟨M₁, hM₁⟩ := hM F E σ B (.of_isGood hT.base) b (b + a') V₁ W₁ _ _ _ _ hV₁ hW₁
+  obtain ⟨M₁', hM₁'⟩ := hM F E σ B (.of_isGood hT.base) a' (b + a') (reS G.V' G.V') W₁ _ _ _ _ hV0' hW₁
   have rβ : ResEtaPow (Units.map (algebraMap F (AF F)).toMonoidHom).range X.β b := resEtaPow_of_add_two c.resβ
-  obtain ⟨om₁, hom₁⟩ := hW F E σ B hT.base b (b + a') V₁ W₁ _ _ _ _ hV₁ hW₁ M₁ hM₁ X.β (X.β / X.α)
+  obtain ⟨om₁, hom₁⟩ := hW F E σ B (.of_isGood hT.base) b (b + a') V₁ W₁ _ _ _ _ hV₁ hW₁ M₁ hM₁ X.β (X.β / X.α)
     c.heckeβ (isHecke_div c.heckeβ c.heckeα) rβ (resEtaPow_div rβ c.resα)
-  obtain ⟨om₁', hom₁'⟩ := hW F E σ B hT.base a' (b + a') (reS G.V' G.V') W₁ _ _ _ _ hV0' hW₁ M₁' hM₁' X.α (X.α / X.β)
+  obtain ⟨om₁', hom₁'⟩ := hW F E σ B (.of_isGood hT.base) a' (b + a') (reS G.V' G.V') W₁ _ _ _ _ hV0' hW₁ M₁' hM₁' X.α (X.α / X.β)
     c.heckeα (isHecke_div c.heckeα c.heckeβ) c.resα (by rw [Nat.add_comm]; exact resEtaPow_div c.resα rβ)
   refine ⟨Y', G.V', W', ⟨hT.base, ⟨g.lt, g.even, g.kappa, g.eBig, g.aBig, hY', g.hV', hW',
       ⟨g.hM.rat, g.hM.vac, g.hM.std, g.hM.haar, g.hM.dom⟩, ⟨g.hM'.rat, g.hM'.vac, g.hM'.std, g.hM'.haar, g.hM'.dom⟩⟩,

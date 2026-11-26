@@ -36,7 +36,7 @@ def CptAll : Prop :=
 theorem cptAll_of (h1 : PositivityTheory.ThKEst.GrpTop) (h2 : PositivityTheory.ThKEst.EpsOf) (h3 : PositivityTheory.ThKEst.SiegelAll) (h4 : PositivityTheory.ThKEst.FinVolU)
     (h5 : PositivityTheory.ThKF.Unimod) : CptAll := by
   intro F E _ _ _ _ _ σ B n Y r s hB hY h0
-  obtain ⟨e, -, hr⟩ := h2 F E σ B hB n Y r s hY
+  obtain ⟨e, -, hr⟩ := h2 F E σ B (.of_isGood hB) n Y r s hY
   obtain ⟨a1, a2, a3, a4, -, -, -, a5⟩ := h1 F E σ hB.cm n Y.J e
   obtain ⟨fr, g, -, ⟨Ω, hΩ, hc⟩, -⟩ := h3 F E σ hB.cm n Y.J e
   have r0 : fr.r = 0 := by have := hr fr g; omega

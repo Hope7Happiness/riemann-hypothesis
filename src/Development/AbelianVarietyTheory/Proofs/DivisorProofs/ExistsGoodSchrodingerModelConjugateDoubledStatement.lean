@@ -87,9 +87,9 @@ theorem exists_isGood_model_conj : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc :
   intro D T L sc G t i j M hM B hB X Y hJ r s r' s' hX hY
   obtain ⟨hH, hfd⟩ := (hM.vtx (.grid ((i : ℕ) + 1) ((j : ℕ) + 1)) ⟨i.2, j.2⟩).haar_fund
   obtain ⟨hH', hfd'⟩ := GlobalTheory.ConjUTransport.map_isHaar_isFundamentalDomain _ (1 : D.host.E) one_ne_zero hJ _ _ hH hfd
-  obtain ⟨co, hrat⟩ := GlobalTheory.RatDarboux.exists_rational_darboux_of_isGood B hB X Y r s r' s' hX hY
-  have hind := _root_.Tw.VacIndic.eventually_isVac_indicator B hB X Y r s r' s' hX hY co hrat
-  have hany := _root_.GlobalTheory.VacAny.exists_isVac_any_darboux B hB X Y r s r' s' hX hY co
+  obtain ⟨co, hrat⟩ := GlobalTheory.RatDarboux.exists_rational_darboux_of_isGood B (.of_isGood hB) X Y r s r' s' hX hY
+  have hind := _root_.Tw.VacIndic.eventually_isVac_indicator B (.of_isGood hB) X Y r s r' s' hX hY co hrat
+  have hany := _root_.GlobalTheory.VacAny.exists_isVac_any_darboux B (.of_isGood hB) X Y r s r' s' hX hY co
   let ind : ∀ v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := D.host.F), (Fin (spW G i j).rank × Fin ((spW G i j).rank + (spW₁ G i j).rank) → Fv D.host.F v) → ℂ :=
     fun v => Set.indicator {x | ∀ k, x k ∈ v.adicCompletionIntegers D.host.F} 1
   let vac : ∀ v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := D.host.F), (Fin (spW G i j).rank × Fin ((spW G i j).rank + (spW₁ G i j).rank) → Fv D.host.F v) → ℂ :=

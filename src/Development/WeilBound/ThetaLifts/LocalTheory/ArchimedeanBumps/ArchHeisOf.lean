@@ -139,7 +139,7 @@ theorem eiDense_of (hS : WeakInt) : EiDense := by
   have hz : At (evI F) z := at_lin M₁.co.e.symm.toLinearMap fun s hs => Prod.ext (hat (-A) s hs) (hat b₀ s hs)
   have hu : At (evI F) (incM F H.ι * z * (incM F H'.ι)ᵀ) := fun s hs => by
     rw [← Matrix.smul_mul, ← Matrix.mul_smul, hz s hs, Matrix.mul_zero, Matrix.zero_mul]
-  obtain ⟨f₁, hf₁⟩ := (archHeis_of F E σ B n d X W M hc.base).2 _ hu f₀
+  obtain ⟨f₁, hf₁⟩ := (archHeis_of F E σ B n d X W M (.of_isGood hc.base)).2 _ hu f₀
   have a1 : M.co.rho B.ψ (incM F H.ι * z * (incM F H'.ι)ᵀ) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure f₀ M.vac) = GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure f₁ M.vac :=
     hf₁ _ (rest_pure f₀ M.vac hv hc.good.std)
   have a2 := schr_acts hc.base.std _ _ (hat (-A)) (hat b₀) (ei f₀) _ (rest_pure (ei f₀) M₁.vac hv₁ hc.good₁.std)

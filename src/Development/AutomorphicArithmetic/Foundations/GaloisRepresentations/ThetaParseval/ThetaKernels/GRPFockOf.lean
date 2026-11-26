@@ -726,7 +726,7 @@ theorem UpperTheory.TP.RP.fockOf_k :
     UpperTheory.TP.Tools_k → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (B : Base (maximalRealSubfield
       E) E) (n d : ℕ) (X : Spc (maximalRealSubfield E) E n) (W : Spc (maximalRealSubfield E) E d)
       (M : Model (UpperTheory.TP.cj E) X W) (χX χW : Chr (maximalRealSubfield E) E) (om : Rep (UpperTheory.TP.cj E) X
-        W), GlobalTheory.ThK.IsPair_k B M χX χW om n 0 d 0 → 1 ≤ n → n ≤ d →
+        W), GlobalTheory.ThK.IsPair B M χX χW om n 0 d 0 → 1 ≤ n → n ≤ d →
       ∀ (e : GlobalTheory.UnitaryBC.UA E n ≃ₜ* UA (UpperTheory.TP.cj E) X.J) (e' : GlobalTheory.UnitaryBC.UA E d ≃ₜ* UA
         (UpperTheory.TP.cj E) W.J), UpperTheory.TP.IsBr X e → UpperTheory.TP.IsBr W e' →
       ∀ (δ : E) (mX mW : InfinitePlace (maximalRealSubfield E) → ℤ),

@@ -138,7 +138,7 @@ theorem psi_rat {ψ : AddChar (AF F) ℂ} (h : IsStd ψ) (x y : Matrix (Fin n) (
   rw [sy_inc, show ⅟(2 : AF F) = algebraMap F (AF F) (2⁻¹ : F) from
     invOf_eq_right_inv (by rw [← map_ofNat (algebraMap F (AF F)) 2, ← map_mul]; norm_num), ← map_mul, ← map_neg, h.2.1]
 
-theorem half_sy (hB : B.IsGood σ) {x y : Ten F E n d} {a : AF F}
+theorem half_sy (hB : UpperTheory.TP.W.GoodK σ B) {x y : Ten F E n d} {a : AF F}
     (h : hTens (cA σ) (incM F X.J) (incM F W.J) x y = algebraMap (AF F) (AE F E) a) : -(⅟(2 : AF F) * sy σ X W x y) = a := by
   have e : Algebra.trace (AF F) (AE F E) 1 = 2 := by
     rw [← map_one (inclR (F := F) (E := E) (AF F)), tr_inc, ← map_one (algebraMap F E), Algebra.trace_algebraMap, hB.cm.2.2.1]
